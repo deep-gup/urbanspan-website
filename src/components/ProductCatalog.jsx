@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, Layers, CheckCircle2, FileText, ArrowUpRight, Sparkles, RefreshCw, X, ShieldCheck } from 'lucide-react';
 import { fetchSteelProducts } from '../services/headlessApi';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductCatalog({ onSelectProductForInquiry }) {
   const [products, setProducts] = useState([]);
@@ -8,6 +9,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedModalProduct, setSelectedModalProduct] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadProducts();
