@@ -1,0 +1,28 @@
+steps:
+  # Build container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/metal-zodiac-254920/distro-repo/urbanspan-website:latest', '.']
+
+  # Push image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/metal-zodiac-254920/distro-repo/urbanspan-website:latest']
+
+  # Deploy image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'urbanspan-website'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/metal-zodiac-254920/distro-repo/urbanspan-website:latest'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
+
+images:
+  - 'us-central1-docker.pkg.dev/metal-zodiac-254920/distro-repo/urbanspan-website:latest'

@@ -1,0 +1,17 @@
+{
+  "appId": "com.urbanspan.app",
+  "appName": "Urbanspan",
+  "webDir": "dist",
+  "server": {
+    "cleartext": true
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    },
+    "CapacitorUpdater": {
+      "autoUpdate": "always",
+      "updateUrl": "https://api.urbanspaninfra.co.in/api/ota-update"
+    }
+  }
+}
