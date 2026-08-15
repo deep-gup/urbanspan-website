@@ -181,8 +181,13 @@ export const fetchSteelProducts = async () => {
           finalImages = [finalImageUrl];
         }
 
+        const parsedTags = Array.isArray(p.tags) && p.tags.length > 0
+          ? p.tags
+          : (p.category ? [p.category, 'In Stock & Ready'] : ['Primary Steel', 'In Stock & Ready']);
+
         return {
           ...p,
+          tags: parsedTags,
           specs: p.specifications && Object.keys(p.specifications).length > 0 ? p.specifications : MOCK_STEEL_PRODUCTS[idx % MOCK_STEEL_PRODUCTS.length].specs,
           image_url: finalImageUrl,
           images: finalImages

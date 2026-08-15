@@ -349,13 +349,38 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className="px-3 py-1 rounded-lg bg-brand-steel/10 text-brand-steel-light border border-brand-steel/20 uppercase text-xs font-extrabold tracking-wider">
-                  {product.category || 'Primary Steel'}
-                </span>
-                {product.is_active !== false && (
-                  <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> In Stock & Ready
+                {product.category && (
+                  <span className="px-3 py-1 rounded-lg bg-brand-steel/10 text-brand-steel-light border border-brand-steel/20 uppercase text-xs font-extrabold tracking-wider">
+                    {product.category}
                   </span>
+                )}
+                {product.tags && product.tags.length > 0 ? (
+                  product.tags.map((tag, tIdx) => {
+                    const tagLower = typeof tag === 'string' ? tag.toLowerCase() : '';
+                    if (tagLower === (product.category || '').toLowerCase()) return null; // Avoid duplicate category
+                    const isStock = tagLower.includes('stock') || tagLower.includes('ready') || tagLower.includes('dispatch');
+                    const isPrimary = tagLower.includes('primary') || tagLower.includes('structural') || tagLower.includes('grade');
+                    const isQuality = tagLower.includes('bis') || tagLower.includes('certified') || tagLower.includes('fe ') || tagLower.includes('export');
+
+                    let badgeStyle = 'bg-slate-100 text-slate-700 border-slate-200';
+                    if (isStock) badgeStyle = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                    else if (isPrimary) badgeStyle = 'bg-blue-50 text-blue-700 border-blue-200';
+                    else if (isQuality) badgeStyle = 'bg-amber-50 text-amber-800 border-amber-200';
+
+                    return (
+                      <span key={tIdx} className={`px-2.5 py-1 rounded-lg border text-xs font-bold flex items-center gap-1.5 ${badgeStyle}`}>
+                        {isStock && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
+                        {isQuality && <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />}
+                        {tag}
+                      </span>
+                    );
+                  })
+                ) : (
+                  product.is_active !== false && (
+                    <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> In Stock & Ready
+                    </span>
+                  )
                 )}
               </div>
 

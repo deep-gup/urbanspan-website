@@ -25,8 +25,12 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
   const categories = ['All', 'Rebars', 'Structural Steel', 'Coils & Sheets', 'Piping & Tubes', 'Plates'];
 
   const filteredProducts = products.filter((p) => {
-    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.sku.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || 
+      (p.category && p.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase());
+    const matchesSearch = 
+      (p.name && p.name.toLowerCase().includes(searchQuery.toLowerCase())) || 
+      (p.sku && p.sku.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (Array.isArray(p.tags) && p.tags.some(t => typeof t === 'string' && t.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCategory && matchesSearch;
   });
 
@@ -104,16 +108,36 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
                   alt={product.name}
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-lg bg-slate-50/80 backdrop-blur-md border border-slate-200 text-brand-steel-light font-extrabold text-[11px]">
-                    {product.category}
-                  </span>
+                <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 max-w-[70%]">
+                  {product.tags && product.tags.length > 0 ? (
+                    product.tags.slice(0, 2).map((tag, tIdx) => {
+                      const isStock = typeof tag === 'string' && (tag.toLowerCase().includes('stock') || tag.toLowerCase().includes('ready'));
+                      return (
+                        <span 
+                          key={tIdx} 
+                          className={`px-2.5 py-1 rounded-lg backdrop-blur-md font-extrabold text-[10px] uppercase tracking-wider border shadow-sm ${
+                            isStock 
+                              ? 'bg-emerald-50/90 text-emerald-700 border-emerald-300' 
+                              : 'bg-white/90 text-brand-steel border-slate-200'
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      );
+                    })
+                  ) : (
+                    <span className="px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md border border-slate-200 text-brand-steel font-extrabold text-[11px] uppercase tracking-wider">
+                      {product.category || 'Steel'}
+                    </span>
+                  )}
                 </div>
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">
-                    Stock Available
-                  </span>
-                </div>
+                {product.category && (
+                  <div className="absolute bottom-3 right-3">
+                    <span className="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wider">
+                      {product.category}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Product Info Content */}
