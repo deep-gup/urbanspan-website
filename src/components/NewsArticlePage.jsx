@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { useParams, Link } from 'react-router-dom';
-import { Clock, User, ArrowLeft, Loader2, Factory, Languages } from 'lucide-react';
+import { Clock, User, ArrowLeft, Loader2, Factory, Languages, Share2, Check } from 'lucide-react';
 import SEO from './SEO';
 
 export default function NewsArticlePage() {
@@ -12,6 +12,7 @@ export default function NewsArticlePage() {
   const [showHindi, setShowHindi] = useState(false);
   const [hindiTranslation, setHindiTranslation] = useState(null);
   const [translating, setTranslating] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -96,6 +97,30 @@ export default function NewsArticlePage() {
     }
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: `${currentTitle} | Urbanspan News`,
+      text: currentContent ? currentContent.substring(0, 120) + '...' : currentTitle,
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if (err.name !== 'AbortError') copyToClipboard();
+      }
+    } else {
+      copyToClipboard();
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   const renderContent = (content) => {
     if (!content) return null;
     return content.split('\n').map((paragraph, idx) => (
@@ -127,17 +152,60 @@ export default function NewsArticlePage() {
   const currentTitle = showHindi && hindiTranslation ? hindiTranslation.Title : article.Title;
   const currentContent = showHindi && hindiTranslation ? hindiTranslation.Content : article.Content;
 
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": currentTitle,
+    "image": [article.ImageURL || "https://urbanspaninfra.co.in/images/hero_banner.jpg"],
+    "datePublished": article.Date || new Date().toISOString(),
+    "author": [{
+      "@type": "Person",
+      "name": article.Author || "Urbanspan Research Desk"
+    }],
+    "publisher": {
+      "@type": "Organization",
+      "name": "Urbanspan Infrastructure Pvt. Ltd.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://urbanspaninfra.co.in/public/urbanspan-logo.png"
+      }
+    },
+    "description": currentContent ? currentContent.substring(0, 160) : currentTitle
+  };
+
   return (
     <div className="pt-24 pb-16 bg-slate-50 min-h-screen">
       <SEO 
         title={currentTitle} 
         description={currentContent.substring(0, 150) + '...'} 
+        image={article.ImageURL}
         type="article"
+        structuredData={articleStructuredData}
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link to="/news" className="inline-flex items-center gap-2 text-brand-steel hover:text-brand-navy font-semibold mb-8 transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Back to News
-        </Link>
+        <div className="flex items-center justify-between gap-4 mb-8">
+          <Link to="/news" className="inline-flex items-center gap-2 text-brand-steel hover:text-brand-navy font-semibold transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to News
+          </Link>
+
+          <button
+            onClick={handleShare}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm text-sm font-bold text-slate-700 hover:text-brand-steel hover:border-brand-steel/30 transition-all hover:shadow"
+            title="Share on WhatsApp, LinkedIn, or Copy Link"
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-600 animate-bounce" />
+                <span className="text-emerald-700">Link Copied!</span>
+              </>
+            ) : (
+              <>
+                <Share2 className="w-4 h-4 text-brand-steel" />
+                <span>Share Article</span>
+              </>
+            )}
+          </button>
+        </div>
         
         <article className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden mb-12">
           <div className="p-8 sm:p-12">

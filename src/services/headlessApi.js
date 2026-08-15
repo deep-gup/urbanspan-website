@@ -168,10 +168,24 @@ export const fetchSteelProducts = async () => {
         if (finalImageUrl && finalImageUrl.startsWith('/uploads')) {
           finalImageUrl = `${config.apiBaseUrl}${finalImageUrl}`;
         }
+
+        let rawImages = Array.isArray(p.images) && p.images.length > 0 ? p.images : [];
+        let finalImages = rawImages.map(img => {
+          if (typeof img === 'string' && img.startsWith('/uploads')) {
+            return `${config.apiBaseUrl}${img}`;
+          }
+          return typeof img === 'string' ? img : (img?.url || '');
+        }).filter(Boolean);
+
+        if (finalImages.length === 0 && finalImageUrl) {
+          finalImages = [finalImageUrl];
+        }
+
         return {
           ...p,
           specs: p.specifications && Object.keys(p.specifications).length > 0 ? p.specifications : MOCK_STEEL_PRODUCTS[idx % MOCK_STEEL_PRODUCTS.length].specs,
-          image_url: finalImageUrl
+          image_url: finalImageUrl,
+          images: finalImages
         };
       });
     }
