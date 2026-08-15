@@ -123,9 +123,68 @@ export default function NewsArticlePage() {
 
   const renderContent = (content) => {
     if (!content) return null;
-    return content.split('\n').map((paragraph, idx) => (
-      paragraph.trim() ? <p key={idx} className="mb-4">{paragraph}</p> : null
-    ));
+    const lines = content.split('\n');
+    const elements = [];
+
+    lines.forEach((line, index) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        elements.push(<div key={index} className="h-3" />);
+        return;
+      }
+
+      // Headings
+      if (trimmed.startsWith('### ')) {
+        elements.push(
+          <h3 key={index} className="text-xl sm:text-2xl font-black text-brand-navy mt-6 mb-3 border-l-4 border-brand-steel pl-3">
+            {trimmed.slice(4)}
+          </h3>
+        );
+        return;
+      }
+      if (trimmed.startsWith('## ')) {
+        elements.push(
+          <h2 key={index} className="text-2xl sm:text-3xl font-black text-brand-navy mt-8 mb-4 border-b border-slate-200 pb-2">
+            {trimmed.slice(3)}
+          </h2>
+        );
+        return;
+      }
+
+      // Bullet points
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('• ')) {
+        const itemText = trimmed.replace(/^[-*•]\s+/, '');
+        elements.push(
+          <li key={index} className="flex items-start gap-2.5 text-slate-700 text-base my-2 ml-2">
+            <span className="text-brand-steel font-bold mt-1">▸</span>
+            <span className="leading-relaxed">{itemText}</span>
+          </li>
+        );
+        return;
+      }
+
+      // Numbered lists
+      if (/^\d+\.\s+/.test(trimmed)) {
+        const num = trimmed.match(/^(\d+)\.\s+/)[1];
+        const itemText = trimmed.replace(/^\d+\.\s+/, '');
+        elements.push(
+          <div key={index} className="flex items-start gap-2 text-slate-700 text-base my-2 ml-2">
+            <span className="font-bold text-brand-steel min-w-[20px]">{num}.</span>
+            <span className="leading-relaxed">{itemText}</span>
+          </div>
+        );
+        return;
+      }
+
+      // Paragraphs
+      elements.push(
+        <p key={index} className="text-slate-700 text-base sm:text-lg leading-relaxed mb-4">
+          {trimmed}
+        </p>
+      );
+    });
+
+    return <div className="space-y-1">{elements}</div>;
   };
 
   if (loading) {
