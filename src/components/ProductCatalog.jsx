@@ -22,7 +22,14 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
     setLoading(false);
   };
 
-  const categories = ['All', 'Rebars', 'Structural Steel', 'Coils & Sheets', 'Piping & Tubes', 'Plates'];
+  const uniqueCategories = Array.from(
+    new Set(
+      products
+        .map(p => p.category)
+        .filter(c => typeof c === 'string' && c.trim() !== '')
+    )
+  );
+  const categories = ['All', ...uniqueCategories];
 
   const filteredProducts = products.filter((p) => {
     const matchesCategory = selectedCategory === 'All' || 
