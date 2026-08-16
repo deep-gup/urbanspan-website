@@ -38,14 +38,13 @@ export default function Navbar({ activeTab, setActiveTab, onOpenConfig, customer
               <Link
                 key={tab}
                 to={path}
-                className={`px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap relative group ${
+                className={`px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${
                   activeTab === tab
                     ? 'bg-brand-navy text-white shadow-md'
                     : 'text-brand-navy hover:bg-slate-100 hover:text-brand-navy-dark'
                 }`}
               >
-                {tab === 'home' && <img src="/urbanspan-logo-cropped.png" className="absolute left-[-20px] top-1/2 -translate-y-1/2 w-20 opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none mix-blend-multiply" alt="bg-logo" />}
-                <span className="relative z-10">{labels[tab]}</span>
+                <span>{labels[tab]}</span>
               </Link>
             );
           })}
