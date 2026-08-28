@@ -290,17 +290,25 @@ export default function CartPage({ customerUser }) {
                       </div>
 
                       {/* Benchmark Rate & 18% Tax Badge */}
-                      <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                        <span className="text-sm font-black text-slate-800">
-                          ₹{Number(item.base_price).toLocaleString('en-IN')}
-                        </span>
-                        <span className="text-[11px] text-slate-500 font-semibold">
-                          / {item.unit || 'MT'} (ex-plant)
-                        </span>
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                          + 18% GST (₹{Math.round(item.base_price * 0.18).toLocaleString('en-IN')}/MT)
-                        </span>
-                      </div>
+                      {Number(item.base_price) > 0 ? (
+                        <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                          <span className="text-sm font-black text-slate-800">
+                            ₹{Number(item.base_price).toLocaleString('en-IN')}
+                          </span>
+                          <span className="text-[11px] text-slate-500 font-semibold">
+                            / {item.unit || 'MT'} (ex-plant)
+                          </span>
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                            + 18% GST (₹{Math.round(item.base_price * 0.18).toLocaleString('en-IN')}/MT)
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
+                            Price on Request (Spot Mill Benchmark Rate)
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Quantity Tonnage Selector */}
@@ -354,9 +362,15 @@ export default function CartPage({ customerUser }) {
                       {/* Line Item Estimated Total */}
                       <div className="text-right">
                         <span className="text-[10px] text-slate-400 block font-semibold">Line Total (incl. 18% GST)</span>
-                        <span className="text-sm font-black text-brand-steel">
-                          ₹{Math.round(item.lineTotal).toLocaleString('en-IN')}
-                        </span>
+                        {Number(item.base_price) > 0 ? (
+                          <span className="text-sm font-black text-brand-steel">
+                            ₹{Math.round(item.lineTotal).toLocaleString('en-IN')}
+                          </span>
+                        ) : (
+                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block mt-0.5">
+                            Spot Rate on Quote
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -377,26 +391,41 @@ export default function CartPage({ customerUser }) {
                 <div className="space-y-3 text-xs">
                   <div className="flex justify-between text-slate-600">
                     <span>Base Material Subtotal (ex-plant):</span>
-                    <span className="font-bold text-slate-900">₹{subtotal.toLocaleString('en-IN')}</span>
+                    <span className="font-bold text-slate-900">
+                      ₹{subtotal.toLocaleString('en-IN')}{cartItems.some(i => !i.base_price || Number(i.base_price) <= 0) ? ' + Spot Rates' : ''}
+                    </span>
                   </div>
 
                   <div className="flex justify-between text-emerald-700 bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100 font-semibold">
                     <span className="flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4 text-emerald-600" /> Applicable GST @ 18% (HSN 7214):
                     </span>
-                    <span className="font-black font-mono">₹{Math.round(totalGst).toLocaleString('en-IN')}</span>
+                    <span className="font-black font-mono">
+                      ₹{Math.round(totalGst).toLocaleString('en-IN')}{cartItems.some(i => !i.base_price || Number(i.base_price) <= 0) ? ' + GST' : ''}
+                    </span>
                   </div>
 
                   <div className="pt-3 border-t border-slate-200 flex justify-between items-baseline">
                     <div>
                       <span className="text-sm font-extrabold text-slate-900 block">Total Estimated Value</span>
-                      <span className="text-[11px] text-slate-400 font-medium">(Base Material + 18% GST)</span>
+                      <span className="text-[11px] text-slate-400 font-medium">
+                        {cartItems.some(i => !i.base_price || Number(i.base_price) <= 0) ? '(Calculated Items + Pending Spot Rates)' : '(Base Material + 18% GST)'}
+                      </span>
                     </div>
                     <span className="text-2xl font-black text-brand-steel">
-                      ₹{Math.round(grandTotal).toLocaleString('en-IN')}
+                      ₹{Math.round(grandTotal).toLocaleString('en-IN')}{cartItems.some(i => !i.base_price || Number(i.base_price) <= 0) ? '*' : ''}
                     </span>
                   </div>
                 </div>
+
+                {cartItems.some(i => !i.base_price || Number(i.base_price) <= 0) && (
+                  <div className="mt-3 p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-800 leading-relaxed font-medium flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Spot Rates Pending:</strong> One or more items in your cart are subject to daily mill benchmark spot pricing. The sales desk will calculate verified live rates upon quotation review.
+                    </span>
+                  </div>
+                )}
 
                 <div className="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-500 leading-relaxed">
                   <span className="font-bold text-slate-700">Tax & Logistics Notice:</span> Official invoice carries statutory 18% GST. Transportation freight, weighbridge toll slips, and transit insurance are calculated upon dispatch destination confirmation.

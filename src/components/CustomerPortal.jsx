@@ -10,6 +10,29 @@ const DISPATCH_STAGES = [
   { key: 'delivered', label: '5. Delivered', icon: CheckCircle }
 ];
 
+const formatStageLabel = (stage) => {
+  if (!stage) return 'Active Procurement';
+  const clean = String(stage).toLowerCase().trim();
+  const map = {
+    order_received: 'Order Confirmed',
+    order_confirmed: 'Order Booked',
+    qualification: 'Order Received',
+    proposal: 'Quotation Ready',
+    negotiation: 'Under Negotiation',
+    in_transit_billed: 'In Transit (Invoice Issued)',
+    'in transit_billed': 'In Transit (Invoice Issued)',
+    'in transit billed': 'In Transit (Invoice Issued)',
+    freight_placed: 'Freight Placed',
+    weighbridge_loaded: 'Weighbridge Loaded',
+    mill_fabrication: 'Mill Rolling',
+    in_transit: 'In Transit',
+    delivered: 'Delivered & Reconciled',
+    closed_won: 'Fulfilled & Closed',
+    closed_lost: 'Cancelled'
+  };
+  return map[clean] || stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+};
+
 export default function CustomerPortal({ customerUser, setCustomerUser, appVersion, onCheckUpdate, isUpdating, otaStatus }) {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [activePortalTab, setActivePortalTab] = useState('inquiries');
@@ -731,11 +754,11 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                             <div>
                               <div className="text-base font-extrabold text-slate-900">{order.title}</div>
                               <div className="text-xs text-slate-500 mt-0.5">
-                                Contract Value: <span className="font-bold text-indigo-700 text-sm">₹{Number(order.deal_value || 0).toLocaleString('en-IN')}</span> • Stage: <span className="capitalize font-semibold text-slate-700">{order.stage?.replace('_', ' ') || 'Active Procurement'}</span>
+                                Contract Value: <span className="font-bold text-indigo-700 text-sm">₹{Number(order.deal_value || 0).toLocaleString('en-IN')}</span> • Stage: <span className="font-semibold text-slate-700">{formatStageLabel(order.stage)}</span>
                               </div>
                             </div>
-                            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase shrink-0">
-                              {currentStatus.replace('_', ' ')}
+                            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold shrink-0">
+                              {formatStageLabel(currentStatus)}
                             </span>
                           </div>
 
