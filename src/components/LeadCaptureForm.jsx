@@ -19,7 +19,7 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
   useEffect(() => {
     let newNotes = formData.notes;
     if (preselectedProduct) {
-      newNotes = `Commercial RFQ for Product: ${preselectedProduct.name} (SKU: ${preselectedProduct.sku}). Estimated Tonnage Required: 100 MT.`;
+      newNotes = `Commercial RFQ for Product: ${preselectedProduct.name}. Estimated Tonnage Required: 100 MT.`;
     }
     setFormData((prev) => ({
       ...prev,
@@ -39,7 +39,11 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
     try {
       await submitRFQLead({
         ...formData,
-        expected_value: formData.expected_value ? parseFloat(formData.expected_value) : null
+        product_id: preselectedProduct?.id || null,
+        product_name: preselectedProduct?.name || null,
+        sku: preselectedProduct?.sku || null,
+        quantity: formData.quantity ? parseFloat(formData.quantity) : 50,
+        expected_value: formData.expected_value ? parseFloat(formData.expected_value) : (preselectedProduct?.base_price ? Number(preselectedProduct.base_price) * (formData.quantity ? parseFloat(formData.quantity) : 50) : null)
       });
       setSubmitted(true);
     } catch (error) {

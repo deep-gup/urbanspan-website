@@ -1,0 +1,608 @@
+{
+  "timestamp": "2026-08-22T14:19:53.176Z",
+  "environment": {
+    "backend": "https://api.urbanspaninfra.co.in",
+    "org_code": "urbanspan_steel_1764",
+    "auth_user": "sourabh.khandelwal@khandelwalinfra.com"
+  },
+  "checks": [
+    {
+      "id": "chk_1",
+      "category": "Calculation Exactness",
+      "name": "CartContext Line Arithmetic Formula Exactness (Qty * Price * 1.18 = Line Total)",
+      "passed": true,
+      "details": {
+        "testedCount": 6
+      },
+      "rawOutput": null
+    },
+    {
+      "id": "chk_2",
+      "category": "Calculation Exactness",
+      "name": "Multi-Item Consignment Aggregation Exactness across 1,000 Randomized Iterations",
+      "passed": true,
+      "details": {
+        "trials": 1000,
+        "maxDelta": 2.9802322387695312e-8
+      },
+      "rawOutput": null
+    },
+    {
+      "id": "chk_3",
+      "category": "Calculation Exactness",
+      "name": "ProductDetailsPage 18% GST Breakdown & Effective Unit Price Accuracy",
+      "passed": true,
+      "details": {
+        "basePrice": 54500,
+        "gstBreakdown": 9810,
+        "effectivePrice": 64310,
+        "expectedBreakdown": 9810,
+        "expectedEffective": 64310
+      },
+      "rawOutput": null
+    },
+    {
+      "id": "chk_4",
+      "category": "Live Network & CRM",
+      "name": "GET /api/external/products live catalog transmission",
+      "passed": true,
+      "details": {
+        "count": 4,
+        "status": 200
+      },
+      "rawOutput": [
+        {
+          "sku": "TMT-ISI",
+          "name": "ISI TMT RAIPUR",
+          "base_price": null
+        },
+        {
+          "sku": "TMT-GK",
+          "name": "GK TMT",
+          "base_price": "45000.00"
+        },
+        {
+          "sku": "TMT-JINDAL",
+          "name": "JINDAL PANTHER TMT",
+          "base_price": "56500.00"
+        },
+        {
+          "sku": "TMT-BHUMIJA",
+          "name": "BHUMIJA TMT BARS",
+          "base_price": null
+        }
+      ]
+    },
+    {
+      "id": "chk_5",
+      "category": "Live Network & CRM",
+      "name": "GET /api/external/forms/by-name/lead_capture/schema schema retrieval",
+      "passed": true,
+      "details": {
+        "fieldCount": 8,
+        "status": 200
+      },
+      "rawOutput": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "company",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "email",
+          "required": true
+        },
+        {
+          "name": "phone",
+          "type": "phone",
+          "required": false
+        },
+        {
+          "name": "product_id",
+          "type": "select",
+          "required": false
+        },
+        {
+          "name": "quantity",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "notes",
+          "type": "textarea",
+          "required": false
+        },
+        {
+          "name": "expected_value",
+          "type": "number",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "chk_6",
+      "category": "Live Network & CRM",
+      "name": "POST /api/external/forms/by-name/lead_capture/submit RFQ ingestion & UUID issuance",
+      "passed": true,
+      "details": {
+        "status": 201,
+        "leadId": "30555ec9-4b31-4143-9238-5f02043d0a18",
+        "isUuid": true
+      },
+      "rawOutput": {
+        "data": {
+          "entity_type": "lead",
+          "id": "30555ec9-4b31-4143-9238-5f02043d0a18",
+          "success": true
+        },
+        "success": true
+      }
+    },
+    {
+      "id": "chk_7",
+      "category": "Live Network & CRM",
+      "name": "POST /api/external/leads direct lead creation & UUID generation",
+      "passed": true,
+      "details": {
+        "status": 201,
+        "directLeadId": "2d2b7892-7c28-4042-9146-7be8ddb21103",
+        "isUuid": true
+      },
+      "rawOutput": {
+        "data": {
+          "id": "2d2b7892-7c28-4042-9146-7be8ddb21103",
+          "name": "Auditor Direct Lead Probe"
+        },
+        "success": true
+      }
+    },
+    {
+      "id": "chk_8",
+      "category": "Authentication & State",
+      "name": "Negative Auth: Reject invalid credentials with 401 Unauthorized",
+      "passed": true,
+      "details": {
+        "status": 401,
+        "error": "Invalid email or password."
+      },
+      "rawOutput": null
+    },
+    {
+      "id": "chk_9",
+      "category": "Authentication & State",
+      "name": "Positive Auth: Verified buyer login & 30-day JWT token issuance",
+      "passed": true,
+      "details": {
+        "status": 200,
+        "hasJwt": true,
+        "customerName": "Sourabh Khandelwal",
+        "company": "Khandelwal Infra Developers",
+        "partyId": "2f406a41-9fde-4e6e-bc3e-a7669de2b52f"
+      },
+      "rawOutput": {
+        "customer": {
+          "company": "Khandelwal Infra Developers",
+          "email": "sourabh.khandelwal@khandelwalinfra.com",
+          "id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+          "name": "Sourabh Khandelwal",
+          "party_id": "2f406a41-9fde-4e6e-bc3e-a7669de2b52f",
+          "phone": "+91 99887 76655"
+        },
+        "tokenPrefix": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ik..."
+      }
+    },
+    {
+      "id": "chk_10",
+      "category": "Authentication & State",
+      "name": "GET /api/external/customers/me/orders binding authentic supply contracts & 5-tier dispatch stages",
+      "passed": true,
+      "details": {
+        "orderCount": 5,
+        "stagesObserved": [
+          {
+            "order": "Deal - Sourabh Khandelwal",
+            "stage": "order_confirmed",
+            "value": "2285000.00"
+          },
+          {
+            "order": "Deal - Khandelwal Infra Developers",
+            "stage": "order_confirmed",
+            "value": "4835000.00"
+          },
+          {
+            "order": "Commercial Township Phase 1 - 100 MT TMT Consignment (Khandelwal Infra)",
+            "stage": "order_confirmed",
+            "value": "4835000.00"
+          },
+          {
+            "order": "Commercial Township Phase 1 - 100 MT TMT Consignment (Khandelwal Infra)",
+            "stage": "order_confirmed",
+            "value": "4835000.00"
+          },
+          {
+            "order": "Commercial Township Phase 1 - 50 MT BHUMIJA TMT (Khandelwal Infra Developers)",
+            "stage": "weighbridge_loaded",
+            "value": "2285000.00"
+          }
+        ]
+      },
+      "rawOutput": [
+        {
+          "id": "fa9269f8-07c6-4bd4-8ff1-d281d7060a29",
+          "title": "Deal - Sourabh Khandelwal",
+          "deal_value": "2285000.00",
+          "currency": "INR",
+          "stage": "qualification",
+          "dispatch_status": "order_confirmed",
+          "dispatch_details": {},
+          "mill_tc_url": null,
+          "created_at": "2026-08-22T09:10:31.652Z",
+          "updated_at": "2026-08-22T09:10:31.652Z",
+          "assigned_rep_name": "Rajesh Verma",
+          "assigned_rep_email": "rajesh.sales@urbanspan.com",
+          "assigned_rep_phone": "+91 98200 44556",
+          "items": [
+            {
+              "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+              "variant_id": null,
+              "quantity": 50,
+              "unit_price": "45700.00",
+              "notes": "Verified and active in negotiation with Deepesh Gupta (CEO).",
+              "product_name": "BHUMIJA TMT BARS",
+              "product_unit": "ton",
+              "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+              "variant_name": null
+            }
+          ]
+        },
+        {
+          "id": "aa83f6b7-fd15-42c5-aaba-70643e2a081e",
+          "title": "Deal - Khandelwal Infra Developers",
+          "deal_value": "4835000.00",
+          "currency": "INR",
+          "stage": "qualification",
+          "dispatch_status": "order_confirmed",
+          "dispatch_details": {},
+          "mill_tc_url": null,
+          "created_at": "2026-08-22T09:09:32.931Z",
+          "updated_at": "2026-08-22T09:09:32.931Z",
+          "assigned_rep_name": null,
+          "assigned_rep_email": null,
+          "assigned_rep_phone": null,
+          "items": []
+        },
+        {
+          "id": "1e8ccd77-3f7a-42fd-8832-cdd3a6db4bd3",
+          "title": "Commercial Township Phase 1 - 100 MT TMT Consignment (Khandelwal Infra)",
+          "deal_value": "4835000.00",
+          "currency": "INR",
+          "stage": "qualification",
+          "dispatch_status": "order_confirmed",
+          "dispatch_details": {},
+          "mill_tc_url": null,
+          "created_at": "2026-08-22T08:51:25.218Z",
+          "updated_at": "2026-08-22T08:51:25.218Z",
+          "assigned_rep_name": null,
+          "assigned_rep_email": null,
+          "assigned_rep_phone": null,
+          "items": [
+            {
+              "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+              "variant_id": null,
+              "quantity": 50,
+              "unit_price": "45700.00",
+              "notes": "High ductility rebar",
+              "product_name": "BHUMIJA TMT BARS",
+              "product_unit": "ton",
+              "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+              "variant_name": null
+            },
+            {
+              "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "variant_id": null,
+              "quantity": 50,
+              "unit_price": "51000.00",
+              "notes": "Standard IS 1786 Fe550D",
+              "product_name": "ISI TMT RAIPUR",
+              "product_unit": "ton",
+              "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+              "variant_name": null
+            }
+          ]
+        },
+        {
+          "id": "76bc2cdd-7333-4947-a52a-6862c75def41",
+          "title": "Commercial Township Phase 1 - 100 MT TMT Consignment (Khandelwal Infra)",
+          "deal_value": "4835000.00",
+          "currency": "INR",
+          "stage": "qualification",
+          "dispatch_status": "order_confirmed",
+          "dispatch_details": {},
+          "mill_tc_url": null,
+          "created_at": "2026-08-22T08:49:01.118Z",
+          "updated_at": "2026-08-22T08:49:01.118Z",
+          "assigned_rep_name": null,
+          "assigned_rep_email": null,
+          "assigned_rep_phone": null,
+          "items": [
+            {
+              "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+              "variant_id": null,
+              "quantity": 50,
+              "unit_price": "45700.00",
+              "notes": null,
+              "product_name": "BHUMIJA TMT BARS",
+              "product_unit": "ton",
+              "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+              "variant_name": null
+            },
+            {
+              "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "variant_id": null,
+              "quantity": 50,
+              "unit_price": "51000.00",
+              "notes": null,
+              "product_name": "ISI TMT RAIPUR",
+              "product_unit": "ton",
+              "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+              "variant_name": null
+            }
+          ]
+        },
+        {
+          "id": "73f04f58-1bf7-4ba0-a399-85b06f7971fc",
+          "title": "Commercial Township Phase 1 - 50 MT BHUMIJA TMT (Khandelwal Infra Developers)",
+          "deal_value": "2285000.00",
+          "currency": "INR",
+          "stage": "qualification",
+          "dispatch_status": "weighbridge_loaded",
+          "dispatch_details": {},
+          "mill_tc_url": null,
+          "created_at": "2026-08-22T07:35:46.283Z",
+          "updated_at": "2026-08-22T08:24:31.625Z",
+          "assigned_rep_name": "Rajesh Verma",
+          "assigned_rep_email": "rajesh.sales@urbanspan.com",
+          "assigned_rep_phone": "+91 98200 44556",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "chk_11",
+      "category": "Authentication & State",
+      "name": "GET /api/external/customers/me/inquiries reflection of submitted RFQs and lead status badges",
+      "passed": true,
+      "details": {
+        "inquiryCount": 16
+      },
+      "rawOutput": [
+        {
+          "id": "2d2b7892-7c28-4042-9146-7be8ddb21103",
+          "name": "Auditor Direct Lead Probe",
+          "phone": "+91 99887 76655",
+          "email": "direct.probe@urbanspan-audit.internal",
+          "expected_value": "2725000.00",
+          "status": "new",
+          "notes": "Direct lead API test probe",
+          "custom_data": {},
+          "created_at": "2026-08-22T14:19:57.484Z",
+          "quote_status": "draft",
+          "quote_data": {},
+          "assigned_rep_name": null,
+          "assigned_rep_email": null,
+          "assigned_rep_phone": null,
+          "items": []
+        },
+        {
+          "id": "30555ec9-4b31-4143-9238-5f02043d0a18",
+          "name": "Forensic Auditor Independent Probe",
+          "phone": "+91 99887 76655",
+          "email": "auditor.probe@urbanspan-audit.internal",
+          "expected_value": "6812500.00",
+          "status": "new",
+          "notes": "[FORENSIC AUDIT PROBE] Multi-Product Consignment (125 MT Total). Subtotal: ₹6812500, GST: ₹1226250, Grand Total: ₹8038750",
+          "custom_data": {
+            "qty": 125,
+            "source": "buyer_cart_rfq",
+            "company": "Auditor Quality Assurances Inc",
+            "org_code": "urbanspan_steel_1764",
+            "quantity": 125
+          },
+          "created_at": "2026-08-22T14:19:57.115Z",
+          "quote_status": "draft",
+          "quote_data": {},
+          "assigned_rep_name": null,
+          "assigned_rep_email": null,
+          "assigned_rep_phone": null,
+          "items": []
+        },
+        {
+          "id": "5876f596-9a36-4496-b8cb-3577860d38aa",
+          "name": "Sourabh Khandelwal",
+          "phone": null,
+          "email": "sourabh.khandelwal@khandelwalinfra.com",
+          "expected_value": null,
+          "status": "new",
+          "notes": null,
+          "custom_data": {
+            "qty": 50,
+            "org_code": "urbanspan_steel_1764",
+            "quantity": 50
+          },
+          "created_at": "2026-08-22T14:08:38.214Z",
+          "quote_status": "draft",
+          "quote_data": {},
+          "assigned_rep_name": null,
+          "assigned_rep_email": null,
+          "assigned_rep_phone": null,
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "chk_12",
+      "category": "Real-Time Socket",
+      "name": "GET /api/external/customers/me/chat retrieves verified customer sales channel",
+      "passed": true,
+      "details": {
+        "channelId": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+        "messageCount": 5
+      },
+      "rawOutput": {
+        "channel": {
+          "id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+          "name": "Customer: Sourabh Khandelwal",
+          "description": "customer_76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+          "type": "customer",
+          "created_by": null,
+          "is_archived": false,
+          "posting_permission": "everyone",
+          "created_at": "2026-08-22T07:08:42.596Z",
+          "updated_at": "2026-08-22T07:08:42.596Z"
+        },
+        "messages": [
+          {
+            "id": "18ccf241-fe0a-4ef3-b08d-0cd519381d36",
+            "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "sender_id": null,
+            "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "content": "Hello, checking the dispatch status for our 50 MT TMT consignment to Indore site.",
+            "parent_message_id": null,
+            "is_edited": false,
+            "is_deleted": false,
+            "reply_count": 0,
+            "metadata": {},
+            "created_at": "2026-08-22T13:21:38.451Z",
+            "updated_at": "2026-08-22T13:21:38.451Z",
+            "sender_name": "Sourabh Khandelwal",
+            "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+            "attachments": [],
+            "reactions": []
+          },
+          {
+            "id": "93218834-f551-447b-a5f1-39766339165d",
+            "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "sender_id": null,
+            "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "content": "Automated Verification Test MSG 1787405411051",
+            "parent_message_id": null,
+            "is_edited": false,
+            "is_deleted": false,
+            "reply_count": 0,
+            "metadata": {},
+            "created_at": "2026-08-22T13:30:13.516Z",
+            "updated_at": "2026-08-22T13:30:13.516Z",
+            "sender_name": "Sourabh Khandelwal",
+            "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+            "attachments": [],
+            "reactions": []
+          },
+          {
+            "id": "59a030cd-a958-4bc6-b3c8-237737139d70",
+            "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "sender_id": null,
+            "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "content": "Mobile live inquiry test at 1787405840506",
+            "parent_message_id": null,
+            "is_edited": false,
+            "is_deleted": false,
+            "reply_count": 0,
+            "metadata": {},
+            "created_at": "2026-08-22T13:37:23.330Z",
+            "updated_at": "2026-08-22T13:37:23.330Z",
+            "sender_name": "Sourabh Khandelwal",
+            "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+            "attachments": [],
+            "reactions": []
+          },
+          {
+            "id": "10df5265-5e84-4d35-8ad7-dcd59768847f",
+            "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "sender_id": null,
+            "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "content": "Mobile live inquiry test at 1787405935982",
+            "parent_message_id": null,
+            "is_edited": false,
+            "is_deleted": false,
+            "reply_count": 0,
+            "metadata": {},
+            "created_at": "2026-08-22T13:38:58.858Z",
+            "updated_at": "2026-08-22T13:38:58.858Z",
+            "sender_name": "Sourabh Khandelwal",
+            "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+            "attachments": [],
+            "reactions": []
+          },
+          {
+            "id": "0807f2d3-90f1-4f59-9b10-02a7ebce09e7",
+            "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "sender_id": null,
+            "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "content": "Verification probe message 1787407701420",
+            "parent_message_id": null,
+            "is_edited": false,
+            "is_deleted": false,
+            "reply_count": 0,
+            "metadata": {},
+            "created_at": "2026-08-22T14:08:24.434Z",
+            "updated_at": "2026-08-22T14:08:24.434Z",
+            "sender_name": "Sourabh Khandelwal",
+            "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+            "attachments": [],
+            "reactions": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "chk_13",
+      "category": "Real-Time Socket",
+      "name": "Socket.IO WebSocket bidirectional messaging (connect, join_channel, send_message, new_message)",
+      "passed": true,
+      "details": {
+        "connected": true,
+        "joinedRoom": true,
+        "receivedNewMessage": true,
+        "messageId": "eecd0000-7bdc-41b9-bc3d-8a964b11b096",
+        "content": "[FORENSIC PROBE] Audit check timestamp: 2026-08-22T14:19:57.756Z",
+        "sender": "Sourabh Khandelwal"
+      },
+      "rawOutput": null
+    },
+    {
+      "id": "chk_14",
+      "category": "Real-Time Socket",
+      "name": "Socket.IO Security Gate: Reject unauthenticated/invalid token handshakes",
+      "passed": true,
+      "details": {
+        "errorMessage": "Invalid token"
+      },
+      "rawOutput": null
+    },
+    {
+      "id": "chk_15",
+      "category": "Static Codebase Integrity",
+      "name": "Absence of Hardcoded Facade Functions / Dummy Returns across all JSX/JS modules",
+      "passed": true,
+      "details": {
+        "scannedFiles": 23,
+        "hardcodedReturnTrue": 0,
+        "emptyPlaceholders": 0,
+        "genuineLogicModules": 15
+      },
+      "rawOutput": null
+    }
+  ],
+  "summary": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0
+  },
+  "verdict": "CLEAN"
+}

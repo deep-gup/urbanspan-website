@@ -1,9 +1,39 @@
 import React from 'react';
 import { ShieldCheck, Award, Factory, Users, Target, Building, MapPin, TrendingUp, CheckCircle, Briefcase } from 'lucide-react';
+import SEO from './SEO';
 
 export default function AboutUs() {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Urbanspan Infrastructure",
+    "description": "45 years of legacy in primary steel sales and distribution across Central India. A Gupta & Sons enterprise delivering BIS certified steel products.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Urbanspan Infrastructure Private Limited",
+      "foundingDate": "1981",
+      "founder": {
+        "@type": "Person",
+        "name": "Ashok Gupta"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "115 Scheme 97, Vanijyak Mandi",
+        "addressLocality": "Indore",
+        "addressRegion": "Madhya Pradesh",
+        "postalCode": "452009",
+        "addressCountry": "IN"
+      }
+    }
+  };
+
   return (
     <div className="py-24 bg-slate-50">
+      <SEO 
+        title="About Us - 45 Years of Steel Excellence & Primary Distribution"
+        description="Learn about Urbanspan Infrastructure Pvt Ltd (A Gupta & Sons Enterprise). 45+ years of steel legacy, 1.5L+ MT delivered across Madhya Pradesh, Gujarat, Maharashtra."
+        structuredData={aboutSchema}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}

@@ -3,15 +3,13 @@
   "appName": "Urbanspan",
   "webDir": "dist",
   "server": {
-    "cleartext": true
+    "url": "https://urbanspaninfra.co.in",
+    "cleartext": false,
+    "androidScheme": "https"
   },
   "plugins": {
     "CapacitorHttp": {
       "enabled": true
-    },
-    "CapacitorUpdater": {
-      "autoUpdate": "always",
-      "updateUrl": "https://api.urbanspaninfra.co.in/api/ota-update"
     }
   }
 }

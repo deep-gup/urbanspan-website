@@ -32,7 +32,7 @@ export default function Hero({ onExploreCatalog, onPartnerInquiry }) {
               onClick={onExploreCatalog}
               className="w-full sm:w-auto px-10 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white font-bold text-sm border border-white/10 flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
             >
-              <Factory className="w-4 h-4 text-slate-300" /> Browse Catalog
+              <Factory className="w-4 h-4 text-slate-300" /> Browse Products
             </button>
           </div>
 

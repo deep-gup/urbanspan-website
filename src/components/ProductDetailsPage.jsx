@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
-  ArrowLeft, ShieldCheck, Share2, Check, Copy, Sparkles, 
-  ChevronRight, Layers, Tag, Box, Info 
+  ArrowLeft, ShieldCheck, Share2, Check, CheckCircle2,
+  ChevronRight, ChevronDown, ChevronUp, Layers, Info,
+  ShoppingBag, Plus, Minus
 } from 'lucide-react';
 import { fetchSteelProducts } from '../services/headlessApi';
+import { useCart } from '../context/CartContext';
 import SEO from './SEO';
 
 export default function ProductDetailsPage({ onSelectProductForInquiry }) {
@@ -15,6 +17,10 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
   const [loading, setLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [isOverviewExpanded, setIsOverviewExpanded] = useState(false);
+  const [customTonnage, setCustomTonnage] = useState(50);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     loadProductData();
@@ -29,6 +35,15 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
       const foundProduct = products.find(p => p.sku === id || p.id === id);
       setProduct(foundProduct || null);
       setSelectedImageIndex(0);
+      if (foundProduct && typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'view_item', {
+          items: [{
+            item_id: foundProduct.sku,
+            item_name: foundProduct.name,
+            item_category: foundProduct.category?.name || 'Steel'
+          }]
+        });
+      }
     } catch (err) {
       console.error('Failed to load product:', err);
     } finally {
@@ -36,11 +51,24 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
     }
   };
 
+  const getPublicShareUrl = () => {
+    const sku = product?.sku || skuParam || '';
+    return `https://urbanspaninfra.co.in/products/${encodeURIComponent(sku)}`;
+  };
+
   const handleShare = async () => {
+    const shareUrl = getPublicShareUrl();
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'share', {
+        method: 'button',
+        content_type: 'product',
+        item_id: product?.sku
+      });
+    }
     const shareData = {
       title: `${product.name} | Urbanspan Steel`,
       text: product.description ? product.description.substring(0, 120) + '...' : `Check out ${product.name} on Urbanspan`,
-      url: window.location.href
+      url: shareUrl
     };
 
     if (navigator.share) {
@@ -57,14 +85,15 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const shareUrl = getPublicShareUrl();
+    navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
 
-  // Helper to parse and render formatted markdown text
+  // Helper to parse and render formatted markdown text with compact typography
   const renderFormattedDescription = (text) => {
-    if (!text) return <p className="text-slate-400 italic">No description available for this product.</p>;
+    if (!text) return <p className="text-slate-400 text-xs italic">No description available for this product.</p>;
 
     const lines = text.split('\n');
     const elements = [];
@@ -72,15 +101,15 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
     lines.forEach((line, index) => {
       const trimmed = line.trim();
       if (!trimmed) {
-        elements.push(<div key={index} className="h-3" />);
+        elements.push(<div key={index} className="h-2" />);
         return;
       }
 
       // Headings
       if (trimmed.startsWith('### ')) {
         elements.push(
-          <h4 key={index} className="text-lg font-bold text-slate-900 mt-5 mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-4 bg-brand-steel rounded-full inline-block" />
+          <h4 key={index} className="text-xs sm:text-sm font-bold text-slate-900 mt-3 mb-1.5 flex items-center gap-1.5">
+            <span className="w-1.5 h-3 bg-brand-steel rounded-full inline-block" />
             {formatInline(trimmed.slice(4))}
           </h4>
         );
@@ -88,7 +117,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
       }
       if (trimmed.startsWith('## ')) {
         elements.push(
-          <h3 key={index} className="text-xl font-extrabold text-slate-900 mt-6 mb-3 border-b border-slate-100 pb-2">
+          <h3 key={index} className="text-sm sm:text-base font-extrabold text-slate-900 mt-4 mb-2 border-b border-slate-200/60 pb-1">
             {formatInline(trimmed.slice(3))}
           </h3>
         );
@@ -96,7 +125,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
       }
       if (trimmed.startsWith('# ')) {
         elements.push(
-          <h2 key={index} className="text-2xl font-black text-slate-900 mt-6 mb-3">
+          <h2 key={index} className="text-base sm:text-lg font-black text-slate-900 mt-4 mb-2">
             {formatInline(trimmed.slice(2))}
           </h2>
         );
@@ -106,7 +135,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
       // Blockquotes / Highlight Callouts
       if (trimmed.startsWith('> ')) {
         elements.push(
-          <div key={index} className="my-3 p-3.5 bg-slate-50 border-l-4 border-brand-steel rounded-r-xl text-sm text-slate-700 font-medium">
+          <div key={index} className="my-2 p-2.5 bg-slate-100/70 border-l-2 border-brand-steel rounded-r-lg text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
             {formatInline(trimmed.slice(2))}
           </div>
         );
@@ -117,8 +146,8 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
       if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('• ')) {
         const itemText = trimmed.replace(/^[-*•]\s+/, '');
         elements.push(
-          <li key={index} className="flex items-start gap-2.5 text-slate-700 text-sm md:text-base my-1.5 ml-2">
-            <span className="text-brand-steel font-bold mt-1 text-sm">▸</span>
+          <li key={index} className="flex items-start gap-2 text-slate-600 text-xs sm:text-sm my-1 ml-1.5">
+            <span className="text-brand-steel font-bold mt-0.5 text-xs">▸</span>
             <span className="leading-relaxed">{formatInline(itemText)}</span>
           </li>
         );
@@ -130,8 +159,8 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
         const num = trimmed.match(/^(\d+)\.\s+/)[1];
         const itemText = trimmed.replace(/^\d+\.\s+/, '');
         elements.push(
-          <div key={index} className="flex items-start gap-2.5 text-slate-700 text-sm md:text-base my-1.5 ml-2">
-            <span className="font-bold text-brand-steel min-w-[20px]">{num}.</span>
+          <div key={index} className="flex items-start gap-2 text-slate-600 text-xs sm:text-sm my-1 ml-1.5">
+            <span className="font-bold text-brand-steel min-w-[16px] text-xs">{num}.</span>
             <span className="leading-relaxed">{formatInline(itemText)}</span>
           </div>
         );
@@ -140,13 +169,13 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
 
       // Regular Paragraphs
       elements.push(
-        <p key={index} className="text-slate-600 text-sm md:text-base leading-relaxed my-2">
+        <p key={index} className="text-slate-600 text-xs sm:text-sm leading-relaxed my-1.5">
           {formatInline(trimmed)}
         </p>
       );
     });
 
-    return <div className="space-y-1">{elements}</div>;
+    return <div className="space-y-0.5">{elements}</div>;
   };
 
   const formatInline = (text) => {
@@ -257,7 +286,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
     },
     "offers": {
       "@type": "Offer",
-      "url": typeof window !== 'undefined' ? window.location.href : `https://urbanspaninfra.co.in/products/${product.sku}`,
+      "url": `https://urbanspaninfra.co.in/products/${product.sku}`,
       "priceCurrency": product.currency || "INR",
       "price": product.base_price || 0,
       "availability": "https://schema.org/InStock",
@@ -388,66 +417,323 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                 {product.name}
               </h1>
               
-              <div className="flex items-center gap-4 text-xs font-mono text-slate-500 mb-6">
-                <span>SKU: <strong className="text-slate-700">{product.sku || 'N/A'}</strong></span>
-                {product.hsn_code && <span>HSN: <strong className="text-slate-700">{product.hsn_code}</strong></span>}
-              </div>
+              {product.hsn_code && (
+                <div className="flex items-center gap-4 text-xs font-mono text-slate-500 mb-4">
+                  <span>HSN Code: <strong className="text-slate-700">{product.hsn_code}</strong></span>
+                </div>
+              )}
               
-              {/* Benchmark Pricing Box */}
-              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6">
-                <span className="text-xs text-slate-500 block font-bold uppercase tracking-wider mb-1">Live Benchmark Rate</span>
-                {product.base_price ? (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl sm:text-4xl font-black text-brand-steel-light">
-                      ₹{Number(product.base_price).toLocaleString('en-IN')}
-                    </span>
-                    <span className="text-sm text-slate-500 font-semibold">
-                      / {product.unit || 'Metric Ton'} (ex-plant)
-                    </span>
+              {/* Benchmark Pricing Box with 18% Tax Details */}
+              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-5 space-y-3">
+                <div>
+                  <span className="text-[11px] text-slate-500 block font-bold uppercase tracking-wider mb-1">Live Mill Benchmark Rate</span>
+                  {product.base_price ? (
+                    <div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-3xl sm:text-4xl font-black text-brand-steel-light">
+                          ₹{Number(product.base_price).toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-sm text-slate-500 font-bold">
+                          / {product.unit || 'Metric Ton'} (ex-plant)
+                        </span>
+                      </div>
+                      
+                      {/* GST Tax Breakdown Pill */}
+                      <div className="mt-2.5 p-3 rounded-xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+                        <span className="flex items-center gap-1.5 font-bold text-slate-700">
+                          <ShieldCheck className="w-4 h-4 text-emerald-600" /> Applicable GST @ 18%:
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-slate-600">+₹{Math.round(product.base_price * 0.18).toLocaleString('en-IN')}/MT</span>
+                          <span className="font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                            Effective: ₹{Math.round(product.base_price * 1.18).toLocaleString('en-IN')}/MT
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl font-bold text-slate-700">Market Rate on Request</span>
+                    </div>
+                  )}
+                  <p className="text-[11px] text-slate-400 mt-2">Base mill ex-plant rates. Statutory 18% GST (HSN 7214) applied on invoice. Logistics calculated upon site dispatch.</p>
+                </div>
+              </div>
+
+              {/* Tonnage Selector & Buyer Action Bar */}
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-6 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Select Requirement (Metric Tons):
+                  </span>
+                  <div className="flex items-center gap-1">
+                    {[25, 50, 100, 200].map((mt) => (
+                      <button
+                        key={mt}
+                        type="button"
+                        onClick={() => setCustomTonnage(mt)}
+                        className={`px-2 py-1 rounded-lg text-xs font-bold border transition-all ${
+                          customTonnage === mt 
+                            ? 'bg-brand-steel text-white border-brand-steel shadow-sm' 
+                            : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        {mt} MT
+                      </button>
+                    ))}
                   </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-slate-700">Market Rate on Request</span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center border border-slate-300 rounded-xl bg-white p-1">
+                    <button
+                      type="button"
+                      onClick={() => setCustomTonnage(prev => Math.max(1, prev - 5))}
+                      className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      value={customTonnage}
+                      onChange={(e) => setCustomTonnage(Math.max(1, Number(e.target.value)))}
+                      className="w-16 text-center bg-transparent text-slate-900 font-black text-sm focus:outline-none"
+                    />
+                    <span className="text-xs text-slate-400 font-bold pr-2">MT</span>
+                    <button
+                      type="button"
+                      onClick={() => setCustomTonnage(prev => prev + 5)}
+                      className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                )}
-                <p className="text-[11px] text-slate-400 mt-1">Rates are subject to order quantity, destination logistics, and mill revisions.</p>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      addToCart(product, customTonnage);
+                      setAddedToCart(true);
+                      setTimeout(() => setAddedToCart(false), 2500);
+                    }}
+                    className={`flex-1 py-3 px-4 rounded-xl font-bold text-xs border transition-all flex items-center justify-center gap-2 shadow-sm ${
+                      addedToCart 
+                        ? 'bg-emerald-600 border-emerald-600 text-white shadow-emerald-600/20' 
+                        : 'bg-white hover:bg-slate-100 text-slate-900 border-slate-300'
+                    }`}
+                  >
+                    {addedToCart ? (
+                      <>
+                        <Check className="w-4 h-4 text-white" />
+                        <span>Added {customTonnage} MT to Cart!</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-4 h-4 text-brand-steel" />
+                        <span>Add {customTonnage} MT to Cart</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Quick Action Button */}
+            {/* Direct RFQ Action Button */}
             <button
-              onClick={() => onSelectProductForInquiry && onSelectProductForInquiry(product)}
+              onClick={() => onSelectProductForInquiry && onSelectProductForInquiry({ ...product, selectedQuantity: customTonnage })}
               className="w-full py-4 px-6 rounded-2xl bg-gradient-primary text-slate-900 font-black text-base shadow-lg shadow-brand-steel/20 hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-2"
             >
-              <span>Inquire For Bulk Supply / Dispatch</span>
+              <span>Inquire For Bulk Supply / Dispatch ({customTonnage} MT)</span>
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Formatted Rich Description Section */}
-        <div className="border-t border-slate-200/80 pt-8 mb-10">
-          <h3 className="text-base font-extrabold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <Info className="w-5 h-5 text-brand-steel" /> Product Overview & Highlights
-          </h3>
-          <div className="bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
-            {renderFormattedDescription(product.description)}
+        {/* Formatted Rich Description Section - Expandable Container */}
+        <div className="border-t border-slate-200/80 pt-6 mb-8">
+          <div 
+            onClick={() => setIsOverviewExpanded(prev => !prev)}
+            className="flex items-center justify-between cursor-pointer group py-2"
+          >
+            <h3 className="text-sm sm:text-base font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <Info className="w-4 h-4 text-brand-steel" /> Product Overview & Highlights
+            </h3>
+            <button
+              type="button"
+              className="text-xs font-bold text-brand-steel hover:text-brand-steel-dark flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-steel/10 group-hover:bg-brand-steel/20 transition-all"
+            >
+              <span>{isOverviewExpanded ? 'Show Less' : 'Expand Overview'}</span>
+              {isOverviewExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          <div className="mt-3 relative rounded-2xl bg-slate-50/70 border border-slate-200/70 overflow-hidden transition-all duration-300">
+            <div className={`p-5 sm:p-6 transition-all duration-300 ${!isOverviewExpanded ? 'max-h-48 overflow-hidden' : ''}`}>
+              {renderFormattedDescription(product.description)}
+            </div>
+
+            {/* Gradient Overlay and Expand Trigger when collapsed */}
+            {!isOverviewExpanded && (
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent flex items-end justify-center pb-3">
+                <button
+                  type="button"
+                  onClick={() => setIsOverviewExpanded(true)}
+                  className="px-4 py-1.5 rounded-full bg-white border border-slate-200 text-brand-steel font-extrabold text-xs shadow-sm hover:shadow-md hover:bg-brand-steel hover:text-white transition-all flex items-center gap-1.5"
+                >
+                  <span>Read Full Overview & Specifications</span>
+                  <ChevronDown className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Technical Specifications Grid */}
-        {product.specs && Object.keys(product.specs).length > 0 && (
-          <div className="border-t border-slate-200/80 pt-8 mb-6">
-            <h3 className="text-base font-extrabold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-500" /> Technical & Material Specifications
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {Object.entries(product.specs).map(([key, val]) => (
-                <div key={key} className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
-                  <span className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{key}</span>
-                  <span className="text-slate-900 font-black text-sm">{String(val)}</span>
+        {/* Technical Specifications & TMT Gauge Differentials Matrix (2-Column Layout at Bottom) */}
+        {((product.specs && Object.keys(product.specs).length > 0) || (product.gauge_differentials && Object.keys(product.gauge_differentials).length > 0)) && (
+          <div className="border-t border-slate-200/80 pt-8 mb-8">
+            <div className={`grid grid-cols-1 ${
+              (product.specs && Object.keys(product.specs).length > 0) && (product.gauge_differentials && Object.keys(product.gauge_differentials).length > 0)
+                ? 'lg:grid-cols-2'
+                : 'grid-cols-1'
+            } gap-6 items-start`}>
+              
+              {/* Column 1: Technical & Material Specifications */}
+              {product.specs && Object.keys(product.specs).length > 0 && (
+                <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-4 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                      <div>
+                        <h3 className="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2 m-0">
+                          <ShieldCheck className="w-5 h-5 text-emerald-500" /> Technical & Material Specifications
+                        </h3>
+                        <p className="text-[11px] text-slate-500 mt-0.5 m-0">
+                          Metallurgical, chemical & structural standard compliance
+                        </p>
+                      </div>
+                      <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                        Verified Specs
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                      {Object.entries(product.specs).map(([key, val]) => (
+                        <div key={key} className="p-3.5 bg-white rounded-xl border border-slate-200/80 flex flex-col justify-between shadow-xs">
+                          <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">{key}</span>
+                          <span className="text-slate-900 font-black text-xs sm:text-sm">{String(val)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-500 flex items-center gap-2 mt-4">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Adheres to Bureau of Indian Standards (BIS IS 1786) & ISO metallurgical quality parameters.</span>
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {/* Column 2: TMT Gauge / Size Differentials Matrix */}
+              {product.gauge_differentials && Object.keys(product.gauge_differentials).length > 0 && (
+                <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-3 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-3 border-b border-slate-200">
+                      <div>
+                        <h3 className="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-1.5 m-0">
+                          <span>📐</span> TMT Gauge / Size Differentials Matrix
+                        </h3>
+                        <p className="text-[11px] text-slate-500 mt-0.5 m-0">
+                          Official mill size differentials applied over the base benchmark rate
+                        </p>
+                      </div>
+                      <span className="text-[10px] font-extrabold text-brand-steel bg-brand-steel/10 px-2.5 py-1 rounded-full border border-brand-steel/20 self-start sm:self-auto">
+                        {Object.keys(product.gauge_differentials).length} Sizes Manufactured
+                      </span>
+                    </div>
+
+                    {/* Table */}
+                    <div className="overflow-x-auto mt-3">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="bg-slate-100/90 text-slate-600 font-bold border-b border-slate-200 uppercase tracking-wider text-[10px]">
+                            <th className="py-2.5 px-2.5 rounded-l-lg">Gauge</th>
+                            <th className="py-2.5 px-2.5">Packaging</th>
+                            <th className="py-2.5 px-2.5 text-center">Differential</th>
+                            <th className="py-2.5 px-2.5 text-right">Ex-Mill Rate</th>
+                            <th className="py-2.5 px-2.5 text-right rounded-r-lg">Incl. 18% GST</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200/60">
+                          {Object.entries(product.gauge_differentials).map(([sizeKey, diffVal]) => {
+                            const diff = typeof diffVal === 'object' ? (diffVal.value ?? diffVal.diff ?? 0) : Number(diffVal) || 0;
+                            const isBase = diff === 0;
+                            const baseRate = Number(product.base_price || 0);
+                            const sizeExMill = baseRate > 0 ? baseRate + diff : null;
+                            const sizeWithGst = sizeExMill ? Math.round(sizeExMill * 1.18) : null;
+
+                            const packagingMap = {
+                              '8mm': '10 pcs/bdl',
+                              '10mm': '7 pcs/bdl',
+                              '12mm': '4 pcs/bdl',
+                              '16mm': '3 pcs/bdl',
+                              '20mm': '2 pcs/bdl',
+                              '25mm': '1 pc/bdl',
+                              '28mm': '1 pc/bdl',
+                              '32mm': '1 pc/bdl'
+                            };
+                            const packaging = packagingMap[sizeKey.toLowerCase()] || 'Standard Bdl';
+
+                            return (
+                              <tr key={sizeKey} className="hover:bg-slate-100/60 transition-colors">
+                                <td className="py-2 px-2.5 font-extrabold text-slate-900">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="w-5 h-5 rounded bg-white border border-slate-200 flex items-center justify-center text-[10px] font-black text-brand-steel">
+                                      {sizeKey.replace(/[^0-9]/g, '')}
+                                    </span>
+                                    <span>{sizeKey.toUpperCase()}</span>
+                                  </div>
+                                </td>
+                                <td className="py-2 px-2.5 text-slate-500 font-medium text-[11px]">
+                                  {packaging}
+                                </td>
+                                <td className="py-2 px-2.5 text-center">
+                                  {isBase ? (
+                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                      Base Rate (₹0)
+                                    </span>
+                                  ) : diff > 0 ? (
+                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                      +₹{diff.toLocaleString('en-IN')}/MT
+                                    </span>
+                                  ) : (
+                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                      -₹{Math.abs(diff).toLocaleString('en-IN')}/MT
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="py-2 px-2.5 text-right font-bold text-slate-900 font-mono text-[11px]">
+                                  {sizeExMill ? `₹${sizeExMill.toLocaleString('en-IN')}` : 'On Request'}
+                                </td>
+                                <td className="py-2 px-2.5 text-right font-extrabold text-emerald-700 font-mono text-[11px]">
+                                  {sizeWithGst ? `₹${sizeWithGst.toLocaleString('en-IN')}` : '—'}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 bg-white rounded-xl border border-slate-200 text-[10px] text-slate-500 leading-relaxed flex items-start gap-1.5 mt-3">
+                    <Info className="w-3.5 h-3.5 text-brand-steel flex-shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Billing Note:</strong> Core diameters (12mm–25mm) transact at the base rate. Non-core sections (8mm, 10mm, 32mm) include mill section differentials. Quotations and tax invoices show individual gauge line items.
+                    </span>
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
         )}

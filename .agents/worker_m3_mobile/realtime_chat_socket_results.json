@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-08-22T14:15:47.878Z",
+  "apiBaseUrl": "https://api.urbanspaninfra.co.in",
+  "tests": [
+    {
+      "name": "Customer Authentication & JWT Token Issuance",
+      "passed": true,
+      "details": {
+        "customerId": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+        "customerName": "Sourabh Khandelwal",
+        "company": "Khandelwal Infra Developers",
+        "tokenReceived": true
+      },
+      "error": null
+    },
+    {
+      "name": "Resolve Customer Support Channel & Metadata",
+      "passed": true,
+      "details": {
+        "channelId": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+        "channelName": "Customer: Sourabh Khandelwal",
+        "channelType": "customer",
+        "postingPermission": "everyone"
+      },
+      "error": null
+    },
+    {
+      "name": "Socket.IO Connection Handshake & Authentication (JWT Bearer)",
+      "passed": true,
+      "details": {
+        "connected": true,
+        "socketId": "be_RyJqJYiS_3mmvAAD_",
+        "transport": "websocket"
+      },
+      "error": null
+    },
+    {
+      "name": "Join Dedicated Support Channel Room via Socket.IO",
+      "passed": true,
+      "details": {
+        "channelId": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+        "socketRoom": "channel_f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+        "socketId": "be_RyJqJYiS_3mmvAAD_"
+      },
+      "error": null
+    },
+    {
+      "name": "Bidirectional WebSocket Message Broadcast & Multi-Client Reception",
+      "passed": true,
+      "details": {
+        "messageId": "msg-1787408149950",
+        "senderName": "Sourabh Khandelwal",
+        "customerId": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+        "contentMatch": true,
+        "createdAt": "2026-08-22T14:15:49.950Z"
+      },
+      "error": null
+    },
+    {
+      "name": "Socket Security: Reject Invalid Token Handshake",
+      "passed": true,
+      "details": {
+        "rejected": true,
+        "error": "Invalid token"
+      },
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+  }
+}

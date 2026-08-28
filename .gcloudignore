@@ -1,2 +1,7 @@
 node_modules/
 .git/
+android/
+*.apk
+*.zip
+dist/
+

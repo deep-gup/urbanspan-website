@@ -251,14 +251,14 @@ export default function App() {
 
           <Route path="/products" element={
             <div className="pt-24">
-              <SEO title="Product Catalog" />
+              <SEO title="Products" />
               <ProductCatalog onSelectProductForInquiry={handleProductInquiry} />
             </div>
           } />
 
           <Route path="/catalog" element={
             <div className="pt-24">
-              <SEO title="Product Catalog" />
+              <SEO title="Products" />
               <ProductCatalog onSelectProductForInquiry={handleProductInquiry} />
             </div>
           } />
@@ -425,7 +425,7 @@ export default function App() {
               <div>
                 <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Quick Navigation</h4>
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
-                  <Link to="/products" className="hover:text-white transition-colors">Products Catalog</Link>
+                  <Link to="/products" className="hover:text-white transition-colors">Products</Link>
                   <Link to="/cart" className="hover:text-white transition-colors">Procurement Cart</Link>
                   <Link to="/news" className="hover:text-white transition-colors">Market Insights</Link>
                   <Link to="/about-us" className="hover:text-white transition-colors">About Legacy</Link>
@@ -438,7 +438,7 @@ export default function App() {
             <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
               <p>© {new Date().getFullYear()} Urbanspan Infrastructure Pvt. Ltd. All rights reserved.</p>
               <p className="flex items-center gap-4">
-                <span>Indore • Raipur • Ahmedabad • Mumbai</span>
+                <span>Indore • Bhopal • Ujjain • Gwalior • Jabalpur (M.P.)</span>
               </p>
             </div>
           </div>

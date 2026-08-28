@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
-import { PackageSearch, FileText, User, ChevronRight, ShieldCheck, Zap, Newspaper, Loader2, ArrowRight } from 'lucide-react';
+import { PackageSearch, FileText, User, ChevronRight, ShieldCheck, Zap, Newspaper, Loader2, ArrowRight, RefreshCw, Download } from 'lucide-react';
 
-export default function MobileDashboard({ customerUser, onNavigate }) {
+export default function MobileDashboard({ customerUser, onNavigate, appVersion, onCheckUpdate, isUpdating, otaStatus }) {
   const [recentNews, setRecentNews] = useState([]);
   const [loadingNews, setLoadingNews] = useState(true);
 
@@ -69,7 +69,7 @@ export default function MobileDashboard({ customerUser, onNavigate }) {
           <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-3">
             <PackageSearch className="w-5 h-5 text-blue-600 stroke-[2.5]" />
           </div>
-          <span className="font-bold text-slate-900">Catalog</span>
+          <span className="font-bold text-slate-900">Products</span>
           <span className="text-[11px] text-slate-500 font-medium text-left mt-1">Browse BIS certified steel products</span>
         </button>
 
@@ -152,6 +152,38 @@ export default function MobileDashboard({ customerUser, onNavigate }) {
           <p className="text-slate-500 text-xs font-medium">No recent news available.</p>
         </div>
       )}
+
+      {/* App Version & System Info Card */}
+      <div className="mt-8 p-5 bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-xs font-bold text-slate-900">Urbanspan App {appVersion || 'v1.2.0'}</span>
+          </div>
+          <p className="text-[10px] text-slate-400 font-medium mt-0.5">Live OTA Cloud Synchronisation & Offline Portal</p>
+          {otaStatus && (
+            <p className="text-[10px] text-indigo-600 font-semibold mt-1">{otaStatus}</p>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://storage.googleapis.com/urbanspan-downloads/urbanspan-app-v3.apk"
+            download
+            className="px-3.5 py-2 bg-brand-navy hover:bg-brand-navy-dark text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition-all whitespace-nowrap"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Download APK</span>
+          </a>
+          <button
+            onClick={onCheckUpdate}
+            disabled={isUpdating}
+            className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl flex items-center gap-1.5 border border-slate-200 shadow-sm active:scale-95 transition-all whitespace-nowrap"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isUpdating ? 'animate-spin text-brand-steel' : ''}`} />
+            <span>{isUpdating ? 'Checking...' : 'Check OTA'}</span>
+          </button>
+        </div>
+      </div>
 
     </div>
   );

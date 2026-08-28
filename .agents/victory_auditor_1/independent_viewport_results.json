@@ -1,0 +1,201 @@
+{
+  "mobile_390x844": {
+    "/": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/products": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/catalog": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/products/US-TMT-550D": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/cart": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/portal": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/chat": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/news": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/about-us": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/contact": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "bodyScrollWidth": 390,
+        "windowInnerWidth": 390
+      },
+      "status": "PASS (0 overflow)"
+    }
+  },
+  "desktop_1440x900": {
+    "/": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/products": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/catalog": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/products/US-TMT-550D": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/cart": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/portal": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/chat": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/news": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/about-us": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    },
+    "/contact": {
+      "passed": true,
+      "geometry": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "windowInnerWidth": 1440
+      },
+      "status": "PASS (0 overflow)"
+    }
+  },
+  "summary": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0
+  }
+}

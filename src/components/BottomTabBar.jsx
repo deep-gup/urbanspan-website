@@ -5,7 +5,7 @@ import { Home, PackageSearch, FileText, User, MessageSquare, Newspaper } from 'l
 export default function BottomTabBar({ activeTab, setActiveTab }) {
   const tabs = [
     { id: 'home', icon: Home, label: 'Home' },
-    { id: 'products', icon: PackageSearch, label: 'Catalog' },
+    { id: 'products', icon: PackageSearch, label: 'Products' },
     { id: 'rfq', icon: FileText, label: 'Quote' },
     { id: 'news', icon: Newspaper, label: 'News' },
     { id: 'portal', icon: User, label: 'Portal' },

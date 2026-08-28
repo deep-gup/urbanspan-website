@@ -1,0 +1,2395 @@
+{
+  "timestamp": "2026-08-22T14:14:49.717Z",
+  "suiteName": "Milestone 3 - Mobile Parity & Real-Time Support Messaging",
+  "environment": {
+    "liveAppUrl": "https://urbanspaninfra.co.in",
+    "localPreviewUrl": "http://localhost:4173",
+    "apiBaseUrl": "https://api.urbanspaninfra.co.in",
+    "mobileViewport": "390x844 (iPhone 12/13/14 Pro baseline)",
+    "desktopViewport": "1440x900"
+  },
+  "sections": {
+    "mobileResponsiveness": {
+      "timestamp": "2026-08-22T14:14:51.059Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "targets": [
+        {
+          "name": "Live Production Site",
+          "baseUrl": "https://urbanspaninfra.co.in",
+          "routes": [
+            {
+              "name": "Mobile Home / Dashboard",
+              "path": "/",
+              "url": "https://urbanspaninfra.co.in/",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 14,
+                  "sampleOverflows": [
+                    {
+                      "tag": "div",
+                      "cls": "absolute top-0 right-0 w-32 h-32 bg-brand-steel ro",
+                      "rectRight": 414,
+                      "rectWidth": 128
+                    },
+                    {
+                      "tag": "div",
+                      "cls": "min-w-[260px] max-w-[260px] bg-white rounded-3xl p",
+                      "rectRight": 552,
+                      "rectWidth": 260
+                    },
+                    {
+                      "tag": "div",
+                      "cls": "flex items-center gap-1.5 text-[10px] font-bold te",
+                      "rectRight": 531,
+                      "rectWidth": 218
+                    }
+                  ]
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Product Catalog (Alias)",
+              "path": "/catalog",
+              "url": "https://urbanspaninfra.co.in/catalog",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Product Catalog (Canonical)",
+              "path": "/products",
+              "url": "https://urbanspaninfra.co.in/products",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 3,
+                  "sampleOverflows": [
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 417,
+                      "rectWidth": 116
+                    },
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 543,
+                      "rectWidth": 119
+                    },
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 619,
+                      "rectWidth": 68
+                    }
+                  ]
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Product Details (Canonical)",
+              "path": "/products/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "url": "https://urbanspaninfra.co.in/products/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Product Details (Alias)",
+              "path": "/product/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "url": "https://urbanspaninfra.co.in/product/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Procurement Cart",
+              "path": "/cart",
+              "url": "https://urbanspaninfra.co.in/cart",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Commercial RFQ Form",
+              "path": "/rfq",
+              "url": "https://urbanspaninfra.co.in/rfq",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()",
+                  "[Console Error] AxiosError: Request failed with status code 429",
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 () | [Console Error] AxiosError: Request failed with status code 429 | [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Customer Self-Service Portal",
+              "path": "/portal",
+              "url": "https://urbanspaninfra.co.in/portal",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Live Support Chat",
+              "path": "/chat",
+              "url": "https://urbanspaninfra.co.in/chat",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "News & Market Insights",
+              "path": "/news",
+              "url": "https://urbanspaninfra.co.in/news",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "About Us",
+              "path": "/about-us",
+              "url": "https://urbanspaninfra.co.in/about-us",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Contact Us",
+              "path": "/contact",
+              "url": "https://urbanspaninfra.co.in/contact",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()",
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()",
+                  "[Console Error] AxiosError: Request failed with status code 429"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 () | [Console Error] Failed to load resource: the server responded with a status of 429 () | [Console Error] AxiosError: Request failed with status code 429"
+              ]
+            }
+          ],
+          "summary": {
+            "total": 12,
+            "passed": 12,
+            "failed": 0,
+            "errors": []
+          }
+        },
+        {
+          "name": "Local Preview Server",
+          "baseUrl": "http://localhost:4173",
+          "routes": [
+            {
+              "name": "Mobile Home / Dashboard",
+              "path": "/",
+              "url": "http://localhost:4173/",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 14,
+                  "sampleOverflows": [
+                    {
+                      "tag": "div",
+                      "cls": "absolute top-0 right-0 w-32 h-32 bg-brand-steel ro",
+                      "rectRight": 414,
+                      "rectWidth": 128
+                    },
+                    {
+                      "tag": "div",
+                      "cls": "min-w-[260px] max-w-[260px] bg-white rounded-3xl p",
+                      "rectRight": 552,
+                      "rectWidth": 260
+                    },
+                    {
+                      "tag": "div",
+                      "cls": "flex items-center gap-1.5 text-[10px] font-bold te",
+                      "rectRight": 531,
+                      "rectWidth": 218
+                    }
+                  ]
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Product Catalog (Alias)",
+              "path": "/catalog",
+              "url": "http://localhost:4173/catalog",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 3,
+                  "sampleOverflows": [
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 417,
+                      "rectWidth": 116
+                    },
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 543,
+                      "rectWidth": 119
+                    },
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 619,
+                      "rectWidth": 68
+                    }
+                  ]
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Product Catalog (Canonical)",
+              "path": "/products",
+              "url": "http://localhost:4173/products",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 3,
+                  "sampleOverflows": [
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 417,
+                      "rectWidth": 116
+                    },
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 543,
+                      "rectWidth": 119
+                    },
+                    {
+                      "tag": "button",
+                      "cls": "px-4 py-3 rounded-xl text-xs font-bold transition-",
+                      "rectRight": 619,
+                      "rectWidth": 68
+                    }
+                  ]
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Product Details (Canonical)",
+              "path": "/products/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "url": "http://localhost:4173/products/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Product Details (Alias)",
+              "path": "/product/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "url": "http://localhost:4173/product/f33b648e-5966-4e4a-8068-d02a5a96d4df",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            },
+            {
+              "name": "Procurement Cart",
+              "path": "/cart",
+              "url": "http://localhost:4173/cart",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Commercial RFQ Form",
+              "path": "/rfq",
+              "url": "http://localhost:4173/rfq",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()",
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()",
+                  "[Console Error] AxiosError: Request failed with status code 429"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 () | [Console Error] Failed to load resource: the server responded with a status of 429 () | [Console Error] AxiosError: Request failed with status code 429"
+              ]
+            },
+            {
+              "name": "Customer Self-Service Portal",
+              "path": "/portal",
+              "url": "http://localhost:4173/portal",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Live Support Chat",
+              "path": "/chat",
+              "url": "http://localhost:4173/chat",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "News & Market Insights",
+              "path": "/news",
+              "url": "http://localhost:4173/news",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "About Us",
+              "path": "/about-us",
+              "url": "http://localhost:4173/about-us",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": []
+            },
+            {
+              "name": "Contact Us",
+              "path": "/contact",
+              "url": "http://localhost:4173/contact",
+              "passed": true,
+              "checks": {
+                "stickyHeader": {
+                  "found": true,
+                  "position": "sticky",
+                  "top": "0px",
+                  "zIndex": "40",
+                  "width": 390,
+                  "height": 76,
+                  "hasLogo": true,
+                  "hasQuoteBtn": true,
+                  "hasPortalBtn": true
+                },
+                "bottomTabBar": {
+                  "found": true,
+                  "position": "fixed",
+                  "bottom": "0px",
+                  "height": 73,
+                  "hasPbSafe": true,
+                  "tabCount": 6,
+                  "tabs": [
+                    {
+                      "text": "Home",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Catalog",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Quote",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "News",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Portal",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    },
+                    {
+                      "text": "Chat",
+                      "width": 65,
+                      "height": 64,
+                      "meetsTouchTarget": true
+                    }
+                  ],
+                  "allTouchTargetsValid": true
+                },
+                "horizontalOverflow": {
+                  "viewportWidth": 390,
+                  "scrollWidthDoc": 390,
+                  "scrollWidthBody": 390,
+                  "hasHorizontalOverflow": false,
+                  "overflowingElementsCount": 0,
+                  "sampleOverflows": []
+                },
+                "layoutPadding": {
+                  "mainFound": true,
+                  "paddingBottom": "64px",
+                  "hasBottomPadding": true
+                },
+                "consoleErrors": [
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()",
+                  "[Console Error] AxiosError: Request failed with status code 429",
+                  "[Console Error] Failed to load resource: the server responded with a status of 429 ()"
+                ],
+                "networkFailures": []
+              },
+              "metrics": {
+                "httpStatus": 200
+              },
+              "issues": [
+                "Console errors encountered: [Console Error] Failed to load resource: the server responded with a status of 429 () | [Console Error] AxiosError: Request failed with status code 429 | [Console Error] Failed to load resource: the server responded with a status of 429 ()"
+              ]
+            }
+          ],
+          "summary": {
+            "total": 12,
+            "passed": 12,
+            "failed": 0,
+            "errors": []
+          }
+        }
+      ]
+    },
+    "realtimeChatSocket": {
+      "timestamp": "2026-08-22T14:15:47.878Z",
+      "apiBaseUrl": "https://api.urbanspaninfra.co.in",
+      "tests": [
+        {
+          "name": "Customer Authentication & JWT Token Issuance",
+          "passed": true,
+          "details": {
+            "customerId": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "customerName": "Sourabh Khandelwal",
+            "company": "Khandelwal Infra Developers",
+            "tokenReceived": true
+          },
+          "error": null
+        },
+        {
+          "name": "Resolve Customer Support Channel & Metadata",
+          "passed": true,
+          "details": {
+            "channelId": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "channelName": "Customer: Sourabh Khandelwal",
+            "channelType": "customer",
+            "postingPermission": "everyone"
+          },
+          "error": null
+        },
+        {
+          "name": "Socket.IO Connection Handshake & Authentication (JWT Bearer)",
+          "passed": true,
+          "details": {
+            "connected": true,
+            "socketId": "be_RyJqJYiS_3mmvAAD_",
+            "transport": "websocket"
+          },
+          "error": null
+        },
+        {
+          "name": "Join Dedicated Support Channel Room via Socket.IO",
+          "passed": true,
+          "details": {
+            "channelId": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "socketRoom": "channel_f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+            "socketId": "be_RyJqJYiS_3mmvAAD_"
+          },
+          "error": null
+        },
+        {
+          "name": "Bidirectional WebSocket Message Broadcast & Multi-Client Reception",
+          "passed": true,
+          "details": {
+            "messageId": "msg-1787408149950",
+            "senderName": "Sourabh Khandelwal",
+            "customerId": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+            "contentMatch": true,
+            "createdAt": "2026-08-22T14:15:49.950Z"
+          },
+          "error": null
+        },
+        {
+          "name": "Socket Security: Reject Invalid Token Handshake",
+          "passed": true,
+          "details": {
+            "rejected": true,
+            "error": "Invalid token"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0
+      }
+    },
+    "chatUiE2E": {
+      "timestamp": "2026-08-22T14:15:51.608Z",
+      "tests": [
+        {
+          "name": "Mobile Unauthenticated /chat Display & Gate",
+          "passed": true,
+          "details": {
+            "authNoticePresent": true,
+            "loginButtonPresent": true,
+            "floatingButtonHiddenOnMobile": true
+          },
+          "error": null
+        },
+        {
+          "name": "Mobile Floating Launcher Suppression (Prevents Obscuring Bottom Bar)",
+          "passed": true,
+          "details": {
+            "authNoticePresent": true,
+            "loginButtonPresent": true,
+            "floatingButtonHiddenOnMobile": true
+          },
+          "error": null
+        },
+        {
+          "name": "Mobile Authenticated Full-Screen Support Chat UI",
+          "passed": true,
+          "details": {
+            "headerTitle": "Sales Support",
+            "socketStatus": "Sales Desk Active",
+            "hasInput": true,
+            "hasSendBtn": true,
+            "messageCount": 1,
+            "inputPlaceholder": "Type message..."
+          },
+          "error": null
+        },
+        {
+          "name": "Mobile Interactive Message Submission & Bubble Stream Appending",
+          "passed": false,
+          "details": {
+            "sentText": "Mobile live inquiry test at 1787408157712"
+          },
+          "error": null
+        },
+        {
+          "name": "Desktop Floating Chat Launcher Button (Position & Indicator)",
+          "passed": true,
+          "details": {
+            "found": true,
+            "position": "relative",
+            "width": 56,
+            "height": 56,
+            "right": 24,
+            "bottom": 24,
+            "hasGreenPulse": true
+          },
+          "error": null
+        },
+        {
+          "name": "Desktop Floating Chat Drawer Open (Dimensions: ~380x520px)",
+          "passed": true,
+          "details": {
+            "opened": true,
+            "width": 380,
+            "height": 520,
+            "headerText": "Urbanspan Sales Support",
+            "hasCloseButton": true,
+            "hasInput": true
+          },
+          "error": null
+        },
+        {
+          "name": "Desktop Floating Chat Drawer Smooth Close",
+          "passed": true,
+          "details": {
+            "drawerClosed": true
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total": 7,
+        "passed": 6,
+        "failed": 1
+      }
+    }
+  },
+  "summary": {
+    "totalTests": 37,
+    "totalPassed": 36,
+    "totalFailed": 1,
+    "executionDurationMs": 77258
+  }
+}

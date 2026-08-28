@@ -1,7 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Layers, CheckCircle2, FileText, ArrowUpRight, Sparkles, RefreshCw, X, ShieldCheck } from 'lucide-react';
+import { Search, Filter, Layers, CheckCircle2, FileText, ArrowUpRight, Sparkles, RefreshCw, X, ShieldCheck, ShoppingBag, Check } from 'lucide-react';
 import { fetchSteelProducts } from '../services/headlessApi';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import SEO from './SEO';
+
+// Helper to strip raw markdown formatting and extract a clean excerpt for catalog cards
+function getCleanDescriptionExcerpt(text, maxLength = 140) {
+  if (!text) return 'Premium BIS-certified structural steel engineered for heavy infrastructure and construction demands.';
+  const clean = text
+    .replace(/^#+\s+/gm, '') // Remove heading starts
+    .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
+    .replace(/\*(.*?)\*/g, '$1') // Remove italics
+    .replace(/__(.*?)__/g, '$1')
+    .replace(/_(.*?)_/g, '$1')
+    .replace(/`([^`]+)`/g, '$1') // Remove code
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove markdown links
+    .replace(/^[-*•]\s+/gm, '') // Remove list bullets
+    .replace(/^\d+\.\s+/gm, '') // Remove numbered lists
+    .replace(/\|/g, ' ') // Remove table pipes
+    .replace(/-{3,}/g, ' ') // Remove hr lines
+    .replace(/>\s+/g, '') // Remove blockquotes
+    .replace(/\s+/g, ' ') // Normalize spaces
+    .trim();
+
+  if (clean.length > maxLength) {
+    return clean.substring(0, maxLength).trim() + '...';
+  }
+  return clean || 'Premium BIS-certified structural steel engineered for heavy infrastructure and construction demands.';
+}
 
 export default function ProductCatalog({ onSelectProductForInquiry }) {
   const [products, setProducts] = useState([]);
@@ -9,7 +36,18 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedModalProduct, setSelectedModalProduct] = useState(null);
+  const [addedId, setAddedId] = useState(null);
+  const { addToCart } = useCart();
   const navigate = useNavigate();
+
+  const handleAddToCart = (product, e) => {
+    e.stopPropagation();
+    addToCart(product, 25);
+    setAddedId(product.id);
+    setTimeout(() => {
+      setAddedId(null);
+    }, 2000);
+  };
 
   useEffect(() => {
     loadProducts();
@@ -41,8 +79,21 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
     return matchesCategory && matchesSearch;
   });
 
+  const catalogSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Steel Products - Urbanspan Infrastructure",
+    "description": "Browse primary and secondary steel products, Fe-550D TMT Rebars, Structural Steel, and benchmark rates from Urbanspan Infrastructure.",
+    "url": "https://urbanspaninfra.co.in/products"
+  };
+
   return (
     <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SEO 
+        title="Products | Fe-550D TMT Rebars & Structural Steel Benchmark Rates"
+        description="Explore Urbanspan's steel products suite. Certified Fe-550D TMT Rebars, Structural Steel, Billets & Pipes with benchmark rates in Central India."
+        structuredData={catalogSchema}
+      />
       
       {/* Header Title */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
@@ -50,8 +101,8 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-steel/10 text-brand-steel-light border border-brand-steel/20 text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5" /> Direct Mill Inventory Stream
           </div>
-          <h2 className="text-3xl font-extrabold text-slate-900">Commercial Steel Catalog</h2>
-          <p className="text-slate-500 text-sm mt-1">Live benchmark pricing and certified specifications for primary steel products.</p>
+          <h2 className="text-3xl font-extrabold text-slate-900">Products</h2>
+          <p className="text-slate-500 text-sm mt-1">benchmark rates</p>
         </div>
 
         <button
@@ -150,38 +201,49 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
               {/* Product Info Content */}
               <div className="p-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-mono text-slate-500 font-semibold block mb-1">SKU: {product.sku}</span>
                   <h3 
                     onClick={() => {
                       navigate(`/products/${product.sku}`);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="text-lg font-bold text-slate-900 leading-snug mb-2 hover:text-brand-steel-light transition-colors cursor-pointer"
+                    className="text-lg font-bold text-slate-900 leading-snug mb-2 hover:text-brand-steel transition-colors cursor-pointer"
                   >
                     {product.name}
                   </h3>
-                  <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed mb-4">
-                    {product.description}
+                  <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed mb-3">
+                    {getCleanDescriptionExcerpt(product.description)}
                   </p>
+                  {product.gauge_differentials && Object.keys(product.gauge_differentials).length > 0 && (
+                    <div className="flex items-center gap-1.5 flex-wrap mb-3">
+                      <span className="px-2 py-0.5 rounded-md bg-brand-steel/10 text-brand-steel border border-brand-steel/20 text-[10px] font-extrabold flex items-center gap-1">
+                        <span>📐</span> {Object.keys(product.gauge_differentials).length} Sizes ({Object.keys(product.gauge_differentials).join(', ')})
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div>
-                  <div className="pt-4 border-t border-slate-200 flex items-baseline justify-between mb-4">
+                  <div className="pt-3 border-t border-slate-200 flex items-baseline justify-between mb-3">
                     <div>
-                        <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-wider">Benchmark Price</span>
-                        {product.base_price ? (
-                          <>
+                      <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-wider">Benchmark Price</span>
+                      {product.base_price ? (
+                        <>
+                          <div className="flex items-baseline gap-1">
                             <span className="text-xl font-black text-brand-steel-light">
                               ₹{Number(product.base_price).toLocaleString('en-IN')}
                             </span>
-                            <span className="text-[11px] text-slate-500 ml-1">/ Metric Ton</span>
-                          </>
-                        ) : (
-                          <span className="text-sm font-bold text-slate-500">
-                            Price on Request
+                            <span className="text-[11px] text-slate-500 font-semibold">/ MT</span>
+                          </div>
+                          <span className="text-[10px] font-bold text-emerald-700 block mt-0.5">
+                            + 18% GST (Ex-mill)
                           </span>
-                        )}
-                      </div>
+                        </>
+                      ) : (
+                        <span className="text-sm font-bold text-slate-500">
+                          Price on Request
+                        </span>
+                      )}
+                    </div>
                     
                     <button
                       onClick={() => {
@@ -194,12 +256,37 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
                     </button>
                   </div>
 
-                  <button
-                    onClick={() => onSelectProductForInquiry(product)}
-                    className="w-full py-3 rounded-xl bg-white hover:bg-brand-steel hover:text-slate-900 text-slate-900 font-extrabold text-xs border border-slate-200 hover:border-brand-steel transition-all flex items-center justify-center gap-2"
-                  >
-                    Request Commercial Quote
-                  </button>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={(e) => handleAddToCart(product, e)}
+                      className={`py-2.5 px-3 rounded-xl font-bold text-xs border transition-all flex items-center justify-center gap-1.5 ${
+                        addedId === product.id
+                          ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm scale-95'
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      {addedId === product.id ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-white" />
+                          <span>Added (25 MT)</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingBag className="w-3.5 h-3.5 text-brand-steel" />
+                          <span>Add to Cart</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onSelectProductForInquiry(product)}
+                      className="py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-brand-steel hover:text-slate-900 text-white font-extrabold text-xs transition-all flex items-center justify-center gap-1 shadow-sm"
+                    >
+                      <span>Quote RFQ</span>
+                    </button>
+                  </div>
                 </div>
 
               </div>

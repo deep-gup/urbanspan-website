@@ -1,0 +1,504 @@
+{
+  "timestamp": "2026-08-22T14:18:13.983Z",
+  "mobileResults": [
+    {
+      "route": "/",
+      "url": "https://urbanspaninfra.co.in/",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/products",
+      "url": "https://urbanspaninfra.co.in/products",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/catalog",
+      "url": "https://urbanspaninfra.co.in/catalog",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/products/US-TMT-550D",
+      "url": "https://urbanspaninfra.co.in/products/US-TMT-550D",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/cart",
+      "url": "https://urbanspaninfra.co.in/cart",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/portal",
+      "url": "https://urbanspaninfra.co.in/portal",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/chat",
+      "url": "https://urbanspaninfra.co.in/chat",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/news",
+      "url": "https://urbanspaninfra.co.in/news",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/about-us",
+      "url": "https://urbanspaninfra.co.in/about-us",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "route": "/contact",
+      "url": "https://urbanspaninfra.co.in/contact",
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false,
+        "hasBottomBar": true,
+        "touchTargetPass": true,
+        "tabDimensions": [
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          },
+          {
+            "width": 65,
+            "height": 64
+          }
+        ]
+      },
+      "pass": true
+    }
+  ],
+  "desktopResults": [
+    {
+      "route": "/",
+      "url": "https://urbanspaninfra.co.in/",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/products",
+      "url": "https://urbanspaninfra.co.in/products",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/catalog",
+      "url": "https://urbanspaninfra.co.in/catalog",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/products/US-TMT-550D",
+      "url": "https://urbanspaninfra.co.in/products/US-TMT-550D",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/cart",
+      "url": "https://urbanspaninfra.co.in/cart",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/portal",
+      "url": "https://urbanspaninfra.co.in/portal",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/news",
+      "url": "https://urbanspaninfra.co.in/news",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/about-us",
+      "url": "https://urbanspaninfra.co.in/about-us",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/contact",
+      "url": "https://urbanspaninfra.co.in/contact",
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "hasNavbar": true,
+        "hasFloatingChat": true
+      },
+      "pass": true
+    }
+  ],
+  "summary": {
+    "totalRoutes": 10,
+    "mobilePass": 10,
+    "desktopPass": 9,
+    "errors": 0
+  },
+  "mobileConsoleErrors": [
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "AxiosError: Request failed with status code 429\n    at ec (https://urbanspaninfra.co.in/assets/index-BwdDuJZn.js:13:10521)\n    at XMLHttpRequest.g (https://urbanspaninfra.co.in/assets/index-BwdDuJZn.js:13:16740)\n    at el.request (https://urbanspaninfra.co.in/assets/index-BwdDuJZn.js:15:2130)\n    at async hl (https://urbanspaninfra.co.in/assets/index-BwdDuJZn.js:19:10123)\n    at async Promise.all (index 0)\n    at async t (https://urbanspaninfra.co.in/assets/index-BwdDuJZn.js:21:5141)",
+    "Failed to load resource: the server responded with a status of 429 ()"
+  ],
+  "desktopConsoleErrors": [
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()"
+  ]
+}

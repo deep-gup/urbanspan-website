@@ -264,3 +264,42 @@ export const submitDynamicFormByName = async (formName, formData) => {
   const response = await api.post(`/external/forms/by-name/${formName}/submit`, payload);
   return response.data;
 };
+
+export const getCustomerOrders = async () => {
+  const config = getStoredConfig();
+  const token = localStorage.getItem('urbanspan_customer_token');
+  const response = await axios.get(`${config.apiBaseUrl}/api/external/customers/me/orders`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'x-org-code': config.orgCode
+    }
+  });
+  return response.data;
+};
+
+export const getCustomerInquiries = async () => {
+  const config = getStoredConfig();
+  const token = localStorage.getItem('urbanspan_customer_token');
+  const response = await axios.get(`${config.apiBaseUrl}/api/external/customers/me/inquiries`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'x-org-code': config.orgCode
+    }
+  });
+  return response.data;
+};
+
+export const getCustomerAccountTeam = async () => {
+  const config = getStoredConfig();
+  const token = localStorage.getItem('urbanspan_customer_token');
+  const response = await axios.get(`${config.apiBaseUrl}/api/external/customers/me/account-team`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'x-org-code': config.orgCode
+    }
+  });
+  return response.data?.data || response.data;
+};

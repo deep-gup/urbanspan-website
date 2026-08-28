@@ -1,0 +1,1757 @@
+{
+  "startedAt": "2026-08-22T14:06:36.388Z",
+  "completedAt": "2026-08-22T14:07:59.936Z",
+  "overallPassed": true,
+  "personas": {
+    "personaA": {
+      "persona": "Persona A - Mega Infrastructure EPC Contractor (Rajesh Sharma)",
+      "viewport": "1440x900 (Desktop)",
+      "timestamp": "2026-08-22T14:06:36.390Z",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Loaded Product Catalog",
+          "success": true
+        },
+        {
+          "step": 4,
+          "action": "Added 120 MT Product 1 to cart",
+          "success": true
+        },
+        {
+          "step": 6,
+          "action": "Added 45 MT Product 2 to cart",
+          "success": true
+        }
+      ],
+      "networkLogs": [
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/products",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:06:38.767Z",
+          "responseBody": {
+            "data": [
+              {
+                "id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                "name": "ISI TMT RAIPUR",
+                "sku": "TMT-ISI",
+                "description": "## Raipur ISI TMT Bars\n\nRaipur ISI TMT Bars provide the ultimate cost-effective solution for structural reinforcement without compromising on safety standards. Sourced directly from Raipur—India’s premier steel manufacturing hub—these bars represent a massive network of high-capacity foundries. By leveraging Raipur's massive economies of scale, we bring you fully certified, dependable TMT bars at the most competitive market prices.\n\n## Why Choose Raipur ISI TMT Bars?\n\n- Certified Safety: Every bar carries the mandatory ISI mark, guaranteeing compliance with national standard engineering benchmarks.\n- Maximum Cost Efficiency: Optimized production logistics in Raipur pass direct manufacturing savings onto your project budget.\n- Versatile Material Grades: Available across a wide spectrum of industry grades to match your specific structural blueprints.\n- Massive Supply Reliability: Sourced from India's largest steel cluster, ensuring zero project delays and uninterrupted bulk availability.\n\n## Ideal Applications\n\n- Budget-Conscious Construction: Perfect for low-to-medium rise residential buildings looking to optimize material expenses.\n\n- Boundary Walls & Fencing: Highly economical choice for extensive peripheral walls, security fencing, and compound enclosures.\n\n- Secondary Structural Elements: Excellent for casting internal lintels, sunshades, chajjas, and non-load-bearing structural frames.\n\n- Rural & Semi-Urban Projects: The go-to affordable steel choice for independent home builders, warehouses, and small commercial shops.\n\n",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "Secondary Steel",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg"
+                ],
+                "specifications": {
+                  "grade": "500, 500D, 550, 550D"
+                }
+              },
+              {
+                "id": "0354d02c-54b2-412a-b586-8f5071ccb04a",
+                "name": "GK TMT",
+                "sku": "TMT-GK",
+                "description": "## GK TMT Rebars (Fe 550D / Fe 500D)\nOverview\nGK TMT (manufactured by Real Ispat and Power Ltd / REAL Group) is a premium thermo-mechanically treated reinforcement bar engineered for modern construction demands. Manufactured in compliance with IS 1786:2008 standards, GK TMT bars deliver an optimal balance of high tensile strength, superior ductility, and robust corrosion resistance.\n\nWith advanced ribbed profiling and a tough outer tempered martensite layer combined with a ductile ferrite-pearlite core, GK TMT provides exceptional concrete bonding and high structural integrity against seismic activity.\n\n## Key Features & Benefits\n- High Yield & Tensile Strength: Built to withstand heavy load-bearing requirements, resulting in 12–14% steel savings and lower structural weight.\n\n- Superior Ductility & Seismic Resistance: The high elongation properties allow structures to absorb high energy loads and seismic shocks without brittle fracture.\n\n- Advanced Rib Design: Precision-rolled rib pattern provides a solid mechanical grip and maximum bonding strength with concrete.\n\n- Enhanced Corrosion & Heat Resistance: Low carbon, sulfur, and phosphorus composition protects against rust formation and maintains stability under severe temperature variations.\n\n- Excellent Bendability & Weldability: Easily bent into required shapes on-site without developing micro-cracks, and compatible with standard welding methods without loss of joint strength.",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": "45000.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-fdc8e501-GK2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-49c2d197-GK4.jpg"
+                ],
+                "specifications": {}
+              },
+              {
+                "id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                "name": "JINDAL PANTHER TMT",
+                "sku": "TMT-JINDAL",
+                "description": "## Overview\n[Jindal Panther TMT Rebars](https://www.jindalpanther.com/post/our-blogs/tmt-bars-importance-features-and-extensive-usage.html) are premium-quality, high-strength primary steel reinforcement bars manufactured from virgin iron ore. Engineered using the advanced High Yield Quenching and Self Tempering (HYQST) process, these **Fe 550D** grade rebars deliver a perfect combination of superior yield strength and high ductility. They are **BIS Certified** and specifically designed to meet stringent global and domestic structural demands. \n\n## Technical Specifications\n- **Grade:** Fe 550D (Enhanced Ductility)\n- **Yield Strength:** Minimum 550 MPa (N/mm²)\n- **Tensile Strength (UTS):** Minimum 600 N/mm²\n- **Elongation:** Minimum 14.5%\n- **Raw Material:** Primary Steel manufactured from virgin iron ore\n- **Chemical Purity:** Exceptionally low levels of Sulphur and Phosphorus (Max 0.075% combined) to prevent fatigue and cold shortness\n- **Standards:** Conforms to IS 1786:2008\n\n## Key Features & Benefits\n- **Advanced HYQST & QST Technology:** Manufactured using globally recognized Quenching and Self Tempering (QST) and High Yield Quenching and Self Tempering (HYQST) processes. This specialized thermo-mechanical treatment rapidly cools the outer layer while the core remains hot, creating a unique composite structure: a tough, high-strength martensite outer ring combined with a soft, ductile inner core.\n- **Exceptional Seismic Resistance:** The enhanced ductility and elongation of the Fe 550D grade allow structures to absorb and dissipate seismic energy effectively, making them highly suitable for earthquake-prone areas (Seismic Zones IV & V).\n- **Cost & Material Efficiency:** Because Fe 550D offers a higher load-bearing capacity than standard Fe 500 grades, it can reduce overall steel consumption by up to 12-15%, which eases bar congestion during construction and saves on material costs.\n- **Superior Weldability & Bendability:** A low carbon equivalent enables excellent weldability without pre-heating, and the bars can be bent easily without cracking (e.g., a minimum bend radius of 6 mm for 12 mm bars).\n- **Strong Concrete Bonding:** A uniform, precision-milled V-shaped rib pattern ensures superior mechanical bonding with concrete.\n- **Corrosion Resistance:** The specialized cooling process creates a tough, passive outer layer that naturally resists rust formation better than standard scrap-based rebars.\n\n## Ideal Applications\n- High-rise residential and commercial buildings\n- Heavy infrastructure, bridges, and elevated corridors\n- Structures in high-stress and dynamic loading environments\n- Earthquake-resistant foundations and frameworks",
+                "category": "Rebars",
+                "tags": [
+                  "Primary Steel",
+                  "BIS Certified",
+                  "Fe 550D",
+                  "Export Quality",
+                  "In Stock & Ready"
+                ],
+                "is_active": true,
+                "base_price": "56500.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829112-754935b3-jindal_panther2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829113-c12aef20-jindalpanther3.jpg"
+                ],
+                "specifications": {
+                  "Grade": "Fe550D",
+                  "Length": "12mtr",
+                  "Raw Material": "Virgin iron ore",
+                  "Diameter Range": "8mm to 32mm"
+                }
+              },
+              {
+                "id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                "name": "BHUMIJA TMT BARS",
+                "sku": "TMT-BHUMIJA",
+                "description": "# **Bhumija TMT Rebars (Fe 500D / Fe 550)**\n\n### **Overview**\n\n**Bhumija TMT** (manufactured by Bhumija Ispat) is a high-grade thermo-mechanically treated reinforcement bar designed to meet modern structural engineering and construction requirements. Certified under **IS 1786:2008** standards, Bhumija TMT bars are processed through a stringent **TIA (Testing, Inspection, and Assurance)** quality framework to deliver consistent load-bearing capability, high ductility, and enhanced durability.\n\nManufactured with a uniform rib design, these rebars ensure a powerful grip with concrete while maintaining optimal bendability and corrosion resistance.\n\n---\n\n### **Key Features & Benefits**\n\n* **High Tensile & Yield Strength:** Delivers robust structural load capacity, enabling efficient steel consumption across projects.\n* **Superior Ductility & Flexibility:** High elongation prevents brittle failures and allows effective energy absorption during seismic activity.\n* **Uniform Rib Pattern:** Precision-engineered external ribs ensure maximum concrete bonding strength and slip resistance.\n* **Corrosion & Thermal Resistance:** Low-impurity chemical composition resists rust in humid environments and retains strength under elevated temperatures.\n* **Excellent Bendability & Weldability:** Easily bent and rebent without micro-fracturing along the core, suitable for on-site fabrication.\n\n---\n\n### **Technical Specifications**\n\n| **Parameter** | **Specification** |\n| --- | --- |\n| **Brand** | Bhumija TMT |\n| **Manufacturer** | Bhumija Ispat |\n| **Compliance Standard** | IS 1786:2008 / BIS Certified |\n| **Grades Available** | Fe 415 / Fe 500 / Fe 500D / Fe 550 |\n| **Available Diameters** | 8 mm, 10 mm, 12 mm, 16 mm, 20 mm, 25 mm, 32 mm |\n| **Standard Length** | 12 Meters (Straight / U-Bend) |\n| **Rib Type** | High-Bond Uniform Ribbed |\n| **Quality Mechanism** | TIA (Testing, Inspection, Assurance) Process |\n\n---\n\n### **Recommended Applications**\n\n* **Residential Housing & Apartments:** Individual homes, multi-story residential blocks, beams, and columns.\n* **Commercial & High-Rise Buildings:** Office towers, shopping complexes, and retail centers.\n* **Infrastructure & Bridges:** Culverts, flyovers, highways, and heavy structural frameworks.\n* **Industrial Structures:** Warehouses, factory plants, and heavy machine foundation slabs.",
+                "category": "Rebars",
+                "tags": [
+                  "Fe 550D",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-b436b293-bhumija2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347779-b4a1b949-bhumijatmt1.jpg"
+                ],
+                "specifications": {}
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/products",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:06:41.601Z",
+          "responseBody": {
+            "data": [
+              {
+                "id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                "name": "ISI TMT RAIPUR",
+                "sku": "TMT-ISI",
+                "description": "## Raipur ISI TMT Bars\n\nRaipur ISI TMT Bars provide the ultimate cost-effective solution for structural reinforcement without compromising on safety standards. Sourced directly from Raipur—India’s premier steel manufacturing hub—these bars represent a massive network of high-capacity foundries. By leveraging Raipur's massive economies of scale, we bring you fully certified, dependable TMT bars at the most competitive market prices.\n\n## Why Choose Raipur ISI TMT Bars?\n\n- Certified Safety: Every bar carries the mandatory ISI mark, guaranteeing compliance with national standard engineering benchmarks.\n- Maximum Cost Efficiency: Optimized production logistics in Raipur pass direct manufacturing savings onto your project budget.\n- Versatile Material Grades: Available across a wide spectrum of industry grades to match your specific structural blueprints.\n- Massive Supply Reliability: Sourced from India's largest steel cluster, ensuring zero project delays and uninterrupted bulk availability.\n\n## Ideal Applications\n\n- Budget-Conscious Construction: Perfect for low-to-medium rise residential buildings looking to optimize material expenses.\n\n- Boundary Walls & Fencing: Highly economical choice for extensive peripheral walls, security fencing, and compound enclosures.\n\n- Secondary Structural Elements: Excellent for casting internal lintels, sunshades, chajjas, and non-load-bearing structural frames.\n\n- Rural & Semi-Urban Projects: The go-to affordable steel choice for independent home builders, warehouses, and small commercial shops.\n\n",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "Secondary Steel",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg"
+                ],
+                "specifications": {
+                  "grade": "500, 500D, 550, 550D"
+                }
+              },
+              {
+                "id": "0354d02c-54b2-412a-b586-8f5071ccb04a",
+                "name": "GK TMT",
+                "sku": "TMT-GK",
+                "description": "## GK TMT Rebars (Fe 550D / Fe 500D)\nOverview\nGK TMT (manufactured by Real Ispat and Power Ltd / REAL Group) is a premium thermo-mechanically treated reinforcement bar engineered for modern construction demands. Manufactured in compliance with IS 1786:2008 standards, GK TMT bars deliver an optimal balance of high tensile strength, superior ductility, and robust corrosion resistance.\n\nWith advanced ribbed profiling and a tough outer tempered martensite layer combined with a ductile ferrite-pearlite core, GK TMT provides exceptional concrete bonding and high structural integrity against seismic activity.\n\n## Key Features & Benefits\n- High Yield & Tensile Strength: Built to withstand heavy load-bearing requirements, resulting in 12–14% steel savings and lower structural weight.\n\n- Superior Ductility & Seismic Resistance: The high elongation properties allow structures to absorb high energy loads and seismic shocks without brittle fracture.\n\n- Advanced Rib Design: Precision-rolled rib pattern provides a solid mechanical grip and maximum bonding strength with concrete.\n\n- Enhanced Corrosion & Heat Resistance: Low carbon, sulfur, and phosphorus composition protects against rust formation and maintains stability under severe temperature variations.\n\n- Excellent Bendability & Weldability: Easily bent into required shapes on-site without developing micro-cracks, and compatible with standard welding methods without loss of joint strength.",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": "45000.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-fdc8e501-GK2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-49c2d197-GK4.jpg"
+                ],
+                "specifications": {}
+              },
+              {
+                "id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                "name": "JINDAL PANTHER TMT",
+                "sku": "TMT-JINDAL",
+                "description": "## Overview\n[Jindal Panther TMT Rebars](https://www.jindalpanther.com/post/our-blogs/tmt-bars-importance-features-and-extensive-usage.html) are premium-quality, high-strength primary steel reinforcement bars manufactured from virgin iron ore. Engineered using the advanced High Yield Quenching and Self Tempering (HYQST) process, these **Fe 550D** grade rebars deliver a perfect combination of superior yield strength and high ductility. They are **BIS Certified** and specifically designed to meet stringent global and domestic structural demands. \n\n## Technical Specifications\n- **Grade:** Fe 550D (Enhanced Ductility)\n- **Yield Strength:** Minimum 550 MPa (N/mm²)\n- **Tensile Strength (UTS):** Minimum 600 N/mm²\n- **Elongation:** Minimum 14.5%\n- **Raw Material:** Primary Steel manufactured from virgin iron ore\n- **Chemical Purity:** Exceptionally low levels of Sulphur and Phosphorus (Max 0.075% combined) to prevent fatigue and cold shortness\n- **Standards:** Conforms to IS 1786:2008\n\n## Key Features & Benefits\n- **Advanced HYQST & QST Technology:** Manufactured using globally recognized Quenching and Self Tempering (QST) and High Yield Quenching and Self Tempering (HYQST) processes. This specialized thermo-mechanical treatment rapidly cools the outer layer while the core remains hot, creating a unique composite structure: a tough, high-strength martensite outer ring combined with a soft, ductile inner core.\n- **Exceptional Seismic Resistance:** The enhanced ductility and elongation of the Fe 550D grade allow structures to absorb and dissipate seismic energy effectively, making them highly suitable for earthquake-prone areas (Seismic Zones IV & V).\n- **Cost & Material Efficiency:** Because Fe 550D offers a higher load-bearing capacity than standard Fe 500 grades, it can reduce overall steel consumption by up to 12-15%, which eases bar congestion during construction and saves on material costs.\n- **Superior Weldability & Bendability:** A low carbon equivalent enables excellent weldability without pre-heating, and the bars can be bent easily without cracking (e.g., a minimum bend radius of 6 mm for 12 mm bars).\n- **Strong Concrete Bonding:** A uniform, precision-milled V-shaped rib pattern ensures superior mechanical bonding with concrete.\n- **Corrosion Resistance:** The specialized cooling process creates a tough, passive outer layer that naturally resists rust formation better than standard scrap-based rebars.\n\n## Ideal Applications\n- High-rise residential and commercial buildings\n- Heavy infrastructure, bridges, and elevated corridors\n- Structures in high-stress and dynamic loading environments\n- Earthquake-resistant foundations and frameworks",
+                "category": "Rebars",
+                "tags": [
+                  "Primary Steel",
+                  "BIS Certified",
+                  "Fe 550D",
+                  "Export Quality",
+                  "In Stock & Ready"
+                ],
+                "is_active": true,
+                "base_price": "56500.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829112-754935b3-jindal_panther2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829113-c12aef20-jindalpanther3.jpg"
+                ],
+                "specifications": {
+                  "Grade": "Fe550D",
+                  "Length": "12mtr",
+                  "Raw Material": "Virgin iron ore",
+                  "Diameter Range": "8mm to 32mm"
+                }
+              },
+              {
+                "id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                "name": "BHUMIJA TMT BARS",
+                "sku": "TMT-BHUMIJA",
+                "description": "# **Bhumija TMT Rebars (Fe 500D / Fe 550)**\n\n### **Overview**\n\n**Bhumija TMT** (manufactured by Bhumija Ispat) is a high-grade thermo-mechanically treated reinforcement bar designed to meet modern structural engineering and construction requirements. Certified under **IS 1786:2008** standards, Bhumija TMT bars are processed through a stringent **TIA (Testing, Inspection, and Assurance)** quality framework to deliver consistent load-bearing capability, high ductility, and enhanced durability.\n\nManufactured with a uniform rib design, these rebars ensure a powerful grip with concrete while maintaining optimal bendability and corrosion resistance.\n\n---\n\n### **Key Features & Benefits**\n\n* **High Tensile & Yield Strength:** Delivers robust structural load capacity, enabling efficient steel consumption across projects.\n* **Superior Ductility & Flexibility:** High elongation prevents brittle failures and allows effective energy absorption during seismic activity.\n* **Uniform Rib Pattern:** Precision-engineered external ribs ensure maximum concrete bonding strength and slip resistance.\n* **Corrosion & Thermal Resistance:** Low-impurity chemical composition resists rust in humid environments and retains strength under elevated temperatures.\n* **Excellent Bendability & Weldability:** Easily bent and rebent without micro-fracturing along the core, suitable for on-site fabrication.\n\n---\n\n### **Technical Specifications**\n\n| **Parameter** | **Specification** |\n| --- | --- |\n| **Brand** | Bhumija TMT |\n| **Manufacturer** | Bhumija Ispat |\n| **Compliance Standard** | IS 1786:2008 / BIS Certified |\n| **Grades Available** | Fe 415 / Fe 500 / Fe 500D / Fe 550 |\n| **Available Diameters** | 8 mm, 10 mm, 12 mm, 16 mm, 20 mm, 25 mm, 32 mm |\n| **Standard Length** | 12 Meters (Straight / U-Bend) |\n| **Rib Type** | High-Bond Uniform Ribbed |\n| **Quality Mechanism** | TIA (Testing, Inspection, Assurance) Process |\n\n---\n\n### **Recommended Applications**\n\n* **Residential Housing & Apartments:** Individual homes, multi-story residential blocks, beams, and columns.\n* **Commercial & High-Rise Buildings:** Office towers, shopping complexes, and retail centers.\n* **Infrastructure & Bridges:** Culverts, flyovers, highways, and heavy structural frameworks.\n* **Industrial Structures:** Warehouses, factory plants, and heavy machine foundation slabs.",
+                "category": "Rebars",
+                "tags": [
+                  "Fe 550D",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-b436b293-bhumija2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347779-b4a1b949-bhumijatmt1.jpg"
+                ],
+                "specifications": {}
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/products",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:06:45.090Z",
+          "responseBody": {
+            "data": [
+              {
+                "id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                "name": "ISI TMT RAIPUR",
+                "sku": "TMT-ISI",
+                "description": "## Raipur ISI TMT Bars\n\nRaipur ISI TMT Bars provide the ultimate cost-effective solution for structural reinforcement without compromising on safety standards. Sourced directly from Raipur—India’s premier steel manufacturing hub—these bars represent a massive network of high-capacity foundries. By leveraging Raipur's massive economies of scale, we bring you fully certified, dependable TMT bars at the most competitive market prices.\n\n## Why Choose Raipur ISI TMT Bars?\n\n- Certified Safety: Every bar carries the mandatory ISI mark, guaranteeing compliance with national standard engineering benchmarks.\n- Maximum Cost Efficiency: Optimized production logistics in Raipur pass direct manufacturing savings onto your project budget.\n- Versatile Material Grades: Available across a wide spectrum of industry grades to match your specific structural blueprints.\n- Massive Supply Reliability: Sourced from India's largest steel cluster, ensuring zero project delays and uninterrupted bulk availability.\n\n## Ideal Applications\n\n- Budget-Conscious Construction: Perfect for low-to-medium rise residential buildings looking to optimize material expenses.\n\n- Boundary Walls & Fencing: Highly economical choice for extensive peripheral walls, security fencing, and compound enclosures.\n\n- Secondary Structural Elements: Excellent for casting internal lintels, sunshades, chajjas, and non-load-bearing structural frames.\n\n- Rural & Semi-Urban Projects: The go-to affordable steel choice for independent home builders, warehouses, and small commercial shops.\n\n",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "Secondary Steel",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg"
+                ],
+                "specifications": {
+                  "grade": "500, 500D, 550, 550D"
+                }
+              },
+              {
+                "id": "0354d02c-54b2-412a-b586-8f5071ccb04a",
+                "name": "GK TMT",
+                "sku": "TMT-GK",
+                "description": "## GK TMT Rebars (Fe 550D / Fe 500D)\nOverview\nGK TMT (manufactured by Real Ispat and Power Ltd / REAL Group) is a premium thermo-mechanically treated reinforcement bar engineered for modern construction demands. Manufactured in compliance with IS 1786:2008 standards, GK TMT bars deliver an optimal balance of high tensile strength, superior ductility, and robust corrosion resistance.\n\nWith advanced ribbed profiling and a tough outer tempered martensite layer combined with a ductile ferrite-pearlite core, GK TMT provides exceptional concrete bonding and high structural integrity against seismic activity.\n\n## Key Features & Benefits\n- High Yield & Tensile Strength: Built to withstand heavy load-bearing requirements, resulting in 12–14% steel savings and lower structural weight.\n\n- Superior Ductility & Seismic Resistance: The high elongation properties allow structures to absorb high energy loads and seismic shocks without brittle fracture.\n\n- Advanced Rib Design: Precision-rolled rib pattern provides a solid mechanical grip and maximum bonding strength with concrete.\n\n- Enhanced Corrosion & Heat Resistance: Low carbon, sulfur, and phosphorus composition protects against rust formation and maintains stability under severe temperature variations.\n\n- Excellent Bendability & Weldability: Easily bent into required shapes on-site without developing micro-cracks, and compatible with standard welding methods without loss of joint strength.",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": "45000.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-fdc8e501-GK2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-49c2d197-GK4.jpg"
+                ],
+                "specifications": {}
+              },
+              {
+                "id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                "name": "JINDAL PANTHER TMT",
+                "sku": "TMT-JINDAL",
+                "description": "## Overview\n[Jindal Panther TMT Rebars](https://www.jindalpanther.com/post/our-blogs/tmt-bars-importance-features-and-extensive-usage.html) are premium-quality, high-strength primary steel reinforcement bars manufactured from virgin iron ore. Engineered using the advanced High Yield Quenching and Self Tempering (HYQST) process, these **Fe 550D** grade rebars deliver a perfect combination of superior yield strength and high ductility. They are **BIS Certified** and specifically designed to meet stringent global and domestic structural demands. \n\n## Technical Specifications\n- **Grade:** Fe 550D (Enhanced Ductility)\n- **Yield Strength:** Minimum 550 MPa (N/mm²)\n- **Tensile Strength (UTS):** Minimum 600 N/mm²\n- **Elongation:** Minimum 14.5%\n- **Raw Material:** Primary Steel manufactured from virgin iron ore\n- **Chemical Purity:** Exceptionally low levels of Sulphur and Phosphorus (Max 0.075% combined) to prevent fatigue and cold shortness\n- **Standards:** Conforms to IS 1786:2008\n\n## Key Features & Benefits\n- **Advanced HYQST & QST Technology:** Manufactured using globally recognized Quenching and Self Tempering (QST) and High Yield Quenching and Self Tempering (HYQST) processes. This specialized thermo-mechanical treatment rapidly cools the outer layer while the core remains hot, creating a unique composite structure: a tough, high-strength martensite outer ring combined with a soft, ductile inner core.\n- **Exceptional Seismic Resistance:** The enhanced ductility and elongation of the Fe 550D grade allow structures to absorb and dissipate seismic energy effectively, making them highly suitable for earthquake-prone areas (Seismic Zones IV & V).\n- **Cost & Material Efficiency:** Because Fe 550D offers a higher load-bearing capacity than standard Fe 500 grades, it can reduce overall steel consumption by up to 12-15%, which eases bar congestion during construction and saves on material costs.\n- **Superior Weldability & Bendability:** A low carbon equivalent enables excellent weldability without pre-heating, and the bars can be bent easily without cracking (e.g., a minimum bend radius of 6 mm for 12 mm bars).\n- **Strong Concrete Bonding:** A uniform, precision-milled V-shaped rib pattern ensures superior mechanical bonding with concrete.\n- **Corrosion Resistance:** The specialized cooling process creates a tough, passive outer layer that naturally resists rust formation better than standard scrap-based rebars.\n\n## Ideal Applications\n- High-rise residential and commercial buildings\n- Heavy infrastructure, bridges, and elevated corridors\n- Structures in high-stress and dynamic loading environments\n- Earthquake-resistant foundations and frameworks",
+                "category": "Rebars",
+                "tags": [
+                  "Primary Steel",
+                  "BIS Certified",
+                  "Fe 550D",
+                  "Export Quality",
+                  "In Stock & Ready"
+                ],
+                "is_active": true,
+                "base_price": "56500.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829112-754935b3-jindal_panther2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829113-c12aef20-jindalpanther3.jpg"
+                ],
+                "specifications": {
+                  "Grade": "Fe550D",
+                  "Length": "12mtr",
+                  "Raw Material": "Virgin iron ore",
+                  "Diameter Range": "8mm to 32mm"
+                }
+              },
+              {
+                "id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                "name": "BHUMIJA TMT BARS",
+                "sku": "TMT-BHUMIJA",
+                "description": "# **Bhumija TMT Rebars (Fe 500D / Fe 550)**\n\n### **Overview**\n\n**Bhumija TMT** (manufactured by Bhumija Ispat) is a high-grade thermo-mechanically treated reinforcement bar designed to meet modern structural engineering and construction requirements. Certified under **IS 1786:2008** standards, Bhumija TMT bars are processed through a stringent **TIA (Testing, Inspection, and Assurance)** quality framework to deliver consistent load-bearing capability, high ductility, and enhanced durability.\n\nManufactured with a uniform rib design, these rebars ensure a powerful grip with concrete while maintaining optimal bendability and corrosion resistance.\n\n---\n\n### **Key Features & Benefits**\n\n* **High Tensile & Yield Strength:** Delivers robust structural load capacity, enabling efficient steel consumption across projects.\n* **Superior Ductility & Flexibility:** High elongation prevents brittle failures and allows effective energy absorption during seismic activity.\n* **Uniform Rib Pattern:** Precision-engineered external ribs ensure maximum concrete bonding strength and slip resistance.\n* **Corrosion & Thermal Resistance:** Low-impurity chemical composition resists rust in humid environments and retains strength under elevated temperatures.\n* **Excellent Bendability & Weldability:** Easily bent and rebent without micro-fracturing along the core, suitable for on-site fabrication.\n\n---\n\n### **Technical Specifications**\n\n| **Parameter** | **Specification** |\n| --- | --- |\n| **Brand** | Bhumija TMT |\n| **Manufacturer** | Bhumija Ispat |\n| **Compliance Standard** | IS 1786:2008 / BIS Certified |\n| **Grades Available** | Fe 415 / Fe 500 / Fe 500D / Fe 550 |\n| **Available Diameters** | 8 mm, 10 mm, 12 mm, 16 mm, 20 mm, 25 mm, 32 mm |\n| **Standard Length** | 12 Meters (Straight / U-Bend) |\n| **Rib Type** | High-Bond Uniform Ribbed |\n| **Quality Mechanism** | TIA (Testing, Inspection, Assurance) Process |\n\n---\n\n### **Recommended Applications**\n\n* **Residential Housing & Apartments:** Individual homes, multi-story residential blocks, beams, and columns.\n* **Commercial & High-Rise Buildings:** Office towers, shopping complexes, and retail centers.\n* **Infrastructure & Bridges:** Culverts, flyovers, highways, and heavy structural frameworks.\n* **Industrial Structures:** Warehouses, factory plants, and heavy machine foundation slabs.",
+                "category": "Rebars",
+                "tags": [
+                  "Fe 550D",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-b436b293-bhumija2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347779-b4a1b949-bhumijatmt1.jpg"
+                ],
+                "specifications": {}
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/products",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:06:47.062Z",
+          "responseBody": {
+            "data": [
+              {
+                "id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                "name": "ISI TMT RAIPUR",
+                "sku": "TMT-ISI",
+                "description": "## Raipur ISI TMT Bars\n\nRaipur ISI TMT Bars provide the ultimate cost-effective solution for structural reinforcement without compromising on safety standards. Sourced directly from Raipur—India’s premier steel manufacturing hub—these bars represent a massive network of high-capacity foundries. By leveraging Raipur's massive economies of scale, we bring you fully certified, dependable TMT bars at the most competitive market prices.\n\n## Why Choose Raipur ISI TMT Bars?\n\n- Certified Safety: Every bar carries the mandatory ISI mark, guaranteeing compliance with national standard engineering benchmarks.\n- Maximum Cost Efficiency: Optimized production logistics in Raipur pass direct manufacturing savings onto your project budget.\n- Versatile Material Grades: Available across a wide spectrum of industry grades to match your specific structural blueprints.\n- Massive Supply Reliability: Sourced from India's largest steel cluster, ensuring zero project delays and uninterrupted bulk availability.\n\n## Ideal Applications\n\n- Budget-Conscious Construction: Perfect for low-to-medium rise residential buildings looking to optimize material expenses.\n\n- Boundary Walls & Fencing: Highly economical choice for extensive peripheral walls, security fencing, and compound enclosures.\n\n- Secondary Structural Elements: Excellent for casting internal lintels, sunshades, chajjas, and non-load-bearing structural frames.\n\n- Rural & Semi-Urban Projects: The go-to affordable steel choice for independent home builders, warehouses, and small commercial shops.\n\n",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "Secondary Steel",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg"
+                ],
+                "specifications": {
+                  "grade": "500, 500D, 550, 550D"
+                }
+              },
+              {
+                "id": "0354d02c-54b2-412a-b586-8f5071ccb04a",
+                "name": "GK TMT",
+                "sku": "TMT-GK",
+                "description": "## GK TMT Rebars (Fe 550D / Fe 500D)\nOverview\nGK TMT (manufactured by Real Ispat and Power Ltd / REAL Group) is a premium thermo-mechanically treated reinforcement bar engineered for modern construction demands. Manufactured in compliance with IS 1786:2008 standards, GK TMT bars deliver an optimal balance of high tensile strength, superior ductility, and robust corrosion resistance.\n\nWith advanced ribbed profiling and a tough outer tempered martensite layer combined with a ductile ferrite-pearlite core, GK TMT provides exceptional concrete bonding and high structural integrity against seismic activity.\n\n## Key Features & Benefits\n- High Yield & Tensile Strength: Built to withstand heavy load-bearing requirements, resulting in 12–14% steel savings and lower structural weight.\n\n- Superior Ductility & Seismic Resistance: The high elongation properties allow structures to absorb high energy loads and seismic shocks without brittle fracture.\n\n- Advanced Rib Design: Precision-rolled rib pattern provides a solid mechanical grip and maximum bonding strength with concrete.\n\n- Enhanced Corrosion & Heat Resistance: Low carbon, sulfur, and phosphorus composition protects against rust formation and maintains stability under severe temperature variations.\n\n- Excellent Bendability & Weldability: Easily bent into required shapes on-site without developing micro-cracks, and compatible with standard welding methods without loss of joint strength.",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": "45000.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-fdc8e501-GK2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-49c2d197-GK4.jpg"
+                ],
+                "specifications": {}
+              },
+              {
+                "id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                "name": "JINDAL PANTHER TMT",
+                "sku": "TMT-JINDAL",
+                "description": "## Overview\n[Jindal Panther TMT Rebars](https://www.jindalpanther.com/post/our-blogs/tmt-bars-importance-features-and-extensive-usage.html) are premium-quality, high-strength primary steel reinforcement bars manufactured from virgin iron ore. Engineered using the advanced High Yield Quenching and Self Tempering (HYQST) process, these **Fe 550D** grade rebars deliver a perfect combination of superior yield strength and high ductility. They are **BIS Certified** and specifically designed to meet stringent global and domestic structural demands. \n\n## Technical Specifications\n- **Grade:** Fe 550D (Enhanced Ductility)\n- **Yield Strength:** Minimum 550 MPa (N/mm²)\n- **Tensile Strength (UTS):** Minimum 600 N/mm²\n- **Elongation:** Minimum 14.5%\n- **Raw Material:** Primary Steel manufactured from virgin iron ore\n- **Chemical Purity:** Exceptionally low levels of Sulphur and Phosphorus (Max 0.075% combined) to prevent fatigue and cold shortness\n- **Standards:** Conforms to IS 1786:2008\n\n## Key Features & Benefits\n- **Advanced HYQST & QST Technology:** Manufactured using globally recognized Quenching and Self Tempering (QST) and High Yield Quenching and Self Tempering (HYQST) processes. This specialized thermo-mechanical treatment rapidly cools the outer layer while the core remains hot, creating a unique composite structure: a tough, high-strength martensite outer ring combined with a soft, ductile inner core.\n- **Exceptional Seismic Resistance:** The enhanced ductility and elongation of the Fe 550D grade allow structures to absorb and dissipate seismic energy effectively, making them highly suitable for earthquake-prone areas (Seismic Zones IV & V).\n- **Cost & Material Efficiency:** Because Fe 550D offers a higher load-bearing capacity than standard Fe 500 grades, it can reduce overall steel consumption by up to 12-15%, which eases bar congestion during construction and saves on material costs.\n- **Superior Weldability & Bendability:** A low carbon equivalent enables excellent weldability without pre-heating, and the bars can be bent easily without cracking (e.g., a minimum bend radius of 6 mm for 12 mm bars).\n- **Strong Concrete Bonding:** A uniform, precision-milled V-shaped rib pattern ensures superior mechanical bonding with concrete.\n- **Corrosion Resistance:** The specialized cooling process creates a tough, passive outer layer that naturally resists rust formation better than standard scrap-based rebars.\n\n## Ideal Applications\n- High-rise residential and commercial buildings\n- Heavy infrastructure, bridges, and elevated corridors\n- Structures in high-stress and dynamic loading environments\n- Earthquake-resistant foundations and frameworks",
+                "category": "Rebars",
+                "tags": [
+                  "Primary Steel",
+                  "BIS Certified",
+                  "Fe 550D",
+                  "Export Quality",
+                  "In Stock & Ready"
+                ],
+                "is_active": true,
+                "base_price": "56500.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829112-754935b3-jindal_panther2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829113-c12aef20-jindalpanther3.jpg"
+                ],
+                "specifications": {
+                  "Grade": "Fe550D",
+                  "Length": "12mtr",
+                  "Raw Material": "Virgin iron ore",
+                  "Diameter Range": "8mm to 32mm"
+                }
+              },
+              {
+                "id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                "name": "BHUMIJA TMT BARS",
+                "sku": "TMT-BHUMIJA",
+                "description": "# **Bhumija TMT Rebars (Fe 500D / Fe 550)**\n\n### **Overview**\n\n**Bhumija TMT** (manufactured by Bhumija Ispat) is a high-grade thermo-mechanically treated reinforcement bar designed to meet modern structural engineering and construction requirements. Certified under **IS 1786:2008** standards, Bhumija TMT bars are processed through a stringent **TIA (Testing, Inspection, and Assurance)** quality framework to deliver consistent load-bearing capability, high ductility, and enhanced durability.\n\nManufactured with a uniform rib design, these rebars ensure a powerful grip with concrete while maintaining optimal bendability and corrosion resistance.\n\n---\n\n### **Key Features & Benefits**\n\n* **High Tensile & Yield Strength:** Delivers robust structural load capacity, enabling efficient steel consumption across projects.\n* **Superior Ductility & Flexibility:** High elongation prevents brittle failures and allows effective energy absorption during seismic activity.\n* **Uniform Rib Pattern:** Precision-engineered external ribs ensure maximum concrete bonding strength and slip resistance.\n* **Corrosion & Thermal Resistance:** Low-impurity chemical composition resists rust in humid environments and retains strength under elevated temperatures.\n* **Excellent Bendability & Weldability:** Easily bent and rebent without micro-fracturing along the core, suitable for on-site fabrication.\n\n---\n\n### **Technical Specifications**\n\n| **Parameter** | **Specification** |\n| --- | --- |\n| **Brand** | Bhumija TMT |\n| **Manufacturer** | Bhumija Ispat |\n| **Compliance Standard** | IS 1786:2008 / BIS Certified |\n| **Grades Available** | Fe 415 / Fe 500 / Fe 500D / Fe 550 |\n| **Available Diameters** | 8 mm, 10 mm, 12 mm, 16 mm, 20 mm, 25 mm, 32 mm |\n| **Standard Length** | 12 Meters (Straight / U-Bend) |\n| **Rib Type** | High-Bond Uniform Ribbed |\n| **Quality Mechanism** | TIA (Testing, Inspection, Assurance) Process |\n\n---\n\n### **Recommended Applications**\n\n* **Residential Housing & Apartments:** Individual homes, multi-story residential blocks, beams, and columns.\n* **Commercial & High-Rise Buildings:** Office towers, shopping complexes, and retail centers.\n* **Infrastructure & Bridges:** Culverts, flyovers, highways, and heavy structural frameworks.\n* **Industrial Structures:** Warehouses, factory plants, and heavy machine foundation slabs.",
+                "category": "Rebars",
+                "tags": [
+                  "Fe 550D",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-b436b293-bhumija2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347779-b4a1b949-bhumijatmt1.jpg"
+                ],
+                "specifications": {}
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/forms/by-name/lead_capture/submit",
+          "status": 201,
+          "method": "POST",
+          "timestamp": "2026-08-22T14:06:53.762Z",
+          "responseBody": {
+            "data": {
+              "entity_type": "lead",
+              "id": "6139c248-0cb2-45b4-a295-72393a64b0e1",
+              "success": true
+            },
+            "success": true
+          }
+        }
+      ],
+      "consoleLogs": [],
+      "passed": true,
+      "assertions": [
+        {
+          "name": "Catalog header visible",
+          "passed": true
+        },
+        {
+          "name": "Products rendered in catalog",
+          "passed": true,
+          "count": 4
+        },
+        {
+          "name": "Product 1 Details Page rendered",
+          "passed": true
+        },
+        {
+          "name": "Pricing & GST Breakdown Pill visible",
+          "passed": true
+        },
+        {
+          "name": "Product 2 Details Page rendered",
+          "passed": true
+        },
+        {
+          "name": "Two distinct products in cart",
+          "passed": true
+        },
+        {
+          "name": "Product 1 (120 MT) line calculation exact",
+          "passed": true
+        },
+        {
+          "name": "Product 2 (45 MT) line calculation exact",
+          "passed": true
+        },
+        {
+          "name": "Cart Grand Total with 18% GST exact",
+          "passed": true
+        },
+        {
+          "name": "RFQ Submission API 200 OK",
+          "passed": true
+        },
+        {
+          "name": "Confirmation header visible",
+          "passed": true
+        },
+        {
+          "name": "RFQ Consignment Reference rendered",
+          "passed": true
+        },
+        {
+          "name": "Organization name in confirmation",
+          "passed": true
+        },
+        {
+          "name": "Consignment summary line rendered",
+          "passed": true
+        },
+        {
+          "name": "Cart cleared upon RFQ transmission",
+          "passed": true
+        }
+      ]
+    },
+    "personaB": {
+      "persona": "Persona B - Verified Repeat Client (Sourabh Khandelwal)",
+      "viewports": [
+        "1440x900 (Desktop)",
+        "390x844 (Mobile)"
+      ],
+      "timestamp": "2026-08-22T14:06:54.926Z",
+      "steps": [],
+      "networkLogs": [
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/login",
+          "status": 200,
+          "method": "POST",
+          "responseBody": {
+            "data": {
+              "customer": {
+                "company": "Khandelwal Infra Developers",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+                "name": "Sourabh Khandelwal",
+                "party_id": "2f406a41-9fde-4e6e-bc3e-a7669de2b52f",
+                "phone": "+91 99887 76655"
+              },
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6Ijc2ZmRkYmYyLTZmZjktNGE0My04YmJjLTEyMDZkYWU0NzJkOSIsInBhcnR5X2lkIjoiMmY0MDZhNDEtOWZkZS00ZTZlLWJjM2UtYTc2NjlkZTJiNTJmIiwib3JnX2lkIjoiNDQ1ZjBhMzYtM2NhNC00ZTY4LWJmNTMtN2ZiN2M3Yjk1YjBiIiwib3JnX3NjaGVtYSI6Im9yZ191cmJhbnNwYW5fc3RlZWxfMTc4NTY3MzU1NzM1OCIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc4NzQwNzYyMiwiZXhwIjoxNzg5OTk5NjIyfQ.T01bekzh0WnBr7TlBOTYEScn9SPfvITD74X_CIXxDrY"
+            },
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/chat",
+          "status": 200,
+          "method": "GET",
+          "responseBody": {
+            "data": {
+              "channel": {
+                "id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+                "name": "Customer: Sourabh Khandelwal",
+                "description": "customer_76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+                "type": "customer",
+                "created_by": null,
+                "is_archived": false,
+                "posting_permission": "everyone",
+                "created_at": "2026-08-22T07:08:42.596Z",
+                "updated_at": "2026-08-22T07:08:42.596Z"
+              },
+              "messages": [
+                {
+                  "id": "18ccf241-fe0a-4ef3-b08d-0cd519381d36",
+                  "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+                  "sender_id": null,
+                  "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+                  "content": "Hello, checking the dispatch status for our 50 MT TMT consignment to Indore site.",
+                  "parent_message_id": null,
+                  "is_edited": false,
+                  "is_deleted": false,
+                  "reply_count": 0,
+                  "metadata": {},
+                  "created_at": "2026-08-22T13:21:38.451Z",
+                  "updated_at": "2026-08-22T13:21:38.451Z",
+                  "sender_name": "Sourabh Khandelwal",
+                  "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+                  "attachments": [],
+                  "reactions": []
+                },
+                {
+                  "id": "93218834-f551-447b-a5f1-39766339165d",
+                  "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+                  "sender_id": null,
+                  "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+                  "content": "Automated Verification Test MSG 1787405411051",
+                  "parent_message_id": null,
+                  "is_edited": false,
+                  "is_deleted": false,
+                  "reply_count": 0,
+                  "metadata": {},
+                  "created_at": "2026-08-22T13:30:13.516Z",
+                  "updated_at": "2026-08-22T13:30:13.516Z",
+                  "sender_name": "Sourabh Khandelwal",
+                  "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+                  "attachments": [],
+                  "reactions": []
+                },
+                {
+                  "id": "59a030cd-a958-4bc6-b3c8-237737139d70",
+                  "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+                  "sender_id": null,
+                  "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+                  "content": "Mobile live inquiry test at 1787405840506",
+                  "parent_message_id": null,
+                  "is_edited": false,
+                  "is_deleted": false,
+                  "reply_count": 0,
+                  "metadata": {},
+                  "created_at": "2026-08-22T13:37:23.330Z",
+                  "updated_at": "2026-08-22T13:37:23.330Z",
+                  "sender_name": "Sourabh Khandelwal",
+                  "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+                  "attachments": [],
+                  "reactions": []
+                },
+                {
+                  "id": "10df5265-5e84-4d35-8ad7-dcd59768847f",
+                  "channel_id": "f1ed4af2-1bfa-4036-af86-9064fb0c0dd7",
+                  "sender_id": null,
+                  "customer_id": "76fddbf2-6ff9-4a43-8bbc-1206dae472d9",
+                  "content": "Mobile live inquiry test at 1787405935982",
+                  "parent_message_id": null,
+                  "is_edited": false,
+                  "is_deleted": false,
+                  "reply_count": 0,
+                  "metadata": {},
+                  "created_at": "2026-08-22T13:38:58.858Z",
+                  "updated_at": "2026-08-22T13:38:58.858Z",
+                  "sender_name": "Sourabh Khandelwal",
+                  "sender_avatar": "https://ui-avatars.com/api/?name=Sourabh Khandelwal&background=random",
+                  "attachments": [],
+                  "reactions": []
+                }
+              ]
+            },
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/orders",
+          "status": 200,
+          "method": "GET",
+          "responseBody": {
+            "data": [
+              {
+                "id": "fa9269f8-07c6-4bd4-8ff1-d281d7060a29",
+                "title": "Deal - Sourabh Khandelwal",
+                "deal_value": "2285000.00",
+                "currency": "INR",
+                "stage": "qualification",
+                "dispatch_status": "order_confirmed",
+                "dispatch_details": {},
+                "mill_tc_url": null,
+                "created_at": "2026-08-22T09:10:31.652Z",
+                "updated_at": "2026-08-22T09:10:31.652Z",
+                "assigned_rep_name": "Rajesh Verma",
+                "assigned_rep_email": "rajesh.sales@urbanspan.com",
+                "assigned_rep_phone": "+91 98200 44556",
+                "items": [
+                  {
+                    "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                    "variant_id": null,
+                    "quantity": 50,
+                    "unit_price": "45700.00",
+                    "notes": "Verified and active in negotiation with Deepesh Gupta (CEO).",
+                    "product_name": "BHUMIJA TMT BARS",
+                    "product_unit": "ton",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                    "variant_name": null
+                  }
+                ]
+              },
+              {
+                "id": "aa83f6b7-fd15-42c5-aaba-70643e2a081e",
+                "title": "Deal - Khandelwal Infra Developers",
+                "deal_value": "4835000.00",
+                "currency": "INR",
+                "stage": "qualification",
+                "dispatch_status": "order_confirmed",
+                "dispatch_details": {},
+                "mill_tc_url": null,
+                "created_at": "2026-08-22T09:09:32.931Z",
+                "updated_at": "2026-08-22T09:09:32.931Z",
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "1e8ccd77-3f7a-42fd-8832-cdd3a6db4bd3",
+                "title": "Commercial Township Phase 1 - 100 MT TMT Consignment (Khandelwal Infra)",
+                "deal_value": "4835000.00",
+                "currency": "INR",
+                "stage": "qualification",
+                "dispatch_status": "order_confirmed",
+                "dispatch_details": {},
+                "mill_tc_url": null,
+                "created_at": "2026-08-22T08:51:25.218Z",
+                "updated_at": "2026-08-22T08:51:25.218Z",
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": [
+                  {
+                    "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                    "variant_id": null,
+                    "quantity": 50,
+                    "unit_price": "45700.00",
+                    "notes": "High ductility rebar",
+                    "product_name": "BHUMIJA TMT BARS",
+                    "product_unit": "ton",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                    "variant_name": null
+                  },
+                  {
+                    "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                    "variant_id": null,
+                    "quantity": 50,
+                    "unit_price": "51000.00",
+                    "notes": "Standard IS 1786 Fe550D",
+                    "product_name": "ISI TMT RAIPUR",
+                    "product_unit": "ton",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                    "variant_name": null
+                  }
+                ]
+              },
+              {
+                "id": "76bc2cdd-7333-4947-a52a-6862c75def41",
+                "title": "Commercial Township Phase 1 - 100 MT TMT Consignment (Khandelwal Infra)",
+                "deal_value": "4835000.00",
+                "currency": "INR",
+                "stage": "qualification",
+                "dispatch_status": "order_confirmed",
+                "dispatch_details": {},
+                "mill_tc_url": null,
+                "created_at": "2026-08-22T08:49:01.118Z",
+                "updated_at": "2026-08-22T08:49:01.118Z",
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": [
+                  {
+                    "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                    "variant_id": null,
+                    "quantity": 50,
+                    "unit_price": "45700.00",
+                    "notes": null,
+                    "product_name": "BHUMIJA TMT BARS",
+                    "product_unit": "ton",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                    "variant_name": null
+                  },
+                  {
+                    "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                    "variant_id": null,
+                    "quantity": 50,
+                    "unit_price": "51000.00",
+                    "notes": null,
+                    "product_name": "ISI TMT RAIPUR",
+                    "product_unit": "ton",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                    "variant_name": null
+                  }
+                ]
+              },
+              {
+                "id": "73f04f58-1bf7-4ba0-a399-85b06f7971fc",
+                "title": "Commercial Township Phase 1 - 50 MT BHUMIJA TMT (Khandelwal Infra Developers)",
+                "deal_value": "2285000.00",
+                "currency": "INR",
+                "stage": "qualification",
+                "dispatch_status": "weighbridge_loaded",
+                "dispatch_details": {},
+                "mill_tc_url": null,
+                "created_at": "2026-08-22T07:35:46.283Z",
+                "updated_at": "2026-08-22T08:24:31.625Z",
+                "assigned_rep_name": "Rajesh Verma",
+                "assigned_rep_email": "rajesh.sales@urbanspan.com",
+                "assigned_rep_phone": "+91 98200 44556",
+                "items": []
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/inquiries",
+          "status": 200,
+          "method": "GET",
+          "responseBody": {
+            "data": [
+              {
+                "id": "251bbdb8-6d79-4da6-b1a9-c76fd306a219",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4087500.00",
+                "status": "new",
+                "notes": "Automated Verification Consignment 1787405754311 - 75 MT Fe-550D TMT Rebars",
+                "custom_data": {
+                  "qty": 75,
+                  "sku": "US-TMT-550D",
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 75,
+                  "product_id": "p1",
+                  "product_name": "Fe-550D TMT Steel Rebars (8mm - 32mm)"
+                },
+                "created_at": "2026-08-22T13:35:56.755Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "113a75ce-92f9-4e21-8259-d1782c6843d6",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4087500.00",
+                "status": "new",
+                "notes": "Automated Verification Consignment 1787405749705 - 75 MT Fe-550D TMT Rebars",
+                "custom_data": {
+                  "qty": 75,
+                  "sku": "US-TMT-550D",
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 75,
+                  "product_id": "p1",
+                  "product_name": "Fe-550D TMT Steel Rebars (8mm - 32mm)"
+                },
+                "created_at": "2026-08-22T13:35:52.147Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "10b8c829-b029-4cc5-8d64-d5ec4738fba5",
+                "name": "Sourabh Khandelwal (Automated E2E Verification)",
+                "phone": "+91 94259 22225",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "5650000.00",
+                "status": "new",
+                "notes": "Multi-Product Procurement Cart RFQ (130 MT Total Consignment):\n  1. ISI TMT RAIPUR - 30 MT @ ₹0/MT (Base: ₹0, GST: ₹0)\n  2. JINDAL PANTHER TMT - 100 MT @ ₹56,500/MT (Base: ₹56,50,000, GST: ₹10,17,000)\nDestination Location: Super Corridor Metro Depot Site, Indore MP\nSite Notes: Urgent delivery required. Primary mill Fe-550D test certificate required with weighbridge slip.",
+                "custom_data": {
+                  "items": [
+                    {
+                      "sku": "TMT-ISI",
+                      "unit": "ton",
+                      "gst_18": 275400,
+                      "category": "Rebars",
+                      "quantity": 30,
+                      "base_price": 51000,
+                      "line_total": 1805400,
+                      "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                      "product_name": "ISI TMT RAIPUR",
+                      "line_subtotal": 1530000
+                    },
+                    {
+                      "sku": "TMT-JINDAL",
+                      "unit": "ton",
+                      "gst_18": 1017000,
+                      "category": "Rebars",
+                      "quantity": 100,
+                      "base_price": 56500,
+                      "line_total": 6667000,
+                      "product_id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                      "product_name": "JINDAL PANTHER TMT",
+                      "line_subtotal": 5650000
+                    }
+                  ],
+                  "source": "buyer_cart_rfq",
+                  "company": "Khandelwal Infra Developers Ltd",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 130,
+                  "base_subtotal": 7180000,
+                  "gst_18_amount": 1292400,
+                  "total_tonnage": 130,
+                  "is_multi_product": true,
+                  "grand_total_with_tax": 8472400
+                },
+                "created_at": "2026-08-22T13:30:59.652Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": [
+                  {
+                    "product_id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                    "variant_id": null,
+                    "notes": "Web Commercial RFQ (100 ton @ ₹56,500/ton)",
+                    "custom_specifications": {
+                      "unit": "ton",
+                      "notes": "Multi-Product Procurement Cart RFQ (130 MT Total Consignment):\n  1. ISI TMT RAIPUR - 30 MT @ ₹0/MT (Base: ₹0, GST: ₹0)\n  2. JINDAL PANTHER TMT - 100 MT @ ₹56,500/MT (Base: ₹56,50,000, GST: ₹10,17,000)\nDestination Location: Super Corridor Metro Depot Site, Indore MP\nSite Notes: Urgent delivery required. Primary mill Fe-550D test certificate required with weighbridge slip.",
+                      "gst_18": 1017000,
+                      "source": "website_rfq",
+                      "benchmark_rate": 56500,
+                      "requested_quantity": 100
+                    },
+                    "product_name": "JINDAL PANTHER TMT",
+                    "product_unit": "ton",
+                    "base_price": "56500.00",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                    "variant_name": null
+                  },
+                  {
+                    "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                    "variant_id": null,
+                    "notes": "Web Commercial RFQ (30 ton @ ₹51,000/ton)",
+                    "custom_specifications": {
+                      "unit": "ton",
+                      "notes": "Multi-Product Procurement Cart RFQ (130 MT Total Consignment):\n  1. ISI TMT RAIPUR - 30 MT @ ₹0/MT (Base: ₹0, GST: ₹0)\n  2. JINDAL PANTHER TMT - 100 MT @ ₹56,500/MT (Base: ₹56,50,000, GST: ₹10,17,000)\nDestination Location: Super Corridor Metro Depot Site, Indore MP\nSite Notes: Urgent delivery required. Primary mill Fe-550D test certificate required with weighbridge slip.",
+                      "gst_18": 275400,
+                      "source": "website_rfq",
+                      "benchmark_rate": 51000,
+                      "requested_quantity": 30
+                    },
+                    "product_name": "ISI TMT RAIPUR",
+                    "product_unit": "ton",
+                    "base_price": "51000.00",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                    "variant_name": null
+                  }
+                ]
+              },
+              {
+                "id": "c38bac0d-9775-4caf-95c3-48d4eb3c5f59",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4087500.00",
+                "status": "new",
+                "notes": "Automated Verification Consignment 1787405429824 - 75 MT Fe-550D TMT Rebars",
+                "custom_data": {
+                  "qty": 75,
+                  "sku": "US-TMT-550D",
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 75,
+                  "product_id": "p1",
+                  "product_name": "Fe-550D TMT Steel Rebars (8mm - 32mm)"
+                },
+                "created_at": "2026-08-22T13:30:32.415Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "4fa954a9-d3cd-4f95-97e6-e9319cea3a1c",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4087500.00",
+                "status": "new",
+                "notes": "Real-time test reflection 1787405418172",
+                "custom_data": {
+                  "qty": 75,
+                  "sku": "US-TMT-550D",
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 75,
+                  "product_id": "p1",
+                  "product_name": "Fe-550D TMT Steel Rebars (8mm - 32mm)"
+                },
+                "created_at": "2026-08-22T13:30:20.626Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "4af5a8b1-bc26-43cf-ac81-bc5a6dfb0134",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "3270000.00",
+                "status": "new",
+                "notes": "Survey verification automated test consignment for Fe-550D TMT.",
+                "custom_data": {
+                  "qty": 60,
+                  "sku": "US-TMT-550D",
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 60,
+                  "product_name": "Fe-550D TMT Steel Rebars (8mm - 32mm)",
+                  "benchmark_rate": 54500
+                },
+                "created_at": "2026-08-22T13:24:58.251Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "705353b9-cba1-4f3c-b05f-5e7b0bab9863",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4835000.00",
+                "status": "converted",
+                "notes": null,
+                "custom_data": {
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "requirement": "Urgent supply of 50 MT ISI TMT RAIPUR and 50 MT BHUMIJA TMT for commercial township."
+                },
+                "created_at": "2026-08-22T08:51:24.905Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "06b3330d-af97-4a79-846d-7d047b11eb0e",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4835000.00",
+                "status": "converted",
+                "notes": null,
+                "custom_data": {
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "requirement": "Urgent supply of 50 MT ISI TMT RAIPUR and 50 MT BHUMIJA TMT for commercial township."
+                },
+                "created_at": "2026-08-22T08:48:33.720Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "66de44ab-217a-4cde-bf62-9f9739aa355c",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "4835000.00",
+                "status": "converted",
+                "notes": null,
+                "custom_data": {
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "requirement": "Urgent supply of 50 MT ISI TMT RAIPUR and 50 MT BHUMIJA TMT for commercial township."
+                },
+                "created_at": "2026-08-22T08:46:02.813Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": []
+              },
+              {
+                "id": "6c6dd103-0e9a-40d1-82e2-ee53862ec077",
+                "name": "Sourabh Khandelwal",
+                "phone": "+91 99887 76655",
+                "email": "sourabh.khandelwal@khandelwalinfra.com",
+                "expected_value": "2285000.00",
+                "status": "converted",
+                "notes": "Verified and active in negotiation with Deepesh Gupta (CEO).",
+                "custom_data": {
+                  "company": "Khandelwal Infra Developers",
+                  "org_code": "urbanspan_steel_1764",
+                  "requirement": "Need 75 MT of ISI TMT RAIPUR for commercial township phase 1."
+                },
+                "created_at": "2026-08-22T07:03:52.593Z",
+                "quote_status": "approved",
+                "quote_data": {
+                  "items": [
+                    {
+                      "sku": "TMT-BHUMIJA",
+                      "unit": "ton",
+                      "notes": "Verified and active in negotiation with Deepesh Gupta (CEO).",
+                      "total": 2696300,
+                      "gst_18": 411300,
+                      "category": "Rebars",
+                      "quantity": 50,
+                      "subtotal": 2285000,
+                      "product_id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                      "quoted_rate": 45700,
+                      "product_name": "BHUMIJA TMT BARS",
+                      "benchmark_rate": 45700,
+                      "discount_per_unit": 0
+                    }
+                  ],
+                  "total_gst": 411300,
+                  "grand_total": 2696300,
+                  "has_discount": false,
+                  "base_subtotal": 2285000,
+                  "total_tonnage": 50,
+                  "total_discount": 0
+                },
+                "assigned_rep_name": "Rajesh Verma",
+                "assigned_rep_email": "rajesh.sales@urbanspan.com",
+                "assigned_rep_phone": "+91 98200 44556",
+                "items": []
+              }
+            ],
+            "success": true
+          }
+        }
+      ],
+      "consoleLogs": [
+        "[DESKTOP CONSOLE] Urbanspan Client Connected to Distro WS Server: LFeOhq-31G-Um5q5AADv"
+      ],
+      "passed": true,
+      "assertions": [
+        {
+          "name": "Customer Auth API 200 OK & JWT issued",
+          "passed": true
+        },
+        {
+          "name": "Verified Client Account badge rendered",
+          "passed": true
+        },
+        {
+          "name": "Customer name displayed correctly",
+          "passed": true
+        },
+        {
+          "name": "Company name displayed correctly",
+          "passed": true
+        },
+        {
+          "name": "Inquiries list populated",
+          "passed": true,
+          "count": 10
+        },
+        {
+          "name": "5 Active Supply Contracts rendered",
+          "passed": true,
+          "count": 6
+        },
+        {
+          "name": "Contract #5 (50 MT BHUMIJA TMT) found",
+          "passed": true
+        },
+        {
+          "name": "Contract 5 valuation ₹2,285,000 exact",
+          "passed": true
+        },
+        {
+          "name": "Contract 5 stage weighbridge_loaded badge",
+          "passed": true
+        },
+        {
+          "name": "All 5 Dispatch Stages present on Contract #5",
+          "passed": true
+        },
+        {
+          "name": "Key Account Team contacts visible",
+          "passed": true
+        },
+        {
+          "name": "Mobile session persistence and verified badge",
+          "passed": true
+        },
+        {
+          "name": "Mobile Portal zero horizontal scroll overflow",
+          "passed": true
+        },
+        {
+          "name": "Mobile Active Supply Contracts rendered",
+          "passed": true
+        }
+      ]
+    },
+    "personaC": {
+      "persona": "Persona C - Mobile Site Supervisor (Sunil Verma)",
+      "viewport": "390x844 (Mobile)",
+      "timestamp": "2026-08-22T14:07:11.449Z",
+      "steps": [],
+      "networkLogs": [
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/forms/by-name/lead_capture/schema?org_code=urbanspan_steel_1764",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:07:17.347Z",
+          "responseBody": {
+            "data": {
+              "id": "ff448c0f-fec5-4f38-9a17-50271a4c0e09",
+              "name": "lead_capture",
+              "fields": [
+                {
+                  "name": "name",
+                  "type": "text",
+                  "label": "Commercial Contact Name",
+                  "required": true
+                },
+                {
+                  "name": "company",
+                  "type": "text",
+                  "label": "Company / Infrastructure Org",
+                  "required": true
+                },
+                {
+                  "name": "email",
+                  "type": "email",
+                  "label": "Business Email",
+                  "required": true
+                },
+                {
+                  "name": "phone",
+                  "type": "phone",
+                  "label": "Phone / WhatsApp",
+                  "required": false
+                },
+                {
+                  "name": "product_id",
+                  "type": "select",
+                  "label": "Product / Steel Grade",
+                  "required": false
+                },
+                {
+                  "name": "quantity",
+                  "type": "number",
+                  "label": "Required Quantity (Metric Tons)",
+                  "required": true
+                },
+                {
+                  "name": "notes",
+                  "type": "textarea",
+                  "label": "Project Site Location & Delivery Notes",
+                  "required": false
+                },
+                {
+                  "name": "expected_value",
+                  "type": "number",
+                  "label": "Estimated Contract Value (INR)",
+                  "required": false
+                }
+              ]
+            },
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/products",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:07:17.360Z",
+          "responseBody": {
+            "data": [
+              {
+                "id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                "name": "ISI TMT RAIPUR",
+                "sku": "TMT-ISI",
+                "description": "## Raipur ISI TMT Bars\n\nRaipur ISI TMT Bars provide the ultimate cost-effective solution for structural reinforcement without compromising on safety standards. Sourced directly from Raipur—India’s premier steel manufacturing hub—these bars represent a massive network of high-capacity foundries. By leveraging Raipur's massive economies of scale, we bring you fully certified, dependable TMT bars at the most competitive market prices.\n\n## Why Choose Raipur ISI TMT Bars?\n\n- Certified Safety: Every bar carries the mandatory ISI mark, guaranteeing compliance with national standard engineering benchmarks.\n- Maximum Cost Efficiency: Optimized production logistics in Raipur pass direct manufacturing savings onto your project budget.\n- Versatile Material Grades: Available across a wide spectrum of industry grades to match your specific structural blueprints.\n- Massive Supply Reliability: Sourced from India's largest steel cluster, ensuring zero project delays and uninterrupted bulk availability.\n\n## Ideal Applications\n\n- Budget-Conscious Construction: Perfect for low-to-medium rise residential buildings looking to optimize material expenses.\n\n- Boundary Walls & Fencing: Highly economical choice for extensive peripheral walls, security fencing, and compound enclosures.\n\n- Secondary Structural Elements: Excellent for casting internal lintels, sunshades, chajjas, and non-load-bearing structural frames.\n\n- Rural & Semi-Urban Projects: The go-to affordable steel choice for independent home builders, warehouses, and small commercial shops.\n\n",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "Secondary Steel",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg"
+                ],
+                "specifications": {
+                  "grade": "500, 500D, 550, 550D"
+                }
+              },
+              {
+                "id": "0354d02c-54b2-412a-b586-8f5071ccb04a",
+                "name": "GK TMT",
+                "sku": "TMT-GK",
+                "description": "## GK TMT Rebars (Fe 550D / Fe 500D)\nOverview\nGK TMT (manufactured by Real Ispat and Power Ltd / REAL Group) is a premium thermo-mechanically treated reinforcement bar engineered for modern construction demands. Manufactured in compliance with IS 1786:2008 standards, GK TMT bars deliver an optimal balance of high tensile strength, superior ductility, and robust corrosion resistance.\n\nWith advanced ribbed profiling and a tough outer tempered martensite layer combined with a ductile ferrite-pearlite core, GK TMT provides exceptional concrete bonding and high structural integrity against seismic activity.\n\n## Key Features & Benefits\n- High Yield & Tensile Strength: Built to withstand heavy load-bearing requirements, resulting in 12–14% steel savings and lower structural weight.\n\n- Superior Ductility & Seismic Resistance: The high elongation properties allow structures to absorb high energy loads and seismic shocks without brittle fracture.\n\n- Advanced Rib Design: Precision-rolled rib pattern provides a solid mechanical grip and maximum bonding strength with concrete.\n\n- Enhanced Corrosion & Heat Resistance: Low carbon, sulfur, and phosphorus composition protects against rust formation and maintains stability under severe temperature variations.\n\n- Excellent Bendability & Weldability: Easily bent into required shapes on-site without developing micro-cracks, and compatible with standard welding methods without loss of joint strength.",
+                "category": "Rebars",
+                "tags": [
+                  "In Stock & Ready",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": "45000.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899186-1fae3a6b-GK1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-fdc8e501-GK2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786967899187-49c2d197-GK4.jpg"
+                ],
+                "specifications": {}
+              },
+              {
+                "id": "edfffef5-f50d-4e7c-82bd-bfb671f5b70a",
+                "name": "JINDAL PANTHER TMT",
+                "sku": "TMT-JINDAL",
+                "description": "## Overview\n[Jindal Panther TMT Rebars](https://www.jindalpanther.com/post/our-blogs/tmt-bars-importance-features-and-extensive-usage.html) are premium-quality, high-strength primary steel reinforcement bars manufactured from virgin iron ore. Engineered using the advanced High Yield Quenching and Self Tempering (HYQST) process, these **Fe 550D** grade rebars deliver a perfect combination of superior yield strength and high ductility. They are **BIS Certified** and specifically designed to meet stringent global and domestic structural demands. \n\n## Technical Specifications\n- **Grade:** Fe 550D (Enhanced Ductility)\n- **Yield Strength:** Minimum 550 MPa (N/mm²)\n- **Tensile Strength (UTS):** Minimum 600 N/mm²\n- **Elongation:** Minimum 14.5%\n- **Raw Material:** Primary Steel manufactured from virgin iron ore\n- **Chemical Purity:** Exceptionally low levels of Sulphur and Phosphorus (Max 0.075% combined) to prevent fatigue and cold shortness\n- **Standards:** Conforms to IS 1786:2008\n\n## Key Features & Benefits\n- **Advanced HYQST & QST Technology:** Manufactured using globally recognized Quenching and Self Tempering (QST) and High Yield Quenching and Self Tempering (HYQST) processes. This specialized thermo-mechanical treatment rapidly cools the outer layer while the core remains hot, creating a unique composite structure: a tough, high-strength martensite outer ring combined with a soft, ductile inner core.\n- **Exceptional Seismic Resistance:** The enhanced ductility and elongation of the Fe 550D grade allow structures to absorb and dissipate seismic energy effectively, making them highly suitable for earthquake-prone areas (Seismic Zones IV & V).\n- **Cost & Material Efficiency:** Because Fe 550D offers a higher load-bearing capacity than standard Fe 500 grades, it can reduce overall steel consumption by up to 12-15%, which eases bar congestion during construction and saves on material costs.\n- **Superior Weldability & Bendability:** A low carbon equivalent enables excellent weldability without pre-heating, and the bars can be bent easily without cracking (e.g., a minimum bend radius of 6 mm for 12 mm bars).\n- **Strong Concrete Bonding:** A uniform, precision-milled V-shaped rib pattern ensures superior mechanical bonding with concrete.\n- **Corrosion Resistance:** The specialized cooling process creates a tough, passive outer layer that naturally resists rust formation better than standard scrap-based rebars.\n\n## Ideal Applications\n- High-rise residential and commercial buildings\n- Heavy infrastructure, bridges, and elevated corridors\n- Structures in high-stress and dynamic loading environments\n- Earthquake-resistant foundations and frameworks",
+                "category": "Rebars",
+                "tags": [
+                  "Primary Steel",
+                  "BIS Certified",
+                  "Fe 550D",
+                  "Export Quality",
+                  "In Stock & Ready"
+                ],
+                "is_active": true,
+                "base_price": "56500.00",
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829114-b1cd20d1-tmt-rebars-img1.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829112-754935b3-jindal_panther2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1787123829113-c12aef20-jindalpanther3.jpg"
+                ],
+                "specifications": {
+                  "Grade": "Fe550D",
+                  "Length": "12mtr",
+                  "Raw Material": "Virgin iron ore",
+                  "Diameter Range": "8mm to 32mm"
+                }
+              },
+              {
+                "id": "a2a44097-f3a3-4e33-8931-a9a769b1e590",
+                "name": "BHUMIJA TMT BARS",
+                "sku": "TMT-BHUMIJA",
+                "description": "# **Bhumija TMT Rebars (Fe 500D / Fe 550)**\n\n### **Overview**\n\n**Bhumija TMT** (manufactured by Bhumija Ispat) is a high-grade thermo-mechanically treated reinforcement bar designed to meet modern structural engineering and construction requirements. Certified under **IS 1786:2008** standards, Bhumija TMT bars are processed through a stringent **TIA (Testing, Inspection, and Assurance)** quality framework to deliver consistent load-bearing capability, high ductility, and enhanced durability.\n\nManufactured with a uniform rib design, these rebars ensure a powerful grip with concrete while maintaining optimal bendability and corrosion resistance.\n\n---\n\n### **Key Features & Benefits**\n\n* **High Tensile & Yield Strength:** Delivers robust structural load capacity, enabling efficient steel consumption across projects.\n* **Superior Ductility & Flexibility:** High elongation prevents brittle failures and allows effective energy absorption during seismic activity.\n* **Uniform Rib Pattern:** Precision-engineered external ribs ensure maximum concrete bonding strength and slip resistance.\n* **Corrosion & Thermal Resistance:** Low-impurity chemical composition resists rust in humid environments and retains strength under elevated temperatures.\n* **Excellent Bendability & Weldability:** Easily bent and rebent without micro-fracturing along the core, suitable for on-site fabrication.\n\n---\n\n### **Technical Specifications**\n\n| **Parameter** | **Specification** |\n| --- | --- |\n| **Brand** | Bhumija TMT |\n| **Manufacturer** | Bhumija Ispat |\n| **Compliance Standard** | IS 1786:2008 / BIS Certified |\n| **Grades Available** | Fe 415 / Fe 500 / Fe 500D / Fe 550 |\n| **Available Diameters** | 8 mm, 10 mm, 12 mm, 16 mm, 20 mm, 25 mm, 32 mm |\n| **Standard Length** | 12 Meters (Straight / U-Bend) |\n| **Rib Type** | High-Bond Uniform Ribbed |\n| **Quality Mechanism** | TIA (Testing, Inspection, Assurance) Process |\n\n---\n\n### **Recommended Applications**\n\n* **Residential Housing & Apartments:** Individual homes, multi-story residential blocks, beams, and columns.\n* **Commercial & High-Rise Buildings:** Office towers, shopping complexes, and retail centers.\n* **Infrastructure & Bridges:** Culverts, flyovers, highways, and heavy structural frameworks.\n* **Industrial Structures:** Warehouses, factory plants, and heavy machine foundation slabs.",
+                "category": "Rebars",
+                "tags": [
+                  "Fe 550D",
+                  "BIS Certified"
+                ],
+                "is_active": true,
+                "base_price": null,
+                "currency": "INR",
+                "unit": "ton",
+                "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                "images": [
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-3600ea1c-bhumija2.png",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347778-b436b293-bhumija2.jpg",
+                  "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786969347779-b4a1b949-bhumijatmt1.jpg"
+                ],
+                "specifications": {}
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/forms/by-name/lead_capture/submit",
+          "status": 201,
+          "method": "POST",
+          "timestamp": "2026-08-22T14:07:19.914Z",
+          "responseBody": {
+            "data": {
+              "entity_type": "lead",
+              "id": "5ef446df-dfeb-45af-8ac1-8f8feb11c198",
+              "success": true
+            },
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/login",
+          "status": 200,
+          "method": "POST",
+          "timestamp": "2026-08-22T14:07:23.704Z",
+          "responseBody": {
+            "data": {
+              "customer": {
+                "company": "Indore Metro Rail JV",
+                "email": "sunil.verma@metrocorridor.in",
+                "id": "83ebab99-8755-45c7-aa70-3773a404cffc",
+                "name": "Sunil Verma (Metro Site Office)",
+                "party_id": "d07e28ab-37be-47db-999b-c53ea6587719",
+                "phone": "+919406699887"
+              },
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6IjgzZWJhYjk5LTg3NTUtNDVjNy1hYTcwLTM3NzNhNDA0Y2ZmYyIsInBhcnR5X2lkIjoiZDA3ZTI4YWItMzdiZS00N2RiLTk5OWItYzUzZWE2NTg3NzE5Iiwib3JnX2lkIjoiNDQ1ZjBhMzYtM2NhNC00ZTY4LWJmNTMtN2ZiN2M3Yjk1YjBiIiwib3JnX3NjaGVtYSI6Im9yZ191cmJhbnNwYW5fc3RlZWxfMTc4NTY3MzU1NzM1OCIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc4NzQwNzY0NiwiZXhwIjoxNzg5OTk5NjQ2fQ.uILymHmArazciXwRVZtxCVM5GWat2e5Nm8iwxjCzFtI"
+            },
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/orders",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:07:24.364Z",
+          "responseBody": {
+            "data": [],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/inquiries",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:07:24.365Z",
+          "responseBody": {
+            "data": [
+              {
+                "id": "5ef446df-dfeb-45af-8ac1-8f8feb11c198",
+                "name": "Sunil Verma (Site Supervisor)",
+                "phone": "+91 94066 99887",
+                "email": "sunil.verma@metrocorridor.in",
+                "expected_value": "1530000.00",
+                "status": "new",
+                "notes": "Urgent 30 MT Fe-550D rebar batch for Pier Cap Casting at Vijayanagar Metro Site Office.",
+                "custom_data": {
+                  "qty": 30,
+                  "sku": "TMT-ISI",
+                  "company": "Indore Metro Rail Corridor-1 Joint Venture",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 30,
+                  "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                  "product_name": "ISI TMT RAIPUR",
+                  "benchmark_rate": 51000
+                },
+                "created_at": "2026-08-22T14:07:22.556Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": [
+                  {
+                    "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                    "variant_id": null,
+                    "notes": "Web Commercial RFQ (30 ton @ ₹51,000/ton)",
+                    "custom_specifications": {
+                      "unit": "ton",
+                      "notes": "Urgent 30 MT Fe-550D rebar batch for Pier Cap Casting at Vijayanagar Metro Site Office.",
+                      "gst_18": 275400,
+                      "source": "website_rfq",
+                      "benchmark_rate": 51000,
+                      "requested_quantity": 30
+                    },
+                    "product_name": "ISI TMT RAIPUR",
+                    "product_unit": "ton",
+                    "base_price": "51000.00",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                    "variant_name": null
+                  }
+                ]
+              },
+              {
+                "id": "87931c50-0ba9-4a39-9b79-57bd4939141e",
+                "name": "Sunil Verma (Site Supervisor)",
+                "phone": "+91 94066 99887",
+                "email": "sunil.verma@metrocorridor.in",
+                "expected_value": "1530000.00",
+                "status": "new",
+                "notes": "Urgent 30 MT Fe-550D rebar batch for Pier Cap Casting at Vijayanagar Metro Site Office.",
+                "custom_data": {
+                  "qty": 30,
+                  "sku": "TMT-ISI",
+                  "company": "Indore Metro Rail Corridor-1 Joint Venture",
+                  "org_code": "urbanspan_steel_1764",
+                  "quantity": 30,
+                  "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                  "product_name": "ISI TMT RAIPUR",
+                  "benchmark_rate": 51000
+                },
+                "created_at": "2026-08-22T14:05:41.717Z",
+                "quote_status": "draft",
+                "quote_data": {},
+                "assigned_rep_name": null,
+                "assigned_rep_email": null,
+                "assigned_rep_phone": null,
+                "items": [
+                  {
+                    "product_id": "f33b648e-5966-4e4a-8068-d02a5a96d4df",
+                    "variant_id": null,
+                    "notes": "Web Commercial RFQ (30 ton @ ₹51,000/ton)",
+                    "custom_specifications": {
+                      "unit": "ton",
+                      "notes": "Urgent 30 MT Fe-550D rebar batch for Pier Cap Casting at Vijayanagar Metro Site Office.",
+                      "gst_18": 275400,
+                      "source": "website_rfq",
+                      "benchmark_rate": 51000,
+                      "requested_quantity": 30
+                    },
+                    "product_name": "ISI TMT RAIPUR",
+                    "product_unit": "ton",
+                    "base_price": "51000.00",
+                    "image_url": "https://storage.googleapis.com/distro-media-uploads-636146987319/products/1786868160217-e902a637-image_97436fc6.jpg",
+                    "variant_name": null
+                  }
+                ]
+              }
+            ],
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/chat",
+          "status": 200,
+          "method": "GET",
+          "timestamp": "2026-08-22T14:07:26.952Z",
+          "responseBody": {
+            "data": {
+              "channel": {
+                "id": "aab643ce-605a-4a4b-b66c-23e3e7986375",
+                "name": "Customer: Sunil Verma (Metro Site Office)",
+                "description": "customer_83ebab99-8755-45c7-aa70-3773a404cffc",
+                "type": "customer",
+                "created_by": null,
+                "is_archived": false,
+                "posting_permission": "everyone",
+                "created_at": "2026-08-22T14:07:29.030Z",
+                "updated_at": "2026-08-22T14:07:29.030Z"
+              },
+              "messages": []
+            },
+            "success": true
+          }
+        },
+        {
+          "url": "https://api.urbanspaninfra.co.in/api/external/customers/me/chat/messages",
+          "status": 201,
+          "method": "POST",
+          "timestamp": "2026-08-22T14:07:28.306Z",
+          "responseBody": {
+            "data": {
+              "id": "167e3bf2-fe52-4fbd-a405-2f1125317cd0",
+              "channel_id": "aab643ce-605a-4a4b-b66c-23e3e7986375",
+              "sender_id": null,
+              "customer_id": "83ebab99-8755-45c7-aa70-3773a404cffc",
+              "content": "Urgent: Dispatch status for Pier P-14 rebar batch needed today at Metro Site Office.",
+              "parent_message_id": null,
+              "is_edited": false,
+              "is_deleted": false,
+              "reply_count": 0,
+              "metadata": {},
+              "created_at": "2026-08-22T14:07:30.968Z",
+              "updated_at": "2026-08-22T14:07:30.968Z",
+              "sender_name": "Sunil Verma (Metro Site Office)",
+              "sender_avatar": "https://ui-avatars.com/api/?name=Sunil Verma (Metro Site Office)&background=random",
+              "attachments": [],
+              "reactions": []
+            },
+            "success": true
+          }
+        }
+      ],
+      "consoleLogs": [
+        "[MOBILE CONSOLE] Urbanspan Client Connected to Distro WS Server: pns97BRpnxDStTbUAADx"
+      ],
+      "passed": true,
+      "assertions": [
+        {
+          "name": "Mobile sticky header rendered",
+          "passed": true
+        },
+        {
+          "name": "Mobile 6-tab bottom bar rendered",
+          "passed": true
+        },
+        {
+          "name": "Mobile 2x2 Quick Action grid rendered",
+          "passed": true
+        },
+        {
+          "name": "Mobile Home zero horizontal overflow",
+          "passed": true
+        },
+        {
+          "name": "RFQ Form loaded on mobile",
+          "passed": true
+        },
+        {
+          "name": "Mobile Spot Quote API 200 OK",
+          "passed": true
+        },
+        {
+          "name": "RFQ Confirmation screen rendered",
+          "passed": true
+        },
+        {
+          "name": "Client JWT authentication for Live Chat",
+          "passed": true
+        },
+        {
+          "name": "/chat full-screen layout loaded",
+          "passed": true
+        },
+        {
+          "name": "Mobile /chat zero horizontal overflow",
+          "passed": true
+        },
+        {
+          "name": "Site dispatch message rendered in chat thread",
+          "passed": true
+        },
+        {
+          "name": "Socket.IO bidirectional gateway connected with token",
+          "passed": true
+        }
+      ]
+    },
+    "adversarial": {
+      "suite": "Adversarial Edge & Stress Testing",
+      "timestamp": "2026-08-22T14:07:33.551Z",
+      "tests": [
+        {
+          "name": "Cart Mathematical Invariants (Float exactness & 18% GST)",
+          "passed": true,
+          "details": {
+            "casesTested": 6,
+            "failuresCount": 0,
+            "failures": []
+          }
+        },
+        {
+          "name": "RFQ Submission XSS & Unicode Handling",
+          "passed": true,
+          "status": 201
+        },
+        {
+          "name": "Invalid Credentials Security Rejection",
+          "passed": true
+        },
+        {
+          "name": "Multi-Viewport Zero Horizontal Overflow (320px - 430px)",
+          "passed": true,
+          "viewports": [
+            {
+              "name": "iPhone SE / Small Screen",
+              "width": 320,
+              "height": 568,
+              "overflowMetrics": {
+                "scrollWidth": 320,
+                "innerWidth": 320,
+                "hasOverflow": false
+              },
+              "passed": true
+            },
+            {
+              "name": "Galaxy S20 / Standard Small",
+              "width": 360,
+              "height": 800,
+              "overflowMetrics": {
+                "scrollWidth": 360,
+                "innerWidth": 360,
+                "hasOverflow": false
+              },
+              "passed": true
+            },
+            {
+              "name": "iPhone 14 Pro / Target Spec",
+              "width": 390,
+              "height": 844,
+              "overflowMetrics": {
+                "scrollWidth": 390,
+                "innerWidth": 390,
+                "hasOverflow": false
+              },
+              "passed": true
+            },
+            {
+              "name": "iPhone 14 Pro Max / Large Mobile",
+              "width": 430,
+              "height": 932,
+              "overflowMetrics": {
+                "scrollWidth": 430,
+                "innerWidth": 430,
+                "hasOverflow": false
+              },
+              "passed": true
+            }
+          ]
+        },
+        {
+          "name": "Mobile Bottom Tab Touch Target Ergonomics",
+          "passed": true,
+          "details": [
+            {
+              "text": "Home",
+              "width": 65,
+              "height": 64,
+              "meetsMinTarget": true
+            },
+            {
+              "text": "Catalog",
+              "width": 65,
+              "height": 64,
+              "meetsMinTarget": true
+            },
+            {
+              "text": "Quote",
+              "width": 65,
+              "height": 64,
+              "meetsMinTarget": true
+            },
+            {
+              "text": "News",
+              "width": 65,
+              "height": 64,
+              "meetsMinTarget": true
+            },
+            {
+              "text": "Portal",
+              "width": 65,
+              "height": 64,
+              "meetsMinTarget": true
+            },
+            {
+              "text": "Chat",
+              "width": 65,
+              "height": 64,
+              "meetsMinTarget": true
+            }
+          ]
+        }
+      ],
+      "passed": true
+    }
+  }
+}

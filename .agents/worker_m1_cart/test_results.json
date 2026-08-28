@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-08-22T14:14:45.131Z",
+  "suites": {
+    "apiEndpoints": {
+      "passed": 9,
+      "failed": 0,
+      "total": 9
+    },
+    "cartMathematics": {
+      "passed": 46,
+      "failed": 0,
+      "total": 46
+    },
+    "e2eJourney": {
+      "passed": 34,
+      "failed": 0,
+      "total": 34,
+      "consoleErrors": [],
+      "uncaughtExceptions": []
+    }
+  },
+  "totalPassed": 89,
+  "totalFailed": 0,
+  "durationMs": 29593,
+  "status": "PASSED"
+}

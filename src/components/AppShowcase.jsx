@@ -58,7 +58,7 @@ export default function AppShowcase() {
             
             <div>
               <a 
-                href="/distro-app-v3.apk" 
+                href="https://storage.googleapis.com/urbanspan-downloads/urbanspan-app-v3.apk" 
                 download
                 className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-brand-steel hover:bg-brand-steel-dark text-white font-bold text-base shadow-lg shadow-brand-steel/30 transition-transform hover:-translate-y-1"
               >

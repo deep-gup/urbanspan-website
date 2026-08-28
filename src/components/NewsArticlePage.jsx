@@ -97,11 +97,17 @@ export default function NewsArticlePage() {
     }
   };
 
+  const getPublicShareUrl = () => {
+    const articleId = article?.id || id || '';
+    return `https://urbanspaninfra.co.in/news/${encodeURIComponent(articleId)}`;
+  };
+
   const handleShare = async () => {
+    const shareUrl = getPublicShareUrl();
     const shareData = {
       title: `${currentTitle} | Urbanspan News`,
       text: currentContent ? currentContent.substring(0, 120) + '...' : currentTitle,
-      url: window.location.href
+      url: shareUrl
     };
 
     if (navigator.share) {
@@ -116,7 +122,8 @@ export default function NewsArticlePage() {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const shareUrl = getPublicShareUrl();
+    navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
