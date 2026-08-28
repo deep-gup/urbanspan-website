@@ -6,14 +6,154 @@
     <link rel="icon" type="image/png" href="/urbanspan-logo-cropped.png" />
     <link rel="apple-touch-icon" href="/urbanspan-logo-cropped.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Urbanspan Infrastructure Pvt. Ltd.</title>
     
+    <!-- Google tag (gtag.js) - Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08EQKDH3XD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-08EQKDH3XD', {
+        send_page_view: false // Managed dynamically in React on route changes
+      });
+    </script>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Urbanspan Infrastructure Pvt. Ltd. | Primary Steel Distribution & Industrial Supply</title>
+    <meta name="title" content="Urbanspan Infrastructure Pvt. Ltd. | Primary Steel Distribution & Industrial Supply" />
+    <meta name="description" content="Urbanspan Infrastructure Private Limited is Central India's premier primary steel distributor & warehousing network. BIS-certified Fe-550D TMT Rebars, Structural Steel, and direct mill supply in Indore, MP." />
+    <meta name="keywords" content="Urbanspan, Urbanspan Infrastructure, Steel distributor Indore, TMT Rebars Madhya Pradesh, Fe-550D TMT bars, Structural Steel suppliers, Industrial metals India, Primary steel distribution, steel price Indore, building materials supplier Indore" />
+    <meta name="author" content="Urbanspan Infrastructure Private Limited" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    
+    <!-- Dynamic canonical handled by react-helmet per route -->
+
+    <!-- Geo & Local Business Tags -->
+    <meta name="geo.region" content="IN-MP" />
+    <meta name="geo.placename" content="Indore" />
+    <meta name="geo.position" content="22.7533;75.8937" />
+    <meta name="ICBM" content="22.7533, 75.8937" />
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://urbanspaninfra.co.in/" />
+    <meta property="og:site_name" content="Urbanspan Infrastructure Private Limited" />
+    <meta property="og:title" content="Urbanspan Infrastructure Pvt. Ltd. | Primary Steel Distribution & Industrial Supply" />
+    <meta property="og:description" content="Primary Steel Distribution & Industrial Warehousing Network. Supplying BIS-certified Fe-550D TMT Rebars, Structural Steel, and direct mill supply in Indore, Madhya Pradesh." />
+    <meta property="og:image" content="https://urbanspaninfra.co.in/urbanspan-logo-large.png" />
+    <meta property="og:image:secure_url" content="https://urbanspaninfra.co.in/urbanspan-logo-large.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://urbanspaninfra.co.in/" />
+    <meta name="twitter:title" content="Urbanspan Infrastructure Pvt. Ltd. | Primary Steel Distribution" />
+    <meta name="twitter:description" content="Primary Steel Distribution & Industrial Warehousing Network in Indore, Madhya Pradesh. Supplying BIS-certified Fe-550D TMT Rebars & Structural Steel." />
+    <meta name="twitter:image" content="https://urbanspaninfra.co.in/urbanspan-logo-large.png" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <!-- Schema.org JSON-LD Structured Data: LocalBusiness, WholesaleStore & Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["LocalBusiness", "WholesaleStore", "Organization"],
+          "@id": "https://urbanspaninfra.co.in/#organization",
+          "name": "Urbanspan Infrastructure Private Limited",
+          "alternateName": "Urbanspan Steel",
+          "url": "https://urbanspaninfra.co.in",
+          "logo": {
+            "@type": "ImageObject",
+            "@id": "https://urbanspaninfra.co.in/#logo",
+            "url": "https://urbanspaninfra.co.in/urbanspan-logo-cropped.png",
+            "caption": "Urbanspan Infrastructure Logo"
+          },
+          "image": "https://urbanspaninfra.co.in/urbanspan-logo-large.png",
+          "description": "Primary Steel Distribution & Industrial Warehousing Network. Supplying BIS-certified Fe-550D TMT Rebars, Structural Steel, and heavy industrial metals across India.",
+          "telephone": "+91-94259-22225",
+          "email": "support@urbanspaninfra.co.in",
+          "priceRange": "₹₹₹",
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "Bank Transfer, RTGS, NEFT, Letter of Credit",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "115 Scheme 97, Vanijyak Mandi",
+            "addressLocality": "Indore",
+            "addressRegion": "Madhya Pradesh",
+            "postalCode": "452009",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 22.7533,
+            "longitude": 75.8937
+          },
+          "hasMap": "https://maps.google.com/maps?q=22.7533,75.8937",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "09:00",
+              "closes": "19:00"
+            }
+          ],
+          "areaServed": [
+            { "@type": "Country", "name": "India" },
+            { "@type": "AdministrativeArea", "name": "Madhya Pradesh" },
+            { "@type": "AdministrativeArea", "name": "Chhattisgarh" },
+            { "@type": "AdministrativeArea", "name": "Maharashtra" },
+            { "@type": "AdministrativeArea", "name": "Gujarat" },
+            { "@type": "AdministrativeArea", "name": "Rajasthan" }
+          ],
+          "sameAs": [
+            "https://maps.google.com/?cid=urbanspan-infra",
+            "https://www.linkedin.com/company/urbanspan-infrastructure"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://urbanspaninfra.co.in/#website",
+          "url": "https://urbanspaninfra.co.in",
+          "name": "Urbanspan Infrastructure",
+          "publisher": {
+            "@id": "https://urbanspaninfra.co.in/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://urbanspaninfra.co.in/products?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
+    <noscript>
+      <div style="padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; color: #1e293b;">
+        <h1 style="font-size: 24px; font-weight: 700; color: #0f172a;">Urbanspan Infrastructure Private Limited</h1>
+        <p style="font-size: 16px; line-height: 1.6; color: #475569;">
+          Central India's leading primary steel distributor &amp; industrial supply warehousing network located in Scheme 97, Indore, Madhya Pradesh. Supplying BIS-certified Fe-550D TMT Rebars, Structural Steel, and direct mill supplies across Central India.
+        </p>
+        <div style="margin-top: 16px;">
+          <h2 style="font-size: 18px; font-weight: 600;">Navigation Links</h2>
+          <ul style="line-height: 2;">
+            <li><a href="/products" style="color: #2563eb; text-decoration: underline;">Steel Products &amp; Fe-550D TMT Rebars Catalog</a></li>
+            <li><a href="/news" style="color: #2563eb; text-decoration: underline;">Steel Industry News &amp; Market Insights</a></li>
+            <li><a href="/about-us" style="color: #2563eb; text-decoration: underline;">About Urbanspan Infrastructure (45+ Years Legacy)</a></li>
+            <li><a href="/contact" style="color: #2563eb; text-decoration: underline;">Contact &amp; Head Office (Scheme 97, Indore)</a></li>
+            <li><a href="/portal" style="color: #2563eb; text-decoration: underline;">Customer Order &amp; Dispatch Tracking Portal</a></li>
+          </ul>
+        </div>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
