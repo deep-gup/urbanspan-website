@@ -6,6 +6,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
+ARG CACHEBUST=20260828_01
+RUN echo "Cache bust: $CACHEBUST"
+
 COPY . .
 RUN npm run build
 

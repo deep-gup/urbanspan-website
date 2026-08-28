@@ -38,25 +38,39 @@ export default function Hero({ onExploreCatalog, onPartnerInquiry }) {
 
         </div>
 
-        {/* AI-Generated Industrial Steel Hero Banner Showcase */}
+        {/* Real Customer & Active Infrastructure Project Showcase */}
         <div className="relative rounded-3xl overflow-hidden border border-brand-navy-light shadow-2xl shadow-brand-navy-dark group mb-20">
           <img
-            src="/images/hero_banner.jpg"
-            alt="Urbanspan Steel Distribution"
-            className="w-full h-[400px] sm:h-[500px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            src="/images/hero_customer.jpg"
+            alt="Urbanspan Certified Steel Client Project Delivery"
+            className="w-full h-[420px] sm:h-[520px] object-cover object-top group-hover:scale-105 transition-transform duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark via-brand-navy-dark/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark via-brand-navy-dark/30 to-transparent"></div>
           
           <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-            <div className="glass-panel p-6 rounded-2xl max-w-lg border border-brand-navy-light shadow-xl">
-              <span className="text-[10px] font-bold text-brand-steel uppercase tracking-widest block mb-2">Central Distribution Hub</span>
-              <h3 className="font-heading text-xl font-bold text-white leading-snug">State-of-the-Art Logistics & Storage</h3>
-              <p className="text-sm text-slate-300 mt-2 font-light">Ensuring rapid, secure, and large-scale material dispatch with unparalleled operational efficiency.</p>
+            <div className="glass-panel p-6 rounded-2xl max-w-xl border border-brand-navy-light shadow-xl bg-brand-navy-dark/85 backdrop-blur-md">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] font-bold text-brand-steel uppercase tracking-widest bg-brand-steel/10 border border-brand-steel/30 px-2.5 py-0.5 rounded-full">
+                  50+ Years Legacy • On-Site Reliability
+                </span>
+              </div>
+              <h3 className="font-heading text-xl sm:text-2xl font-bold text-white leading-snug">
+                Trusted by Infrastructure Contractors & Engineers
+              </h3>
+              <p className="text-sm text-slate-300 mt-2 font-light leading-relaxed">
+                Supplying certified Fe-550D TMT, heavy structural beams, and custom secondary commercial rolling directly to active project sites across Central India with verified weighbridge manifests.
+              </p>
             </div>
 
-            <div className="flex items-center gap-3 bg-brand-navy-dark/90 backdrop-blur-md px-5 py-3 rounded-full border border-brand-navy-light text-xs font-semibold text-slate-200">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Real-Time Inventory Connected
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="flex items-center gap-2.5 bg-brand-navy-dark/90 backdrop-blur-md px-5 py-3 rounded-full border border-brand-navy-light text-xs font-semibold text-slate-200 shadow-lg">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>48h Direct Site Dispatch SLA</span>
+              </div>
+              <div className="flex items-center gap-2 bg-brand-steel/20 backdrop-blur-md px-4 py-3 rounded-full border border-brand-steel/40 text-xs font-bold text-white shadow-lg">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>1,200+ Projects Supplied</span>
+              </div>
             </div>
           </div>
         </div>
