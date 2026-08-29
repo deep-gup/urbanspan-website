@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { fetchSteelProducts } from '../services/headlessApi';
 import { useCart } from '../context/CartContext';
+import { getProductUnit, getQuantityPresets } from '../utils/productUtils';
 import SEO from './SEO';
 
 export default function ProductDetailsPage({ onSelectProductForInquiry }) {
@@ -434,7 +435,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                           ₹{Number(product.base_price).toLocaleString('en-IN')}
                         </span>
                         <span className="text-sm text-slate-500 font-bold">
-                          / {product.unit || 'Metric Ton'} (ex-plant)
+                          / {getProductUnit(product)} (ex-plant)
                         </span>
                       </div>
                       
@@ -444,9 +445,9 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                           <ShieldCheck className="w-4 h-4 text-emerald-600" /> Applicable GST @ 18%:
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-slate-600">+₹{Math.round(product.base_price * 0.18).toLocaleString('en-IN')}/MT</span>
+                          <span className="font-mono text-slate-600">+₹{Math.round(product.base_price * 0.18).toLocaleString('en-IN')}/{getProductUnit(product)}</span>
                           <span className="font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                            Effective: ₹{Math.round(product.base_price * 1.18).toLocaleString('en-IN')}/MT
+                            Effective: ₹{Math.round(product.base_price * 1.18).toLocaleString('en-IN')}/{getProductUnit(product)}
                           </span>
                         </div>
                       </div>
@@ -460,25 +461,25 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                 </div>
               </div>
 
-              {/* Tonnage Selector & Buyer Action Bar */}
+              {/* Requirement & Quantity Selector & Buyer Action Bar */}
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-6 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Select Requirement (Metric Tons):
+                    Select Requirement ({getProductUnit(product)}):
                   </span>
                   <div className="flex items-center gap-1">
-                    {[25, 50, 100, 200].map((mt) => (
+                    {getQuantityPresets(product).map((qty) => (
                       <button
-                        key={mt}
+                        key={qty}
                         type="button"
-                        onClick={() => setCustomTonnage(mt)}
+                        onClick={() => setCustomTonnage(qty)}
                         className={`px-2 py-1 rounded-lg text-xs font-bold border transition-all ${
-                          customTonnage === mt 
+                          customTonnage === qty 
                             ? 'bg-brand-steel text-white border-brand-steel shadow-sm' 
                             : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
                         }`}
                       >
-                        {mt} MT
+                        {qty} {getProductUnit(product)}
                       </button>
                     ))}
                   </div>
@@ -500,7 +501,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                       onChange={(e) => setCustomTonnage(Math.max(1, Number(e.target.value)))}
                       className="w-16 text-center bg-transparent text-slate-900 font-black text-sm focus:outline-none"
                     />
-                    <span className="text-xs text-slate-400 font-bold pr-2">MT</span>
+                    <span className="text-xs text-slate-400 font-bold pr-2">{getProductUnit(product)}</span>
                     <button
                       type="button"
                       onClick={() => setCustomTonnage(prev => prev + 5)}
@@ -526,12 +527,12 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                     {addedToCart ? (
                       <>
                         <Check className="w-4 h-4 text-white" />
-                        <span>Added {customTonnage} MT to Cart!</span>
+                        <span>Added {customTonnage} {getProductUnit(product)} to Cart!</span>
                       </>
                     ) : (
                       <>
                         <ShoppingBag className="w-4 h-4 text-brand-steel" />
-                        <span>Add {customTonnage} MT to Cart</span>
+                        <span>Add {customTonnage} {getProductUnit(product)} to Cart</span>
                       </>
                     )}
                   </button>
@@ -544,7 +545,7 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
               onClick={() => onSelectProductForInquiry && onSelectProductForInquiry({ ...product, selectedQuantity: customTonnage })}
               className="w-full py-4 px-6 rounded-2xl bg-gradient-primary text-slate-900 font-black text-base shadow-lg shadow-brand-steel/20 hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-2"
             >
-              <span>Inquire For Bulk Supply / Dispatch ({customTonnage} MT)</span>
+              <span>Inquire For Bulk Supply / Dispatch ({customTonnage} {getProductUnit(product)})</span>
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
@@ -703,11 +704,11 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                                     </span>
                                   ) : diff > 0 ? (
                                     <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
-                                      +₹{diff.toLocaleString('en-IN')}/MT
+                                      +₹{diff.toLocaleString('en-IN')}/{getProductUnit(product)}
                                     </span>
                                   ) : (
                                     <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                                      -₹{Math.abs(diff).toLocaleString('en-IN')}/MT
+                                      -₹{Math.abs(diff).toLocaleString('en-IN')}/{getProductUnit(product)}
                                     </span>
                                   )}
                                 </td>

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { submitDynamicFormByName } from '../services/headlessApi';
+import { getProductUnit, getQuantityPresets } from '../utils/productUtils';
 import SEO from './SEO';
 
 export default function CartPage({ customerUser }) {
@@ -296,10 +297,10 @@ export default function CartPage({ customerUser }) {
                             ₹{Number(item.base_price).toLocaleString('en-IN')}
                           </span>
                           <span className="text-[11px] text-slate-500 font-semibold">
-                            / {item.unit || 'MT'} (ex-plant)
+                            / {getProductUnit(item)} (ex-plant)
                           </span>
                           <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                            + 18% GST (₹{Math.round(item.base_price * 0.18).toLocaleString('en-IN')}/MT)
+                            + 18% GST (₹{Math.round(item.base_price * 0.18).toLocaleString('en-IN')}/{getProductUnit(item)})
                           </span>
                         </div>
                       ) : (
@@ -314,7 +315,7 @@ export default function CartPage({ customerUser }) {
                     {/* Quantity Tonnage Selector */}
                     <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-slate-600">Tonnage:</span>
+                        <span className="text-xs font-bold text-slate-600">Quantity:</span>
                         <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-0.5">
                           <button
                             type="button"
@@ -330,7 +331,7 @@ export default function CartPage({ customerUser }) {
                             onChange={(e) => updateQuantity(item.id, Math.max(1, Number(e.target.value)))}
                             className="w-14 text-center bg-transparent text-slate-900 font-black text-xs focus:outline-none"
                           />
-                          <span className="text-[11px] text-slate-400 font-bold pr-2">MT</span>
+                          <span className="text-[11px] text-slate-400 font-bold pr-2">{getProductUnit(item)}</span>
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.id, item.quantity + 5)}
@@ -343,18 +344,18 @@ export default function CartPage({ customerUser }) {
 
                       {/* Quick MT presets */}
                       <div className="flex items-center gap-1">
-                        {[25, 50, 100].map((mt) => (
+                        {getQuantityPresets(item).slice(0, 3).map((qty) => (
                           <button
-                            key={mt}
+                            key={qty}
                             type="button"
-                            onClick={() => handleTonnagePreset(item.id, mt)}
-                            className={`px-2 py-1 rounded-lg text-[11px] font-bold border transition-all ${
-                              item.quantity === mt 
-                                ? 'bg-brand-steel text-white border-brand-steel shadow-sm' 
-                                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                            onClick={() => handleTonnagePreset(item.id, qty)}
+                            className={`px-2 py-1 rounded-lg text-xs font-bold border transition-all ${
+                              item.quantity === qty 
+                                ? 'bg-brand-steel text-white border-brand-steel shadow-xs' 
+                                : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
                             }`}
                           >
-                            {mt} MT
+                            {qty} {getProductUnit(item)}
                           </button>
                         ))}
                       </div>

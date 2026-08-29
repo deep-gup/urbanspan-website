@@ -3,6 +3,7 @@ import { Search, Filter, Layers, CheckCircle2, FileText, ArrowUpRight, Sparkles,
 import { fetchSteelProducts } from '../services/headlessApi';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { getProductUnit } from '../utils/productUtils';
 import SEO from './SEO';
 
 // Helper to strip raw markdown formatting and extract a clean excerpt for catalog cards
@@ -157,7 +158,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
               <div 
                 className="relative h-48 overflow-hidden bg-slate-50 cursor-pointer"
                 onClick={() => {
-                  navigate(`/products/${product.sku}`);
+                  navigate(`/products/${product.sku || product.id}`);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
@@ -203,7 +204,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
                 <div>
                   <h3 
                     onClick={() => {
-                      navigate(`/products/${product.sku}`);
+                      navigate(`/products/${product.sku || product.id}`);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="text-lg font-bold text-slate-900 leading-snug mb-2 hover:text-brand-steel transition-colors cursor-pointer"
@@ -232,7 +233,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
                             <span className="text-xl font-black text-brand-steel-light">
                               ₹{Number(product.base_price).toLocaleString('en-IN')}
                             </span>
-                            <span className="text-[11px] text-slate-500 font-semibold">/ MT</span>
+                            <span className="text-[11px] text-slate-500 font-semibold">/ {getProductUnit(product)}</span>
                           </div>
                           <span className="text-[10px] font-bold text-emerald-700 block mt-0.5">
                             + 18% GST (Ex-mill)
@@ -247,7 +248,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
                     
                     <button
                       onClick={() => {
-                        navigate(`/products/${product.sku}`);
+                        navigate(`/products/${product.sku || product.id}`);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                       className="text-xs text-slate-500 hover:text-slate-900 font-semibold flex items-center gap-1"
@@ -269,7 +270,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
                       {addedId === product.id ? (
                         <>
                           <Check className="w-3.5 h-3.5 text-white" />
-                          <span>Added (25 MT)</span>
+                          <span>Added</span>
                         </>
                       ) : (
                         <>
