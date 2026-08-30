@@ -36,6 +36,7 @@ const formatStageLabel = (stage) => {
 export default function CustomerPortal({ customerUser, setCustomerUser, appVersion, onCheckUpdate, isUpdating, otaStatus }) {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [activePortalTab, setActivePortalTab] = useState('inquiries');
+  const [orderFilterTab, setOrderFilterTab] = useState('active'); // 'active' | 'delivered'
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -51,6 +52,14 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [inquiriesLoading, setInquiriesLoading] = useState(false);
   const [accountTeamLoading, setAccountTeamLoading] = useState(false);
+
+  const activeOrders = React.useMemo(() => {
+    return (orders || []).filter(o => o.stage !== 'delivered' && o.stage !== 'closed_won' && o.dispatch_status !== 'delivered');
+  }, [orders]);
+
+  const deliveredOrders = React.useMemo(() => {
+    return (orders || []).filter(o => o.stage === 'delivered' || o.stage === 'closed_won' || o.dispatch_status === 'delivered');
+  }, [orders]);
 
   useEffect(() => {
     if (customerUser) {
@@ -426,29 +435,41 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white shadow-sm border border-slate-200 p-6 rounded-2xl md:col-span-2">
             {/* Segmented Navigation Tabs */}
-            <div className="flex items-center gap-2 p-1.5 bg-slate-100 rounded-2xl mb-6">
+            <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-2xl mb-6">
               <button
                 onClick={() => setActivePortalTab('inquiries')}
-                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                   activePortalTab === 'inquiries'
                     ? 'bg-white text-indigo-700 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Layers className="w-4 h-4 text-indigo-600" />
-                <span>My Inquiries & Spot Quotes ({inquiries.length})</span>
+                <span>My Quotes ({inquiries.length})</span>
               </button>
 
               <button
-                onClick={() => setActivePortalTab('orders')}
-                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-                  activePortalTab === 'orders'
-                    ? 'bg-white text-indigo-700 shadow-sm'
+                onClick={() => { setActivePortalTab('orders'); setOrderFilterTab('active'); }}
+                className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  activePortalTab === 'orders' && orderFilterTab === 'active'
+                    ? 'bg-white text-blue-700 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Truck className="w-4 h-4 text-blue-600" />
-                <span>Active Supply Contracts ({orders.length})</span>
+                <span>Active In-Flight ({activeOrders.length})</span>
+              </button>
+
+              <button
+                onClick={() => { setActivePortalTab('orders'); setOrderFilterTab('delivered'); }}
+                className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  activePortalTab === 'orders' && orderFilterTab === 'delivered'
+                    ? 'bg-white text-emerald-700 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <CheckCircle className="w-4 h-4 text-emerald-600" />
+                <span>Delivered History ({deliveredOrders.length})</span>
               </button>
             </div>
 
@@ -709,19 +730,34 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
               </div>
             )}
 
-            {/* TAB 2: ACTIVE SUPPLY CONTRACTS */}
+            {/* TAB 2: ACTIVE & DELIVERED SUPPLY CONTRACTS */}
             {activePortalTab === 'orders' && (
               <div>
                 {ordersLoading ? (
                   <div className="p-8 text-center text-slate-400 text-xs">Loading order tracker...</div>
-                ) : orders.length === 0 ? (
+                ) : (orderFilterTab === 'active' ? activeOrders : deliveredOrders).length === 0 ? (
                   <div className="p-8 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">
-                    <p className="text-sm font-semibold text-slate-700">No active contracts found yet</p>
-                    <p className="text-xs text-slate-400 mt-1">Submit an RFQ or contact your sales representative to generate a contract.</p>
+                    <p className="text-sm font-semibold text-slate-700">
+                      {orderFilterTab === 'active' ? 'No active in-flight contracts right now' : 'No past delivered contracts recorded yet'}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-1">
+                      {orderFilterTab === 'active' 
+                        ? (deliveredOrders.length > 0 ? `You have ${deliveredOrders.length} fulfilled order(s) in your delivery history.` : 'Submit an RFQ or contact your sales desk to start a new steel consignment.')
+                        : 'Completed consignments and reconciled tax invoices will appear here once delivered.'}
+                    </p>
+                    {orderFilterTab === 'active' && deliveredOrders.length > 0 && (
+                      <button
+                        onClick={() => setOrderFilterTab('delivered')}
+                        className="mt-3 px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 rounded-xl text-xs font-bold transition-all inline-flex items-center gap-1.5"
+                      >
+                        <CheckCircle className="w-3.5 h-3.5" />
+                        <span>View Fulfilled Delivery History ({deliveredOrders.length}) ➔</span>
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {orders.map((order) => {
+                    {(orderFilterTab === 'active' ? activeOrders : deliveredOrders).map((order) => {
                       const currentStatus = order.dispatch_status || 'order_confirmed';
                       const stageKeys = DISPATCH_STAGES.map(s => s.key);
                       const currentIdx = Math.max(0, stageKeys.indexOf(currentStatus));
