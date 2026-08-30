@@ -731,21 +731,42 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                         ? order.items.reduce((acc, it) => acc + Number(it.quantity || 0), 0)
                         : Number(order.custom_data?.total_tonnage || order.custom_data?.quote_data?.total_tonnage || order.custom_data?.tonnage || order.custom_data?.quantity || order.quantity_mt || 0);
 
-                      // 2. Extract live fleet dispatches
-                      const fleetDispatches = order.custom_data?.sub_entities?.fleet_dispatches || order.custom_data?.fleet_dispatches || [];
+                      // 2. Extract live fleet dispatches (syncing both split fleet array and single-truck dispatch_details)
+                      let fleetDispatches = order.custom_data?.sub_entities?.fleet_dispatches || order.custom_data?.fleet_dispatches || [];
+                      const dd = order.dispatch_details || {};
+                      if (fleetDispatches.length === 0 && (dd.truck_number || dd.tonnage || dd.net_weight)) {
+                        fleetDispatches = [{
+                          id: 'primary_dispatch',
+                          truck_number: dd.truck_number || 'Primary Vehicle',
+                          driver_name: dd.driver_name || 'Assigned Driver',
+                          driver_phone: dd.driver_phone || '',
+                          dispatched_quantity: Number(dd.net_weight || dd.tonnage || 0),
+                          gross_weight: dd.gross_weight || null,
+                          tare_weight: dd.tare_weight || null,
+                          net_weight: Number(dd.net_weight || dd.tonnage || 0),
+                          eway_bill_no: dd.eway_bill_no || '',
+                          dispatch_date: dd.dispatch_date || (order.updated_at ? order.updated_at.slice(0, 10) : new Date().toISOString().slice(0, 10)),
+                          status: (dd.tracking_status === 'delivered' || order.stage === 'delivered') ? 'Delivered' : (dd.tracking_status === 'in_transit' || order.stage === 'in_transit_billed') ? 'In Transit' : 'Loaded'
+                        }];
+                      }
+
                       const totalDispatchedTonnage = fleetDispatches.reduce((sum, d) => sum + Number(d.dispatched_quantity || d.quantity || d.net_weight || 0), 0);
 
-                      // 3. Calculate real progress
+                      // 3. Calculate real progress based on actual weighed/dispatched tonnage
                       let currentPercent = 0;
                       let displayedDispatchedTonnage = totalDispatchedTonnage;
 
-                      if (fleetDispatches.length > 0 && contractedTonnage > 0) {
-                        currentPercent = Math.min(100, Math.round((totalDispatchedTonnage / contractedTonnage) * 100));
-                        displayedDispatchedTonnage = totalDispatchedTonnage;
-                      } else {
-                        const fallbackStagePercents = { order_confirmed: 20, mill_fabrication: 40, weighbridge_loaded: 60, in_transit: 85, delivered: 100 };
-                        currentPercent = fallbackStagePercents[currentStatus] || 20;
-                        displayedDispatchedTonnage = currentStatus === 'delivered' ? contractedTonnage : Math.round((contractedTonnage * currentPercent) / 100);
+                      if (contractedTonnage > 0) {
+                        if (totalDispatchedTonnage > 0) {
+                          currentPercent = Math.min(100, Math.round((totalDispatchedTonnage / contractedTonnage) * 100));
+                          displayedDispatchedTonnage = totalDispatchedTonnage;
+                        } else if (currentStatus === 'delivered' || order.stage === 'delivered') {
+                          currentPercent = 100;
+                          displayedDispatchedTonnage = contractedTonnage;
+                        } else {
+                          currentPercent = 0;
+                          displayedDispatchedTonnage = 0;
+                        }
                       }
 
                       return (
