@@ -1,5 +1,6 @@
 import React from 'react';
-import { ShieldCheck, Truck, Layers, Award, ArrowRight, FileText, CheckCircle2, Factory } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShieldCheck, Truck, Layers, Award, ArrowRight, FileText, CheckCircle2, Factory, BarChart3 } from 'lucide-react';
 
 export default function Hero({ onExploreCatalog, onPartnerInquiry }) {
   return (
@@ -13,24 +14,32 @@ export default function Hero({ onExploreCatalog, onPartnerInquiry }) {
         <div className="text-center max-w-4xl mx-auto mb-16">
 
           <h1 className="font-heading text-5xl sm:text-7xl font-black text-white tracking-tight leading-tight mb-6">
-            Building the Future with <span className="text-gradient-steel">Premium Infrastructure</span>
+            Primary Steel Distribution &amp; <span className="text-gradient-steel">Infrastructure Supply</span>
           </h1>
 
           <p className="text-slate-300 text-lg sm:text-xl max-w-3xl mx-auto font-normal leading-relaxed mb-10">
-            With 45 years of steadfast presence in the steel business, Urbanspan Infrastructure (A Gupta & Sons Enterprise) reinforces your dreams. We supply premium structural steel, TMT Rebars, and heavy industrial metals directly to India's most ambitious construction projects.
+            With 45 years of steadfast presence in the steel business, Urbanspan Infrastructure (A Gupta &amp; Sons Enterprise) supplies BIS-certified Fe-550D TMT Rebars, structural steel, and heavy industrial metals with transparent benchmark pricing and direct mill dispatch across Central India.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onPartnerInquiry}
-              className="w-full sm:w-auto px-10 py-4 rounded-full bg-brand-steel hover:bg-brand-steel-dark text-white font-bold text-sm shadow-xl shadow-brand-steel/30 flex items-center justify-center gap-2.5 transition-all hover:scale-105"
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-brand-steel hover:bg-brand-steel-dark text-white font-bold text-sm shadow-xl shadow-brand-steel/30 flex items-center justify-center gap-2.5 transition-all hover:scale-105"
             >
               Request a Quote <ArrowRight className="w-4 h-4 stroke-[3]" />
             </button>
 
+            <Link
+              to="/analysis?tab=rates"
+              className="w-full sm:w-auto px-7 py-4 rounded-full bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 font-bold text-sm border border-emerald-500/40 flex items-center justify-center gap-2 transition-all backdrop-blur-sm shadow-md"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <BarChart3 className="w-4 h-4 text-emerald-400" /> Market Analysis & Rates
+            </Link>
+
             <button
               onClick={onExploreCatalog}
-              className="w-full sm:w-auto px-10 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white font-bold text-sm border border-white/10 flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
+              className="w-full sm:w-auto px-7 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white font-bold text-sm border border-white/10 flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
             >
               <Factory className="w-4 h-4 text-slate-300" /> Browse Products
             </button>

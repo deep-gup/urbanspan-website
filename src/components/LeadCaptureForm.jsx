@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, AlertCircle, Building, Mail, Phone, User, DollarSign, FileText, Sparkles, Truck, MapPin } from 'lucide-react';
 import { submitRFQLead } from '../services/headlessApi';
+import { getProductUnit } from '../utils/productUtils';
 
 export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
   const [formData, setFormData] = useState({
@@ -16,10 +17,12 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const productUnit = getProductUnit(preselectedProduct);
+
   useEffect(() => {
     let newNotes = formData.notes;
     if (preselectedProduct) {
-      newNotes = `Commercial RFQ for Product: ${preselectedProduct.name}. Estimated Tonnage Required: 100 MT.`;
+      newNotes = `Commercial RFQ for Product: ${preselectedProduct.name}. Estimated Quantity Required: 100 ${productUnit}.`;
     }
     setFormData((prev) => ({
       ...prev,
@@ -30,7 +33,7 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
         company: customerUser.company,
       })
     }));
-  }, [preselectedProduct, customerUser]);
+  }, [preselectedProduct, customerUser, productUnit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,8 +45,9 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
         product_id: preselectedProduct?.id || null,
         product_name: preselectedProduct?.name || null,
         sku: preselectedProduct?.sku || null,
-        quantity: formData.quantity ? parseFloat(formData.quantity) : 50,
-        expected_value: formData.expected_value ? parseFloat(formData.expected_value) : (preselectedProduct?.base_price ? Number(preselectedProduct.base_price) * (formData.quantity ? parseFloat(formData.quantity) : 50) : null)
+        unit: productUnit,
+        quantity: formData.quantity ? parseFloat(formData.quantity) : (productUnit.toLowerCase() === 'kg' ? 100 : 50),
+        expected_value: formData.expected_value ? parseFloat(formData.expected_value) : (preselectedProduct?.base_price ? Number(preselectedProduct.base_price) * (formData.quantity ? parseFloat(formData.quantity) : (productUnit.toLowerCase() === 'kg' ? 100 : 50)) : null)
       });
       setSubmitted(true);
     } catch (error) {
@@ -58,7 +62,7 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
     <div className="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-steel/10 text-brand-steel-light border border-brand-steel/20 text-xs font-semibold mb-3">
-          <Sparkles className="w-3.5 h-3.5" /> Direct CRM Sales Pipeline Capture
+          <Sparkles className="w-3.5 h-3.5" /> Official Steel Quotation Desk
         </div>
         <h2 className="text-3xl font-extrabold text-slate-900">Commercial Steel RFQ Submission</h2>
         <p className="text-slate-500 text-sm mt-2 max-w-xl mx-auto">
@@ -71,7 +75,7 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
           <CheckCircle2 className="w-16 h-16 text-emerald-400 mx-auto mb-4 animate-bounce" />
           <h3 className="text-2xl font-bold text-slate-900">Steel RFQ Received Successfully!</h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto mt-2 leading-relaxed">
-            Thank you for contacting Urbanspan Infrastructure. A dedicated key account manager has been assigned to your inquiry in Distro App CRM and will issue your formal proforma quote shortly.
+            Thank you for contacting Urbanspan Infrastructure. A dedicated key account manager will review your inquiry and issue your formal proforma quote shortly.
           </p>
           <button
             onClick={() => {
@@ -97,7 +101,7 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
               <div>
                 <span className="font-bold block">Inquiring for: {preselectedProduct.name}</span>
                 {preselectedProduct.base_price ? (
-                  <span className="text-slate-500">Benchmark Price: ₹{Number(preselectedProduct.base_price).toLocaleString('en-IN')} / Metric Ton</span>
+                  <span className="text-slate-500">Benchmark Price: ₹{Number(preselectedProduct.base_price).toLocaleString('en-IN')} / {productUnit}</span>
                 ) : (
                   <span className="text-slate-500">Price on Request</span>
                 )}
@@ -213,7 +217,7 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
             disabled={submitting}
             className="w-full py-4 rounded-xl bg-gradient-primary hover:opacity-95 text-slate-900 font-black text-sm shadow-xl shadow-brand-steel/20 flex items-center justify-center gap-2 transition-all"
           >
-            {submitting ? 'Dispatching to CRM...' : 'Submit Commercial RFQ'} <Send className="w-4 h-4" />
+            {submitting ? 'Submitting RFQ...' : 'Submit Commercial RFQ'} <Send className="w-4 h-4" />
           </button>
         </form>
       )}

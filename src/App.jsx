@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Routes, Route, useLocation, useNavigate, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import BottomTabBar from './components/BottomTabBar';
@@ -15,6 +15,11 @@ import ApiConfigModal from './components/ApiConfigModal';
 import MobileDashboard from './components/MobileDashboard';
 import News from './components/News';
 import NewsArticlePage from './components/NewsArticlePage';
+import MandiRatesPage from './components/rates/MandiRatesPage';
+import AnalysisHub from './components/analysis/AnalysisHub';
+import LocationHubPage from './components/locations/LocationHubPage';
+import LocationsDirectory from './components/locations/LocationsDirectory';
+import PODUpload from './pages/PODUpload';
 import SEO from './components/SEO';
 import LatestNewsPreview from './components/LatestNewsPreview';
 import AppShowcase from './components/AppShowcase';
@@ -33,9 +38,9 @@ export default function App() {
   let activeTab = 'home';
   if (path.includes('about')) activeTab = 'about';
   else if (path.includes('products') || path.includes('catalog') || path.includes('product')) activeTab = 'products';
+  else if (path.includes('analysis') || path.includes('rates') || path.includes('mandi') || path.includes('news')) activeTab = 'analysis';
   else if (path.includes('contact')) activeTab = 'contact';
   else if (path.includes('rfq')) activeTab = 'rfq';
-  else if (path.includes('news')) activeTab = 'news';
   else if (path.includes('portal')) activeTab = 'portal';
   else if (path.includes('chat')) activeTab = 'chat';
   else if (path.includes('cart')) activeTab = 'cart';
@@ -139,23 +144,26 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const rfqDefaults = {};
-  if (selectedProductForInquiry) {
-    rfqDefaults.product_id = selectedProductForInquiry.id;
-    rfqDefaults.product_name = selectedProductForInquiry.name;
-    rfqDefaults.sku = selectedProductForInquiry.sku;
-    rfqDefaults.base_price = selectedProductForInquiry.base_price;
-    rfqDefaults.unit = selectedProductForInquiry.unit || 'ton';
-    rfqDefaults.quantity = 50;
-    rfqDefaults.notes = `Commercial bulk procurement inquiry for ${selectedProductForInquiry.name}.`;
-    rfqDefaults.preselectedProduct = selectedProductForInquiry;
-  }
-  if (customerUser) {
-    rfqDefaults.name = customerUser.name;
-    rfqDefaults.email = customerUser.email;
-    rfqDefaults.company = customerUser.company;
-    rfqDefaults.phone = customerUser.phone;
-  }
+  const rfqDefaults = useMemo(() => {
+    const defaults = {};
+    if (selectedProductForInquiry) {
+      defaults.product_id = selectedProductForInquiry.id;
+      defaults.product_name = selectedProductForInquiry.name;
+      defaults.sku = selectedProductForInquiry.sku;
+      defaults.base_price = selectedProductForInquiry.base_price;
+      defaults.unit = selectedProductForInquiry.unit || 'ton';
+      defaults.quantity = 50;
+      defaults.notes = `Commercial bulk procurement inquiry for ${selectedProductForInquiry.name}.`;
+      defaults.preselectedProduct = selectedProductForInquiry;
+    }
+    if (customerUser) {
+      defaults.name = customerUser.name;
+      defaults.email = customerUser.email;
+      defaults.company = customerUser.company;
+      defaults.phone = customerUser.phone;
+    }
+    return defaults;
+  }, [selectedProductForInquiry, customerUser]);
 
   return (
     <CartProvider>
@@ -208,7 +216,12 @@ export default function App() {
           <Route path="/" element={
             isMobile ? (
               <>
-                <SEO title="Home" />
+                <SEO 
+                  title="Primary Steel Distribution & Industrial Supply | Central India"
+                  description="Urbanspan Infrastructure Private Limited is Central India's premier primary steel distributor. BIS-certified Fe-550D TMT Rebars, Structural Steel, and direct mill supply in Indore, MP."
+                  keywords="Urbanspan Infrastructure, steel distributor Indore, TMT Rebars Madhya Pradesh, Fe-550D TMT bars wholesale, structural steel suppliers, industrial metals India"
+                  url="https://urbanspaninfra.co.in"
+                />
                 <MobileDashboard 
                   customerUser={customerUser} 
                   onNavigate={setActiveTab} 
@@ -220,7 +233,12 @@ export default function App() {
               </>
             ) : (
               <>
-                <SEO title="Home" />
+                <SEO 
+                  title="Primary Steel Distribution & Industrial Supply | Central India"
+                  description="Urbanspan Infrastructure Private Limited is Central India's premier primary steel distributor. BIS-certified Fe-550D TMT Rebars, Structural Steel, and direct mill supply in Indore, MP."
+                  keywords="Urbanspan Infrastructure, steel distributor Indore, TMT Rebars Madhya Pradesh, Fe-550D TMT bars wholesale, structural steel suppliers, industrial metals India"
+                  url="https://urbanspaninfra.co.in"
+                />
                 <Hero
                   onExploreCatalog={() => setActiveTab('products')}
                   onPartnerInquiry={() => setActiveTab('rfq')}
@@ -244,47 +262,48 @@ export default function App() {
 
           <Route path="/about-us" element={
             <div className="pt-24">
-              <SEO title="About Us" />
               <AboutUs />
             </div>
           } />
 
           <Route path="/products" element={
             <div className="pt-24">
-              <SEO title="Products" />
               <ProductCatalog onSelectProductForInquiry={handleProductInquiry} />
             </div>
           } />
 
           <Route path="/catalog" element={
             <div className="pt-24">
-              <SEO title="Products" />
               <ProductCatalog onSelectProductForInquiry={handleProductInquiry} />
             </div>
           } />
 
           <Route path="/products/:id" element={
             <div className="pt-24">
-              <SEO title="Product Details" />
               <ProductDetailsPage onSelectProductForInquiry={handleProductInquiry} />
             </div>
           } />
 
           <Route path="/product/:id" element={
             <div className="pt-24">
-              <SEO title="Product Details" />
               <ProductDetailsPage onSelectProductForInquiry={handleProductInquiry} />
             </div>
           } />
 
           <Route path="/rfq" element={
             <div className="pt-24 bg-white min-h-screen">
-              <SEO title="Request a Quote" />
+              <SEO 
+                title="Request Wholesale Steel Quote & Project Sourcing Allocation"
+                description="Submit commercial steel RFQ for BIS-certified Fe-550D TMT Rebars, Structural Beams, Channels & Plates. Prompt rate quote dispatch by Urbanspan sales engineers."
+                keywords="commercial steel RFQ, steel quote Indore, wholesale TMT price inquiry, structural steel sourcing, project steel allocation"
+                url="https://urbanspaninfra.co.in/rfq"
+              />
               <DynamicForm 
                 formName="lead_capture" 
-                title="Commercial Steel RFQ Submission" 
+                title="Commercial Steel RFQ Submission & Sourcing Allocation" 
                 subtitle="Submit your bulk tonnage, grade specifications, and delivery destination below for instant quote dispatch by Urbanspan sales engineers." 
                 icon={Factory}
+                isPageHeading={true}
                 defaultValues={rfqDefaults}
                 customerUser={customerUser}
               />
@@ -293,25 +312,46 @@ export default function App() {
 
           <Route path="/contact" element={
             <div className="pt-24 bg-slate-50 min-h-screen">
-              <SEO title="Contact Us" />
               <ContactUs customerUser={customerUser} />
             </div>
           } />
 
+          <Route path="/analysis" element={
+            <AnalysisHub />
+          } />
+
           <Route path="/news" element={
-            <div className="pt-24 bg-slate-50 min-h-screen">
-              <SEO title="News & Insights" />
-              <News />
-            </div>
+            <AnalysisHub defaultTab="news" />
           } />
 
           <Route path="/news/:id" element={
             <NewsArticlePage />
           } />
 
+          <Route path="/rates" element={
+            <AnalysisHub defaultTab="rates" />
+          } />
+
+          <Route path="/market-rates" element={
+            <AnalysisHub defaultTab="rates" />
+          } />
+
           <Route path="/cart" element={
             <CartPage customerUser={customerUser} />
           } />
+
+          <Route path="/locations" element={
+            <LocationsDirectory />
+          } />
+
+          <Route path="/locations/:slug" element={
+            <LocationHubPage 
+              onSelectProductForInquiry={handleProductInquiry} 
+              customerUser={customerUser} 
+            />
+          } />
+
+          <Route path="/pod-upload" element={<PODUpload />} />
 
           <Route path="/portal" element={
             <div className="pt-24 lg:pt-24 min-h-screen bg-slate-50">
@@ -423,23 +463,33 @@ export default function App() {
               </div>
 
               <div>
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Quick Navigation</h4>
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Navigation &amp; MP Hubs</h4>
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
                   <Link to="/products" className="hover:text-white transition-colors">Products</Link>
+                  <Link to="/locations" className="text-brand-steel-light hover:text-white transition-colors font-bold">MP City Hubs</Link>
                   <Link to="/cart" className="hover:text-white transition-colors">Procurement Cart</Link>
                   <Link to="/news" className="hover:text-white transition-colors">Market Insights</Link>
                   <Link to="/about-us" className="hover:text-white transition-colors">About Legacy</Link>
                   <Link to="/rfq" className="hover:text-white transition-colors">Request Quote</Link>
                   <Link to="/portal" className="hover:text-white transition-colors">Customer Portal</Link>
+                  <Link to="/contact" className="hover:text-white transition-colors">Contact HQ</Link>
                 </div>
               </div>
             </div>
 
             <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
               <p>© {new Date().getFullYear()} Urbanspan Infrastructure Pvt. Ltd. All rights reserved.</p>
-              <p className="flex items-center gap-4">
-                <span>Indore • Bhopal • Ujjain • Gwalior • Jabalpur (M.P.)</span>
-              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-slate-400 font-semibold">Madhya Pradesh Hubs:</span>
+                <Link to="/locations/steel-distributor-indore" className="hover:text-white">Indore</Link> • 
+                <Link to="/locations/steel-distributor-pithampur" className="hover:text-white">Pithampur</Link> • 
+                <Link to="/locations/steel-distributor-bhopal" className="hover:text-white">Bhopal</Link> • 
+                <Link to="/locations/steel-distributor-ujjain" className="hover:text-white">Ujjain</Link> • 
+                <Link to="/locations/steel-distributor-dewas" className="hover:text-white">Dewas</Link> • 
+                <Link to="/locations/steel-distributor-gwalior" className="hover:text-white">Gwalior</Link> • 
+                <Link to="/locations/steel-distributor-jabalpur" className="hover:text-white">Jabalpur</Link> • 
+                <Link to="/locations" className="text-brand-steel-light font-bold hover:underline">All 10 Hubs →</Link>
+              </div>
             </div>
           </div>
         </footer>

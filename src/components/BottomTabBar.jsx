@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, PackageSearch, FileText, User, MessageSquare, Newspaper } from 'lucide-react';
+import { Home, PackageSearch, BarChart3, FileText, User } from 'lucide-react';
 
 export default function BottomTabBar({ activeTab, setActiveTab }) {
   const tabs = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'products', icon: PackageSearch, label: 'Products' },
+    { id: 'analysis', icon: BarChart3, label: 'Analysis' },
     { id: 'rfq', icon: FileText, label: 'Quote' },
-    { id: 'news', icon: Newspaper, label: 'News' },
     { id: 'portal', icon: User, label: 'Portal' },
-    { id: 'chat', icon: MessageSquare, label: 'Chat' },
   ];
 
   return (

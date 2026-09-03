@@ -10,8 +10,7 @@ export default function LatestNewsPreview() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const csvUrl = import.meta.env.VITE_NEWS_CSV_URL;
-        if (!csvUrl) return;
+        const csvUrl = import.meta.env.VITE_NEWS_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtAw5mWnVAiJUNPPOLjHMCciLhcMf4feXQ9wH_ZmLIUvAWhRacvPHMY4bHyKZWusOCA4gGCymy7p9g/pub?output=csv';
 
         const response = await fetch(csvUrl, { cache: 'no-store' });
         const csvText = await response.text();
@@ -20,7 +19,14 @@ export default function LatestNewsPreview() {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
-            const sortedData = results.data.sort((a, b) => {
+            const valid = (results.data || []).filter(a => 
+              a?.Title && 
+              a?.Content && 
+              typeof a.Title === 'string' && 
+              a.Title.trim().length > 0 && 
+              !a.Title.includes('Page not found')
+            );
+            const sortedData = valid.sort((a, b) => {
               return new Date(b.Date || 0) - new Date(a.Date || 0);
             });
             setArticles(sortedData.slice(0, 3)); // Only take top 3
@@ -47,7 +53,8 @@ export default function LatestNewsPreview() {
   };
 
   const getArticleSlug = (article) => {
-    if (article.ID) return article.ID;
+    if (article?.ID) return String(article.ID);
+    if (!article?.Title || typeof article.Title !== 'string') return 'news-article';
     return encodeURIComponent(article.Title.replace(/\s+/g, '-').toLowerCase());
   };
 

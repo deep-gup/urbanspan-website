@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom';
 import { 
   ShoppingBag, Trash2, Plus, Minus, ArrowRight, ShieldCheck, 
   Building2, Truck, CheckCircle2, AlertCircle, Send, 
-  ArrowLeft, RefreshCw 
+  ArrowLeft, RefreshCw, Table, ChevronDown, ChevronUp,
+  Paperclip, FileSpreadsheet, FileText, UploadCloud, X
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { submitDynamicFormByName } from '../services/headlessApi';
-import { getProductUnit, getQuantityPresets } from '../utils/productUtils';
+import { 
+  getProductUnit, 
+  getQuantityPresets, 
+  isSectionMatrixEligible, 
+  formatCartTotalQuantities,
+  getProductAvailableSizes,
+  getProductMatrixTitle
+} from '../utils/productUtils';
 import SEO from './SEO';
 
 export default function CartPage({ customerUser }) {
@@ -32,6 +40,11 @@ export default function CartPage({ customerUser }) {
     site_notes: ''
   });
 
+  const [openMatrices, setOpenMatrices] = useState({});
+  const [itemMatrices, setItemMatrices] = useState({});
+  const [attachedFiles, setAttachedFiles] = useState([]);
+  const [fileError, setFileError] = useState(null);
+
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -44,6 +57,181 @@ export default function CartPage({ customerUser }) {
 
   const handleTonnagePreset = (itemId, tonnage) => {
     updateQuantity(itemId, tonnage);
+  };
+
+  const toggleMatrix = (itemId) => {
+    setOpenMatrices(prev => ({ ...prev, [itemId]: !prev[itemId] }));
+  };
+
+  // Update a dynamic size/gauge in an item's matrix
+  const handleGaugeChange = (item, gauge, val) => {
+    const itemId = item.id;
+    const itemSizes = getProductAvailableSizes(item);
+    setItemMatrices(prev => {
+      const currentItemMatrix = prev[itemId] || {};
+      const updated = {
+        ...currentItemMatrix,
+        [gauge]: val
+      };
+
+      let sum = 0;
+      itemSizes.forEach(g => {
+        const num = parseFloat(updated[g]);
+        if (!isNaN(num) && num > 0) sum += num;
+      });
+
+      const customRows = updated.customRows || [];
+      customRows.forEach(r => {
+        const num = parseFloat(r.qty);
+        if (!isNaN(num) && num > 0) sum += num;
+      });
+
+      if (sum > 0) {
+        updateQuantity(itemId, sum);
+      }
+
+      return {
+        ...prev,
+        [itemId]: updated
+      };
+    });
+  };
+
+  // Add custom section profile row to an item's matrix
+  const handleAddCustomRow = (itemId) => {
+    setItemMatrices(prev => {
+      const current = prev[itemId] || {};
+      const customRows = current.customRows || [];
+      return {
+        ...prev,
+        [itemId]: {
+          ...current,
+          customRows: [...customRows, { section: '', qty: '' }]
+        }
+      };
+    });
+  };
+
+  // Update custom section profile row
+  const handleCustomRowChange = (item, idx, field, val) => {
+    const itemId = item.id;
+    const itemSizes = getProductAvailableSizes(item);
+    setItemMatrices(prev => {
+      const current = prev[itemId] || {};
+      const customRows = [...(current.customRows || [])];
+      customRows[idx] = { ...customRows[idx], [field]: val };
+
+      let sum = 0;
+      itemSizes.forEach(g => {
+        const num = parseFloat(current[g]);
+        if (!isNaN(num) && num > 0) sum += num;
+      });
+      customRows.forEach(r => {
+        const num = parseFloat(r.qty);
+        if (!isNaN(num) && num > 0) sum += num;
+      });
+
+      if (sum > 0) {
+        updateQuantity(itemId, sum);
+      }
+
+      return {
+        ...prev,
+        [itemId]: {
+          ...current,
+          customRows
+        }
+      };
+    });
+  };
+
+  // Remove custom section profile row
+  const handleRemoveCustomRow = (item, idx) => {
+    const itemId = item.id;
+    const itemSizes = getProductAvailableSizes(item);
+    setItemMatrices(prev => {
+      const current = prev[itemId] || {};
+      const customRows = (current.customRows || []).filter((_, i) => i !== idx);
+
+      let sum = 0;
+      itemSizes.forEach(g => {
+        const num = parseFloat(current[g]);
+        if (!isNaN(num) && num > 0) sum += num;
+      });
+      customRows.forEach(r => {
+        const num = parseFloat(r.qty);
+        if (!isNaN(num) && num > 0) sum += num;
+      });
+
+      if (sum > 0) {
+        updateQuantity(itemId, sum);
+      }
+
+      return {
+        ...prev,
+        [itemId]: {
+          ...current,
+          customRows
+        }
+      };
+    });
+  };
+
+  // File Upload Handling
+  const handleFileUpload = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setFileError(null);
+    const MAX_SIZE = 15 * 1024 * 1024; // 15MB limit
+
+    files.forEach(file => {
+      if (file.size > MAX_SIZE) {
+        setFileError(`File "${file.name}" exceeds the maximum 15MB upload limit.`);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAttachedFiles(prev => [
+          ...prev,
+          {
+            file_name: file.name,
+            file_size: file.size,
+            mime_type: file.type || 'application/octet-stream',
+            data_url: reader.result
+          }
+        ]);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    e.target.value = '';
+  };
+
+  const handleRemoveFile = (idx) => {
+    setAttachedFiles(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  // Format matrix summary for display
+  const getItemMatrixSummary = (item, unit) => {
+    if (!item) return null;
+    const itemId = item.id;
+    const mat = itemMatrices[itemId];
+    if (!mat) return null;
+
+    const itemSizes = getProductAvailableSizes(item);
+    const parts = [];
+    itemSizes.forEach(g => {
+      const num = parseFloat(mat[g]);
+      if (!isNaN(num) && num > 0) parts.push(`${g}: ${num} ${unit}`);
+    });
+    (mat.customRows || []).forEach(r => {
+      const num = parseFloat(r.qty);
+      if (r.section && !isNaN(num) && num > 0) parts.push(`${r.section}: ${num} ${unit}`);
+    });
+
+    return parts.length > 0 ? parts.join(', ') : null;
   };
 
   const handleSubmitMultiRFQ = async (e) => {
@@ -59,14 +247,24 @@ export default function CartPage({ customerUser }) {
     setErrorMessage(null);
 
     try {
-      // Compose item notes summary
-      const itemsSummary = cartItems
-        .map(i => `${i.name}: ${i.quantity} ${i.unit || 'MT'} @ ₹${Number(i.base_price).toLocaleString('en-IN')}/${i.unit || 'MT'}`)
-        .join(' + ');
+      // Build composed items notes
+      const itemsSummaryLines = cartItems.map((item, idx) => {
+        const unit = getProductUnit(item);
+        const matSummary = getItemMatrixSummary(item, unit);
+        let line = `  ${idx + 1}. ${item.name} - ${item.quantity} ${unit} @ ₹${Number(item.base_price).toLocaleString('en-IN')}/${unit}`;
+        if (matSummary) {
+          line += `\n     Section Matrix: [${matSummary}]`;
+        }
+        return line;
+      });
 
-      const composedNotes = `Multi-Product Procurement Cart RFQ (${totalQuantity} MT Total Consignment):\n` +
-        cartItems.map((i, idx) => `  ${idx + 1}. ${i.name} - ${i.quantity} MT @ ₹${Number(i.base_price).toLocaleString('en-IN')}/MT (Base: ₹${i.lineSubtotal.toLocaleString('en-IN')}, GST: ₹${i.lineGst.toLocaleString('en-IN')})`).join('\n') +
-        `\nDestination Location: ${buyerInfo.delivery_location || 'Not specified'}\nSite Notes: ${buyerInfo.site_notes || 'Standard Delivery'}`;
+      const formattedTotalUnits = formatCartTotalQuantities(cartItems);
+
+      const composedNotes = `Multi-Product Procurement Cart RFQ (${formattedTotalUnits} Total Consignment):\n` +
+        itemsSummaryLines.join('\n') +
+        `\nDestination Location: ${buyerInfo.delivery_location || 'Not specified'}` +
+        `\nSite Notes: ${buyerInfo.site_notes || 'Standard Delivery'}` +
+        (attachedFiles.length > 0 ? `\nAttached Documents: ${attachedFiles.map(f => f.file_name).join(', ')}` : '');
 
       const payload = {
         name: buyerInfo.name,
@@ -75,48 +273,59 @@ export default function CartPage({ customerUser }) {
         phone: buyerInfo.phone,
         source: 'buyer_cart_rfq',
         quantity: totalQuantity,
-        expected_value: subtotal, // Base expected value for CRM quotation engine
+        expected_value: subtotal,
         notes: composedNotes,
+        attachments: attachedFiles,
         custom_data: {
           delivery_location: buyerInfo.delivery_location,
           site_notes: buyerInfo.site_notes,
           total_tonnage: totalQuantity,
+          formatted_total_units: formattedTotalUnits,
           base_subtotal: subtotal,
           gst_18_amount: totalGst,
           grand_total_with_tax: grandTotal,
           items_count: totalCount,
-          items: cartItems.map(item => ({
+          attachments: attachedFiles,
+          items: cartItems.map(item => {
+            const unit = getProductUnit(item);
+            return {
+              product_id: item.id,
+              sku: item.sku,
+              product_name: item.name,
+              category: item.category,
+              quantity: item.quantity,
+              base_price: item.base_price,
+              unit,
+              section_matrix: itemMatrices[item.id] || null,
+              line_subtotal: item.lineSubtotal,
+              gst_18: item.lineGst,
+              line_total: item.lineTotal
+            };
+          })
+        },
+        items: cartItems.map(item => {
+          const unit = getProductUnit(item);
+          return {
             product_id: item.id,
             sku: item.sku,
             product_name: item.name,
             category: item.category,
             quantity: item.quantity,
             base_price: item.base_price,
-            unit: item.unit || 'MT',
+            unit,
+            section_matrix: itemMatrices[item.id] || null,
             line_subtotal: item.lineSubtotal,
             gst_18: item.lineGst,
             line_total: item.lineTotal
-          }))
-        },
-        items: cartItems.map(item => ({
-          product_id: item.id,
-          sku: item.sku,
-          product_name: item.name,
-          category: item.category,
-          quantity: item.quantity,
-          base_price: item.base_price,
-          unit: item.unit || 'MT',
-          line_subtotal: item.lineSubtotal,
-          gst_18: item.lineGst,
-          line_total: item.lineTotal
-        }))
+          };
+        })
       };
 
       const res = await submitDynamicFormByName('lead_capture', payload);
       setLeadResult(res?.data || res);
       const generatedRefId = res?.data?.reference_id || `RFQ-CONSIGNMENT-${Date.now().toString().slice(-6)}`;
       setSubmittedSummary({
-        quantity: totalQuantity,
+        quantity: formattedTotalUnits,
         company: buyerInfo.company || buyerInfo.name,
         referenceId: generatedRefId
       });
@@ -144,11 +353,13 @@ export default function CartPage({ customerUser }) {
     }
   };
 
+  const formattedTotalQuantity = formatCartTotalQuantities(cartItems);
+
   return (
     <div className="min-h-screen bg-slate-50 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
       <SEO 
         title="Procurement Cart & Multi-Product RFQ" 
-        description="Review your commercial steel cart, calculate 18% GST and tonnage totals, and dispatch multi-product RFQs directly to Urbanspan sales desk."
+        description="Review your commercial steel cart, calculate 18% GST and tonnage totals, break down section matrices, and dispatch multi-product RFQs directly to Urbanspan sales desk."
       />
 
       <div className="max-w-7xl mx-auto">
@@ -184,7 +395,7 @@ export default function CartPage({ customerUser }) {
               Multi-Product Commercial RFQ Transmitted!
             </h2>
             <p className="text-slate-600 text-sm max-w-lg mx-auto leading-relaxed mb-6">
-              Thank you for trusting Urbanspan Infrastructure. Your bulk multi-tonnage consignment inquiry has been ingested into our Distro App CRM Sales Desk. A dedicated Key Account Manager will calculate final mill rolling schedules, mill test certificates, and dispatch your proforma contract quote shortly.
+              Thank you for trusting Urbanspan Infrastructure. Your bulk multi-item consignment inquiry with section matrices and attached documentation has been received. Our sales desk will calculate final mill rolling schedules, mill test certificates, and dispatch your proforma contract quote shortly.
             </p>
 
             <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl max-w-md mx-auto mb-8 text-left space-y-2">
@@ -198,7 +409,7 @@ export default function CartPage({ customerUser }) {
               </div>
               <div className="flex justify-between text-xs text-slate-500 font-semibold">
                 <span>Total Consignment:</span>
-                <strong className="text-brand-steel">{submittedSummary?.quantity ?? totalQuantity} Metric Tons</strong>
+                <strong className="text-brand-steel">{submittedSummary?.quantity || formattedTotalQuantity}</strong>
               </div>
             </div>
 
@@ -225,7 +436,7 @@ export default function CartPage({ customerUser }) {
             </div>
             <h2 className="text-2xl font-black text-slate-900 mb-2">Your Procurement Cart is Empty</h2>
             <p className="text-slate-500 text-sm max-w-md mx-auto leading-relaxed mb-8">
-              You haven't added any structural steel products or TMT rebars yet. Add items from our catalog to compare rates, calculate 18% GST, and dispatch combined multi-product RFQs.
+              You haven't added any structural steel products or TMT rebars yet. Add items from our catalog to compare rates, calculate 18% GST, customize section matrices, and dispatch combined multi-product RFQs.
             </p>
             <Link
               to="/products"
@@ -243,7 +454,7 @@ export default function CartPage({ customerUser }) {
             <div className="lg:col-span-7 space-y-4">
               <div className="flex items-center justify-between pb-2">
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  Enquired Products ({totalCount} items • {totalQuantity} MT Total)
+                  Enquired Products ({totalCount} {totalCount === 1 ? 'item' : 'items'} • {formattedTotalQuantity} Total)
                 </span>
                 <button
                   type="button"
@@ -254,129 +465,247 @@ export default function CartPage({ customerUser }) {
                 </button>
               </div>
 
-              {cartItems.map((item) => (
-                <div 
-                  key={item.id}
-                  className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-5"
-                >
-                  {/* Thumbnail */}
-                  <div className="w-full sm:w-28 h-28 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                    <img 
-                      src={item.image} 
-                      alt={item.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+              {cartItems.map((item) => {
+                const itemUnit = getProductUnit(item);
+                const isMatrixEligible = isSectionMatrixEligible(item);
+                const itemSizes = getProductAvailableSizes(item);
+                const matrixTitle = getProductMatrixTitle(item);
+                const isMatrixOpen = Boolean(openMatrices[item.id]);
+                const matrixSummary = getItemMatrixSummary(item, itemUnit);
+                const curMatrix = itemMatrices[item.id] || {};
 
-                  {/* Item Details */}
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <span className="text-[10px] font-extrabold text-brand-steel uppercase tracking-wider block">
-                            {item.category}
-                          </span>
-                          <h3 className="text-base font-bold text-slate-900 leading-snug">
-                            {item.name}
-                          </h3>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-slate-400 hover:text-red-500 p-1 rounded-lg transition-colors"
-                          title="Remove item"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                return (
+                  <div 
+                    key={item.id}
+                    className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col gap-4"
+                  >
+                    {/* Top Row: Thumbnail + Details */}
+                    <div className="flex flex-col sm:flex-row gap-5">
+                      {/* Thumbnail */}
+                      <div className="w-full sm:w-28 h-28 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                        <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
 
-                      {/* Benchmark Rate & 18% Tax Badge */}
-                      {Number(item.base_price) > 0 ? (
-                        <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                          <span className="text-sm font-black text-slate-800">
-                            ₹{Number(item.base_price).toLocaleString('en-IN')}
-                          </span>
-                          <span className="text-[11px] text-slate-500 font-semibold">
-                            / {getProductUnit(item)} (ex-plant)
-                          </span>
-                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                            + 18% GST (₹{Math.round(item.base_price * 0.18).toLocaleString('en-IN')}/{getProductUnit(item)})
-                          </span>
+                      {/* Item Details */}
+                      <div className="flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <span className="text-[10px] font-extrabold text-brand-steel uppercase tracking-wider block">
+                                {item.category}
+                              </span>
+                              <h3 className="text-base font-bold text-slate-900 leading-snug">
+                                {item.name}
+                              </h3>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeFromCart(item.id)}
+                              className="text-slate-400 hover:text-red-500 p-1 rounded-lg transition-colors"
+                              title="Remove item"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          {/* Benchmark Rate & 18% Tax Badge */}
+                          {Number(item.base_price) > 0 ? (
+                            <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                              <span className="text-sm font-black text-slate-800">
+                                ₹{Number(item.base_price).toLocaleString('en-IN')}
+                              </span>
+                              <span className="text-[11px] text-slate-500 font-semibold">
+                                / {itemUnit} (ex-plant)
+                              </span>
+                              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                + 18% GST (₹{Math.round(item.base_price * 0.18).toLocaleString('en-IN')}/{itemUnit})
+                              </span>
+                            </div>
+                          ) : (
+                            <div className="mt-2 flex flex-wrap items-center gap-2">
+                              <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
+                                Price on Request (Spot Mill Benchmark Rate)
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      ) : (
-                        <div className="mt-2 flex flex-wrap items-center gap-2">
-                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
-                            Price on Request (Spot Mill Benchmark Rate)
-                          </span>
+
+                        {/* Quantity & Preset Selector */}
+                        <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-slate-600">Quantity:</span>
+                            <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-0.5">
+                              <button
+                                type="button"
+                                onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - (itemUnit.toLowerCase() === 'kg' ? 25 : 5)))}
+                                className="w-7 h-7 rounded-lg bg-white hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
+                              >
+                                <Minus className="w-3.5 h-3.5" />
+                              </button>
+                              <input
+                                type="number"
+                                min="1"
+                                value={item.quantity}
+                                onChange={(e) => updateQuantity(item.id, Math.max(1, Number(e.target.value)))}
+                                className="w-16 text-center bg-transparent text-slate-900 font-black text-xs focus:outline-none"
+                              />
+                              <span className="text-[11px] text-slate-400 font-bold pr-2">{itemUnit}</span>
+                              <button
+                                type="button"
+                                onClick={() => updateQuantity(item.id, item.quantity + (itemUnit.toLowerCase() === 'kg' ? 25 : 5))}
+                                className="w-7 h-7 rounded-lg bg-white hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
+                              >
+                                <Plus className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Quick Unit Presets */}
+                          <div className="flex items-center gap-1">
+                            {getQuantityPresets(item).slice(0, 3).map((qty) => (
+                              <button
+                                key={qty}
+                                type="button"
+                                onClick={() => handleTonnagePreset(item.id, qty)}
+                                className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all ${
+                                  item.quantity === qty 
+                                    ? 'bg-brand-steel text-white border-brand-steel shadow-xs' 
+                                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                                }`}
+                              >
+                                {qty} {itemUnit}
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Line Item Estimated Total */}
+                          <div className="text-right">
+                            <span className="text-[10px] text-slate-400 block font-semibold">Line Total (incl. 18% GST)</span>
+                            {Number(item.base_price) > 0 ? (
+                              <span className="text-sm font-black text-brand-steel">
+                                ₹{Math.round(item.lineTotal).toLocaleString('en-IN')}
+                              </span>
+                            ) : (
+                              <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block mt-0.5">
+                                Spot Rate on Quote
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
 
-                    {/* Quantity Tonnage Selector */}
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-slate-600">Quantity:</span>
-                        <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-0.5">
+                    {/* Section Matrix Toggle Button (For Rebar & Structural Steel) */}
+                    {isMatrixEligible && (
+                      <div className="pt-2 border-t border-slate-100">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
                           <button
                             type="button"
-                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 5))}
-                            className="w-7 h-7 rounded-lg bg-white hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
+                            onClick={() => toggleMatrix(item.id)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50/80 hover:bg-indigo-100 text-indigo-900 border border-indigo-200/80 text-xs font-bold transition-all"
                           >
-                            <Minus className="w-3.5 h-3.5" />
+                            <Table className="w-3.5 h-3.5 text-indigo-600" />
+                            <span>{isMatrixOpen ? 'Hide Section Matrix' : matrixTitle}</span>
+                            {isMatrixOpen ? (
+                              <ChevronUp className="w-3.5 h-3.5 text-indigo-600 ml-1" />
+                            ) : (
+                              <ChevronDown className="w-3.5 h-3.5 text-indigo-600 ml-1" />
+                            )}
                           </button>
-                          <input
-                            type="number"
-                            min="1"
-                            value={item.quantity}
-                            onChange={(e) => updateQuantity(item.id, Math.max(1, Number(e.target.value)))}
-                            className="w-14 text-center bg-transparent text-slate-900 font-black text-xs focus:outline-none"
-                          />
-                          <span className="text-[11px] text-slate-400 font-bold pr-2">{getProductUnit(item)}</span>
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.id, item.quantity + 5)}
-                            className="w-7 h-7 rounded-lg bg-white hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
+
+                          {matrixSummary && !isMatrixOpen && (
+                            <span className="text-[11px] text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100 font-semibold truncate max-w-xs sm:max-w-md">
+                              Allocated: {matrixSummary}
+                            </span>
+                          )}
                         </div>
-                      </div>
 
-                      {/* Quick MT presets */}
-                      <div className="flex items-center gap-1">
-                        {getQuantityPresets(item).slice(0, 3).map((qty) => (
-                          <button
-                            key={qty}
-                            type="button"
-                            onClick={() => handleTonnagePreset(item.id, qty)}
-                            className={`px-2 py-1 rounded-lg text-xs font-bold border transition-all ${
-                              item.quantity === qty 
-                                ? 'bg-brand-steel text-white border-brand-steel shadow-xs' 
-                                : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
-                            }`}
-                          >
-                            {qty} {getProductUnit(item)}
-                          </button>
-                        ))}
-                      </div>
+                        {/* Expandable Section Matrix Accordion Body */}
+                        {isMatrixOpen && (
+                          <div className="mt-3 p-4 bg-slate-50/80 rounded-2xl border border-indigo-100 space-y-3 animate-in fade-in duration-200">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                {itemUnit.toLowerCase() === 'kg' ? 'Gauge / Wire Allocation' : 'Gauge / Diameter Allocation'} ({itemUnit})
+                              </span>
+                              <span className="text-[11px] text-slate-500 font-medium">
+                                Entering values auto-sums into required {itemUnit}
+                              </span>
+                            </div>
 
-                      {/* Line Item Estimated Total */}
-                      <div className="text-right">
-                        <span className="text-[10px] text-slate-400 block font-semibold">Line Total (incl. 18% GST)</span>
-                        {Number(item.base_price) > 0 ? (
-                          <span className="text-sm font-black text-brand-steel">
-                            ₹{Math.round(item.lineTotal).toLocaleString('en-IN')}
-                          </span>
-                        ) : (
-                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block mt-0.5">
-                            Spot Rate on Quote
-                          </span>
+                            {/* Dynamic Standard Gauges Grid */}
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                              {itemSizes.map(gauge => (
+                                <div key={gauge} className="bg-white p-2 rounded-xl border border-slate-200 shadow-2xs">
+                                  <label className="text-[11px] font-extrabold text-slate-600 block mb-1">
+                                    {gauge}
+                                  </label>
+                                  <div className="flex items-center gap-1">
+                                    <input
+                                      type="number"
+                                      step="0.1"
+                                      min="0"
+                                      placeholder="0"
+                                      value={curMatrix[gauge] || ''}
+                                      onChange={(e) => handleGaugeChange(item, gauge, e.target.value)}
+                                      className="w-full px-2 py-1 bg-slate-50 rounded-lg text-xs font-black text-slate-800 border border-slate-200 focus:outline-none focus:border-indigo-500"
+                                    />
+                                    <span className="text-[10px] font-bold text-slate-400">{itemUnit}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Custom Profile Rows */}
+                            {(curMatrix.customRows || []).map((row, rIdx) => (
+                              <div key={rIdx} className="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200">
+                                <input
+                                  type="text"
+                                  placeholder="e.g. 36mm / 40mm / ISMB 300"
+                                  value={row.section}
+                                  onChange={(e) => handleCustomRowChange(item, rIdx, 'section', e.target.value)}
+                                  className="flex-1 px-2.5 py-1 bg-slate-50 rounded-lg text-xs font-semibold text-slate-800 border border-slate-200 focus:outline-none focus:border-indigo-500"
+                                />
+                                <div className="flex items-center gap-1 w-28">
+                                  <input
+                                    type="number"
+                                    step="0.1"
+                                    min="0"
+                                    placeholder="0"
+                                    value={row.qty}
+                                    onChange={(e) => handleCustomRowChange(item, rIdx, 'qty', e.target.value)}
+                                    className="w-full px-2 py-1 bg-slate-50 rounded-lg text-xs font-black text-slate-800 border border-slate-200 focus:outline-none focus:border-indigo-500"
+                                  />
+                                  <span className="text-[10px] font-bold text-slate-400">{itemUnit}</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveCustomRow(item, rIdx)}
+                                  className="text-slate-400 hover:text-red-500 p-1 rounded transition-colors"
+                                  title="Remove section row"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ))}
+
+                            <button
+                              type="button"
+                              onClick={() => handleAddCustomRow(item.id)}
+                              className="text-xs font-bold text-indigo-700 hover:text-indigo-900 inline-flex items-center gap-1 transition-colors"
+                            >
+                              <Plus className="w-3.5 h-3.5" /> Add Custom Gauge / Section Profile Row
+                            </button>
+                          </div>
                         )}
                       </div>
-                    </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Right Column: Order Summary & Dispatch Form */}
@@ -386,7 +715,7 @@ export default function CartPage({ customerUser }) {
               <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-lg">
                 <h3 className="text-base font-extrabold text-slate-900 uppercase tracking-wider mb-4 pb-3 border-b border-slate-100 flex items-center justify-between">
                   <span>Consignment Valuation</span>
-                  <span className="text-xs font-mono font-bold text-slate-500">{totalQuantity} MT Total</span>
+                  <span className="text-xs font-mono font-bold text-slate-500">{formattedTotalQuantity} Total</span>
                 </h3>
 
                 <div className="space-y-3 text-xs">
@@ -440,7 +769,7 @@ export default function CartPage({ customerUser }) {
                     <Send className="w-4 h-4 text-brand-steel" /> Dispatch RFQ to Sales Desk
                   </h3>
                   <p className="text-slate-500 text-xs mt-1">
-                    Route all {totalCount} items ({totalQuantity} MT) directly to CRM sales engineers for immediate proforma pricing.
+                    Submit all {totalCount} {totalCount === 1 ? 'item' : 'items'} ({formattedTotalQuantity}) for immediate proforma pricing.
                   </p>
                 </div>
 
@@ -535,10 +864,71 @@ export default function CartPage({ customerUser }) {
                     />
                   </div>
 
+                  {/* Document / BOQ Uploader Dropzone */}
+                  <div className="pt-2">
+                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <Paperclip className="w-3.5 h-3.5 text-brand-steel" />
+                      <span>Attach BOQ / Section Matrix / Drawings (Optional)</span>
+                    </label>
+                    
+                    <div className="border-2 border-dashed border-slate-200 hover:border-brand-steel/60 rounded-2xl p-4 text-center transition-all bg-slate-50/50 hover:bg-slate-50">
+                      <input 
+                        type="file" 
+                        id="cart-boq-upload" 
+                        multiple 
+                        accept=".xlsx,.xls,.csv,.pdf,.docx,.doc,image/*" 
+                        onChange={handleFileUpload} 
+                        className="hidden" 
+                      />
+                      <label htmlFor="cart-boq-upload" className="cursor-pointer flex flex-col items-center justify-center gap-1.5">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 text-brand-steel flex items-center justify-center">
+                          <UploadCloud className="w-4 h-4" />
+                        </div>
+                        <div className="text-xs font-bold text-slate-700">
+                          Click to upload or drag & drop files
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-medium">
+                          Excel (.xlsx, .csv), PDF Drawings, or Word specs up to 15MB
+                        </div>
+                      </label>
+                    </div>
+
+                    {fileError && (
+                      <p className="text-[11px] text-red-600 font-medium mt-1.5 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" /> {fileError}
+                      </p>
+                    )}
+
+                    {attachedFiles.length > 0 && (
+                      <div className="mt-2.5 space-y-1.5">
+                        {attachedFiles.map((f, fIdx) => (
+                          <div key={fIdx} className="flex items-center justify-between px-3 py-1.5 bg-slate-100 rounded-xl text-xs border border-slate-200">
+                            <div className="flex items-center gap-2 truncate">
+                              {f.file_name.endsWith('.xlsx') || f.file_name.endsWith('.csv') ? (
+                                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                              ) : (
+                                <FileText className="w-3.5 h-3.5 text-brand-steel shrink-0" />
+                              )}
+                              <span className="font-semibold text-slate-800 truncate">{f.file_name}</span>
+                              <span className="text-[10px] text-slate-400">({(f.file_size / 1024).toFixed(0)} KB)</span>
+                            </div>
+                            <button 
+                              type="button" 
+                              onClick={() => handleRemoveFile(fIdx)} 
+                              className="text-slate-400 hover:text-red-500 p-0.5 rounded transition-colors"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full mt-2 py-4 px-6 rounded-2xl bg-gradient-primary text-slate-900 font-black text-sm shadow-lg shadow-brand-steel/25 hover:scale-[1.01] active:scale-98 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full mt-3 py-4 px-6 rounded-2xl bg-gradient-primary text-slate-900 font-black text-sm shadow-lg shadow-brand-steel/25 hover:scale-[1.01] active:scale-98 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {submitting ? (
                       <>
@@ -547,7 +937,7 @@ export default function CartPage({ customerUser }) {
                       </>
                     ) : (
                       <>
-                        <span>Submit RFQ for All {totalCount} Products ({totalQuantity} MT)</span>
+                        <span>Submit RFQ for All {totalCount} {totalCount === 1 ? 'Product' : 'Products'} ({formattedTotalQuantity})</span>
                         <Send className="w-4 h-4" />
                       </>
                     )}

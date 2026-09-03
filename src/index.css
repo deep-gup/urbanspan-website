@@ -17,6 +17,11 @@
   body {
     @apply bg-brand-navy-dark text-slate-100 font-sans antialiased selection:bg-brand-steel selection:text-white;
   }
+
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    display: none !important;
+  }
 }
 
 .glass-panel {

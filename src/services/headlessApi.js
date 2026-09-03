@@ -248,10 +248,15 @@ export const submitDynamicForm = async (formId, formData) => {
 };
 
 export const getFormSchemaByName = async (formName) => {
-  const config = getStoredConfig();
-  const api = createApiClient();
-  const response = await api.get(`/external/forms/by-name/${formName}/schema?org_code=${config.orgCode}`);
-  return response.data?.data;
+  try {
+    const config = getStoredConfig();
+    const api = createApiClient();
+    const response = await api.get(`/external/forms/by-name/${formName}/schema?org_code=${config.orgCode}`);
+    return response.data?.data || { name: 'Commercial Steel RFQ Submission', fields: [] };
+  } catch (e) {
+    console.warn(`[FORM SCHEMA] Fallback for ${formName}:`, e.message);
+    return { name: 'Commercial Steel RFQ Submission', fields: [] };
+  }
 };
 
 export const submitDynamicFormByName = async (formName, formData) => {
@@ -302,4 +307,37 @@ export const getCustomerAccountTeam = async () => {
     }
   });
   return response.data?.data || response.data;
+};
+
+export const confirmCustomerDelivery = async (orderId, consignmentId) => {
+  const config = getStoredConfig();
+  const token = localStorage.getItem('urbanspan_customer_token');
+  const response = await axios.post(`${config.apiBaseUrl}/api/external/customers/me/orders/${orderId}/confirm-delivery`, {
+    consignment_id: consignmentId
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'x-org-code': config.orgCode
+    }
+  });
+  return response.data;
+};
+
+export const getPODDetails = async (orderId, dispatchId) => {
+  const config = getStoredConfig();
+  const response = await axios.get(`${config.apiBaseUrl}/api/external/pod/details`, {
+    params: { order_id: orderId, dispatch_id: dispatchId, org_code: config.orgCode }
+  });
+  return response.data;
+};
+
+export const uploadPOD = async (formData) => {
+  const config = getStoredConfig();
+  const response = await axios.post(`${config.apiBaseUrl}/api/external/pod/upload`, formData, {
+    headers: {
+      'x-org-code': config.orgCode
+    }
+  });
+  return response.data;
 };

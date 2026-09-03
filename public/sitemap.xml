@@ -2,44 +2,118 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://urbanspaninfra.co.in/</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://urbanspaninfra.co.in/products</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.95</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://urbanspaninfra.co.in/analysis</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.90</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/rates</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.90</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>https://urbanspaninfra.co.in/news</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.90</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://urbanspaninfra.co.in/about-us</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.80</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://urbanspaninfra.co.in/contact</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.85</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://urbanspaninfra.co.in/rfq</loc>
-    <lastmod>2026-08-18</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.85</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://urbanspaninfra.co.in/portal</loc>
-    <lastmod>2026-08-18</lastmod>
-    <priority>0.70</priority>
+    <loc>https://urbanspaninfra.co.in/locations</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.90</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Madhya Pradesh Regional Distribution Hubs -->
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-indore</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.88</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-pithampur</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.88</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-bhopal</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.88</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-ujjain</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-dewas</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-gwalior</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-jabalpur</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-ratlam</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-sagar</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://urbanspaninfra.co.in/locations/steel-distributor-singrauli</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.85</priority>
     <changefreq>weekly</changefreq>
   </url>
 

@@ -23,31 +23,32 @@ export default function SEO({
 
   return (
     <Helmet>
-      <title>{fullTitle}</title>
-      <meta name="description" content={description || defaultDescription} />
-      {keywords && <meta name="keywords" content={keywords} />}
-      <link rel="canonical" href={pageUrl} />
+      <title key="title">{fullTitle}</title>
+      <meta key="meta-title" name="title" content={fullTitle} />
+      <meta key="meta-description" name="description" content={description || defaultDescription} />
+      {keywords && <meta key="meta-keywords" name="keywords" content={keywords} />}
+      <link key="canonical" rel="canonical" href={pageUrl} />
       
       {/* Open Graph / WhatsApp / Facebook / LinkedIn */}
-      <meta property="og:type" content={type} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description || defaultDescription} />
-      <meta property="og:url" content={pageUrl} />
-      <meta property="og:site_name" content={siteName} />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:image:secure_url" content={ogImage} />
-      <meta property="og:image:alt" content={fullTitle} />
+      <meta key="og-type" property="og:type" content={type} />
+      <meta key="og-title" property="og:title" content={fullTitle} />
+      <meta key="og-description" property="og:description" content={description || defaultDescription} />
+      <meta key="og-url" property="og:url" content={pageUrl} />
+      <meta key="og-site_name" property="og:site_name" content={siteName} />
+      <meta key="og-image" property="og:image" content={ogImage} />
+      <meta key="og-image-secure" property="og:image:secure_url" content={ogImage} />
+      <meta key="og-image-alt" property="og:image:alt" content={fullTitle} />
       
       {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description || defaultDescription} />
-      <meta name="twitter:image" content={ogImage} />
-      <meta name="twitter:image:alt" content={fullTitle} />
+      <meta key="tw-card" name="twitter:card" content="summary_large_image" />
+      <meta key="tw-title" name="twitter:title" content={fullTitle} />
+      <meta key="tw-description" name="twitter:description" content={description || defaultDescription} />
+      <meta key="tw-image" name="twitter:image" content={ogImage} />
+      <meta key="tw-image-alt" name="twitter:image:alt" content={fullTitle} />
 
       {/* Structured Data (JSON-LD) for Search Engine Rich Snippets */}
       {structuredData && (
-        <script type="application/ld+json">
+        <script key="schema-json-ld" type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
       )}

@@ -8,8 +8,8 @@ import SEO from './SEO';
 
 // Helper to strip raw markdown formatting and extract a clean excerpt for catalog cards
 function getCleanDescriptionExcerpt(text, maxLength = 140) {
-  if (!text) return 'Premium BIS-certified structural steel engineered for heavy infrastructure and construction demands.';
-  const clean = text
+  if (!text || typeof text !== 'string') return 'Premium BIS-certified structural steel engineered for heavy infrastructure and construction demands.';
+  const clean = String(text)
     .replace(/^#+\s+/gm, '') // Remove heading starts
     .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
     .replace(/\*(.*?)\*/g, '$1') // Remove italics
@@ -82,17 +82,54 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
 
   const catalogSchema = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Steel Products - Urbanspan Infrastructure",
-    "description": "Browse primary and secondary steel products, Fe-550D TMT Rebars, Structural Steel, and benchmark rates from Urbanspan Infrastructure.",
-    "url": "https://urbanspaninfra.co.in/products"
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://urbanspaninfra.co.in/products#collection",
+        "name": "Primary Steel Products & Fe-550D TMT Rebars - Urbanspan Infrastructure",
+        "description": "Browse BIS-certified Fe-550D TMT Rebars, ISMB Beams, ISMC Channels, Angles, Plates, Billets, and daily benchmark steel rates in Central India.",
+        "url": "https://urbanspaninfra.co.in/products"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://urbanspaninfra.co.in/products#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What steel products and grades does Urbanspan Infrastructure supply?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Urbanspan Infrastructure supplies BIS-certified Fe-550D & Fe-500D TMT rebars (8mm to 32mm), primary structural steel (ISMB Beams, ISMC Channels, Equal Angles), MS Plates, HR/CR Sheets, and GI/MS binding wire."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How are wholesale steel benchmark rates calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Live benchmark rates are calculated ex-plant based on direct mill allocations and secondary rolling hub indices. Statutory 18% GST (HSN 7214) applies with exact weighbridge billing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the dispatch turnaround time for project consignments?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Orders from our Scheme 97 Vanijyak Mandi stockyard in Indore dispatch within 24 to 48 hours across Madhya Pradesh, Gujarat, Maharashtra, and Rajasthan."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
     <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <SEO 
-        title="Products | Fe-550D TMT Rebars & Structural Steel Benchmark Rates"
-        description="Explore Urbanspan's steel products suite. Certified Fe-550D TMT Rebars, Structural Steel, Billets & Pipes with benchmark rates in Central India."
+        title="Primary Steel Products & Fe-550D TMT Rebars | Benchmark Rates"
+        description="Explore Urbanspan's primary steel catalog. BIS-certified Fe-550D TMT Rebars, Structural Beams, Channels, Billets & Pipes with transparent ex-mill benchmark rates in Central India."
+        keywords="steel distributor Indore, TMT Rebars Madhya Pradesh, Fe-550D TMT bars wholesale, structural steel suppliers, ISMB beams, ISMC channels"
+        url="https://urbanspaninfra.co.in/products"
         structuredData={catalogSchema}
       />
       
@@ -102,8 +139,12 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-steel/10 text-brand-steel-light border border-brand-steel/20 text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5" /> Direct Mill Inventory Stream
           </div>
-          <h2 className="text-3xl font-extrabold text-slate-900">Products</h2>
-          <p className="text-slate-500 text-sm mt-1">benchmark rates</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Primary Steel Products &amp; Fe-550D TMT Rebars
+          </h1>
+          <p className="text-slate-500 text-sm mt-1">
+            Direct mill benchmark rates, BIS-certified rebars, and industrial structural steel inventory
+          </p>
         </div>
 
         <button
@@ -147,7 +188,7 @@ export default function ProductCatalog({ onSelectProductForInquiry }) {
       {/* Products Grid */}
       {loading ? (
         <div className="text-center py-20 text-slate-500 text-sm flex items-center justify-center gap-2">
-          <RefreshCw className="w-5 h-5 animate-spin text-brand-steel-light" /> Querying Headless Steel Inventory...
+          <RefreshCw className="w-5 h-5 animate-spin text-brand-steel-light" /> Loading Steel Inventory...
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

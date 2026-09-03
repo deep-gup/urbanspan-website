@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /portal
+Disallow: /cart
+Disallow: /api/
 
 Sitemap: https://urbanspaninfra.co.in/sitemap.xml
+

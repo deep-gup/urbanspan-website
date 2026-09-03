@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { User, Building, Mail, Phone, Lock, LogIn, UserPlus, Shield, CheckCircle2, FileText, Clock, AlertCircle, Factory, Truck, Scale, CheckCircle, RefreshCw, Download, Layers, Tag, ExternalLink, UserCheck } from 'lucide-react';
-import { registerCustomer, loginCustomer, getCustomerOrders, getCustomerInquiries, getCustomerAccountTeam } from '../services/headlessApi';
+import { 
+  User, Building, Mail, Phone, Lock, LogIn, UserPlus, Shield, 
+  CheckCircle2, FileText, Clock, AlertCircle, Factory, Truck, 
+  Scale, CheckCircle, RefreshCw, Download, Layers, Tag, 
+  ExternalLink, UserCheck, X, Printer, Share2, Copy, Check, 
+  ArrowLeft, Eye, EyeOff, Building2, MapPin, Sparkles, CheckSquare,
+  ChevronDown
+} from 'lucide-react';
+import { registerCustomer, loginCustomer, getCustomerOrders, getCustomerInquiries, getCustomerAccountTeam, confirmCustomerDelivery } from '../services/headlessApi';
+
+const CLIENT_CATEGORIES = [
+  { id: 'Builder', label: 'Builder / Real Estate Developer', desc: 'High-Rise, Commercial & Residential Townships', icon: Building2 },
+  { id: 'Contractor', label: 'Infrastructure / Civil EPC Contractor', desc: 'Roads, Bridges, Metro, Flyovers & Govt PWD/CPWD', icon: Truck },
+  { id: 'Industrial / Fabricator', label: 'Industrial / PEB Fabricator', desc: 'Pre-Engineered Buildings, Sheds & Steel Structures', icon: Factory },
+  { id: 'Trader', label: 'Steel Trader / Stockist / Wholesale', desc: 'Secondary Distribution & Rebar Wholesale Trading', icon: Layers },
+  { id: 'Retailer', label: 'Retailer / Building Material Store', desc: 'Retail Hardware Counter & Building Material Shop', icon: Tag },
+  { id: 'Consumer', label: 'Individual House Builder (IHB)', desc: 'Personal Home Construction & Private Residential Plots', icon: User },
+  { id: 'Other', label: 'Other Category / Specialized', desc: 'Other commercial, institutional or specialized operations', icon: Sparkles }
+];
+
+const REGIONAL_HUBS = ['Indore', 'Pithampur', 'Bhopal', 'Ujjain', 'Dewas', 'Gwalior', 'Jabalpur', 'Ratlam', 'Sagar', 'Singrauli', 'Other City'];
 
 const DISPATCH_STAGES = [
   { key: 'order_confirmed', label: '1. Order Booked', icon: FileText },
@@ -42,9 +61,14 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     email: '',
     password: '',
     company: '',
-    phone: ''
+    phone: '',
+    gstin: '',
+    category: '',
+    city: 'Indore',
+    address: ''
   });
   const [loading, setLoading] = useState(false);
+  const [showPortalPassword, setShowPortalPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [orders, setOrders] = useState([]);
   const [inquiries, setInquiries] = useState([]);
@@ -52,6 +76,23 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [inquiriesLoading, setInquiriesLoading] = useState(false);
   const [accountTeamLoading, setAccountTeamLoading] = useState(false);
+
+  // In-App Quotation Viewer Modal State
+  const [selectedQuoteForPreview, setSelectedQuoteForPreview] = useState(null);
+  const [copiedQuote, setCopiedQuote] = useState(false);
+
+  // In-Website Delivery Confirmation Modal State
+  const [confirmDeliveryModal, setConfirmDeliveryModal] = useState({
+    isOpen: false,
+    orderId: null,
+    consignmentId: null,
+    truckNumber: '',
+    netWeight: null,
+    invoiceNo: '',
+    isSubmitting: false,
+    error: null
+  });
+  const [toastNotification, setToastNotification] = useState(null);
 
   const activeOrders = React.useMemo(() => {
     return (orders || []).filter(o => o.stage !== 'delivered' && o.stage !== 'closed_won' && o.dispatch_status !== 'delivered');
@@ -106,11 +147,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     setInquiriesLoading(true);
     try {
       const res = await getCustomerInquiries();
-      const items = res?.data || [];
-      setInquiries(items);
-      if (items.length === 0 && orders.length > 0) {
-        setActivePortalTab('orders');
-      }
+      setInquiries(res?.data || []);
     } catch (err) {
       console.warn('Could not load live customer inquiries', err);
     } finally {
@@ -122,28 +159,45 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     e.preventDefault();
     setLoading(true);
     setErrorMsg('');
+
     try {
-      let res;
       if (isRegisterMode) {
-        res = await registerCustomer(formData);
+        const res = await registerCustomer(formData);
+        if (res?.success) {
+          localStorage.setItem('urbanspan_customer_token', res.data.token);
+          localStorage.setItem('urbanspan_customer_user', JSON.stringify(res.data.customer));
+          setCustomerUser(res.data.customer);
+        } else {
+          setErrorMsg(res?.error || res?.message || 'Registration could not be completed. Please check your details.');
+        }
       } else {
-        res = await loginCustomer({ email: formData.email, password: formData.password });
-      }
-
-      const payloadData = res.data?.data || res.data || res;
-      const customerObj = payloadData?.customer;
-      const token = payloadData?.token;
-
-      if (customerObj) {
-        localStorage.setItem('urbanspan_customer_token', token || '');
-        localStorage.setItem('urbanspan_customer_user', JSON.stringify(customerObj));
-        setCustomerUser(customerObj);
-      } else {
-        setErrorMsg('Sign in failed: Invalid response format from server.');
+        const res = await loginCustomer({ email: formData.email, password: formData.password });
+        if (res?.success) {
+          localStorage.setItem('urbanspan_customer_token', res.data.token);
+          localStorage.setItem('urbanspan_customer_user', JSON.stringify(res.data.customer));
+          setCustomerUser(res.data.customer);
+        } else {
+          setErrorMsg(res?.error || res?.message || 'Invalid email or password. Please verify your credentials.');
+        }
       }
     } catch (err) {
-      console.warn('Authentication rejected:', err.response?.data?.error || err.message);
-      setErrorMsg(err.response?.data?.error || 'Invalid email or password. Please check your credentials.');
+      console.warn('Portal Auth Error:', err);
+      const serverMsg = err.response?.data?.error || err.response?.data?.message;
+      if (serverMsg) {
+        setErrorMsg(serverMsg);
+      } else if (err.response?.status === 400) {
+        setErrorMsg('Please ensure all required fields (Name, Company, Phone, Email, Password) are filled correctly.');
+      } else if (err.response?.status === 401) {
+        setErrorMsg('Invalid email or password. Please try again.');
+      } else if (err.response?.status === 409 || err.message?.includes('already registered')) {
+        setErrorMsg('This email address is already registered. Please sign in with your password.');
+      } else if (err.response?.status === 500) {
+        setErrorMsg('We are experiencing a temporary server delay. Please try again in a few moments.');
+      } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout') || err.message?.includes('Network Error')) {
+        setErrorMsg('Network connection timed out. Please check your internet connection.');
+      } else {
+        setErrorMsg(err.message || 'Authentication error. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -154,18 +208,34 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     localStorage.removeItem('urbanspan_customer_user');
     setCustomerUser(null);
     setOrders([]);
+    setSelectedQuoteForPreview(null);
   };
 
   const isQuoteConfirmed = (inq) => {
-    return inq.quote_status === 'approved' || inq.quote_status === 'confirmed' || inq.status === 'proposal' || inq.status === 'converted' || inq.status === 'won';
+    if (!inq) return false;
+    // Strict Conscious Staff Gate: Managerial approval ('approved') alone does NOT unlock the quote to the client.
+    // The sales representative handling the account must explicitly review & confirm ('confirmed' / 'dispatched').
+    if (inq.quote_status === 'pending_approval' || inq.quote_status === 'approved' || inq.quote_status === 'rejected') {
+      return false;
+    }
+    return inq.quote_status === 'confirmed' || inq.quote_status === 'dispatched' || inq.status === 'converted' || inq.status === 'won';
   };
 
-  const downloadQuotationPDF = (inq) => {
+  // Open In-App Quotation Viewer Modal
+  const openQuotePreviewModal = (inq) => {
     if (!isQuoteConfirmed(inq)) {
-      alert('This quotation is currently under commercial review and has not yet been confirmed by our sales desk. The official PDF will be available for download once confirmed.');
+      if (inq.quote_status === 'approved') {
+        alert('This quotation has received pricing authorization from management and is currently undergoing final contract verification by your dedicated account manager. The official PDF and proforma contract will be unlocked as soon as released.');
+      } else {
+        alert('This quotation is currently under commercial review and has not yet been confirmed by our sales desk. The official PDF and full breakdown will be available once confirmed.');
+      }
       return;
     }
+    setSelectedQuoteForPreview(inq);
+  };
 
+  // Helper to generate Quotation HTML for printing
+  const generateQuotationHtml = (inq) => {
     const quoteData = inq.quote_data || {};
     const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
     const clientName = customerUser?.name || inq.name || 'Valued Client';
@@ -199,14 +269,9 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     const quoteNotes = quoteData.quote_notes || quoteData.notes || inq.notes || '';
     const todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-    const printWindow = window.open('', '_blank');
-    if (!printWindow) {
-      alert('Please allow popups to download your quotation PDF');
-      return;
-    }
-
     const itemsHtml = items.map((item, idx) => {
       const qty = Number(item.quantity || item.qty || 1).toFixed(3);
+      const unit = item.unit || 'MT';
       const rate = Number(item.quoted_rate || item.unit_price || item.benchmark_rate || item.base_price || 0);
       const itemSubtotal = Number(item.subtotal || (Number(qty) * rate));
       const itemGst = itemSubtotal * 0.18;
@@ -219,8 +284,8 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
             <div style="font-weight: bold; color: #111827;">${item.product_name || item.name}</div>
             <div style="font-size: 11px; color: #6b7280;">IS 1786:2008 Fe-550D High Ductility Grade ${item.notes ? `• ${item.notes}` : ''}</div>
           </td>
-          <td style="padding: 10px 8px; text-align: center; font-weight: 600;">${qty} MT</td>
-          <td style="padding: 10px 8px; text-align: right; font-weight: 600;">₹${rate.toLocaleString('en-IN')}</td>
+          <td style="padding: 10px 8px; text-align: center; font-weight: 600;">${qty} ${unit}</td>
+          <td style="padding: 10px 8px; text-align: right; font-weight: 600;">₹${rate.toLocaleString('en-IN')}/${unit}</td>
           <td style="padding: 10px 8px; text-align: right; font-weight: 600;">₹${Math.round(itemSubtotal).toLocaleString('en-IN')}</td>
           <td style="padding: 10px 8px; text-align: right; color: #4b5563;">₹${Math.round(itemGst).toLocaleString('en-IN')}</td>
           <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #1e40af;">₹${Math.round(itemLineTotal).toLocaleString('en-IN')}</td>
@@ -228,72 +293,65 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
       `;
     }).join('');
 
-    const htmlContent = `
+    return `
       <!DOCTYPE html>
       <html>
         <head>
           <title>Commercial Quotation - ${quoteRef}</title>
           <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1f2937; margin: 0; padding: 30px; background: #fff; }
-            .quote-card { max-width: 880px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-            .header-table { width: 100%; margin-bottom: 20px; border-bottom: 2px solid #2563eb; padding-bottom: 16px; }
-            .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; background: #f8fafc; padding: 16px 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1f2937; margin: 0; padding: 24px; background: #fff; }
+            .quote-card { max-width: 880px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 12px; padding: 28px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+            .header-table { width: 100%; margin-bottom: 16px; border-bottom: 2px solid #2563eb; padding-bottom: 12px; }
+            .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; background: #f8fafc; padding: 14px 18px; border-radius: 8px; border: 1px solid #e2e8f0; }
             .items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
             .items-table th { background: #f1f5f9; padding: 10px 8px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; }
-            .totals-table { width: 380px; margin-left: auto; margin-bottom: 24px; border-collapse: collapse; font-size: 12px; }
+            .totals-table { width: 380px; margin-left: auto; margin-bottom: 20px; border-collapse: collapse; font-size: 12px; }
             .totals-table td { padding: 5px 8px; }
             .badge-for { display: inline-block; background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 9999px; margin-left: 6px; }
             .badge-ex { display: inline-block; background: #f1f5f9; color: #475569; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 9999px; margin-left: 6px; }
-            .notes-box { background: #fefce8; border: 1px solid #fef08a; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: #854d0e; }
-            .terms-box { border-top: 1px solid #e5e7eb; padding-top: 14px; font-size: 11px; color: #4b5563; }
+            .notes-box { background: #fefce8; border: 1px solid #fef08a; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 12px; color: #854d0e; }
+            .terms-box { border-top: 1px solid #e5e7eb; padding-top: 12px; font-size: 11px; color: #4b5563; }
             @media print {
               body { padding: 0; }
               .quote-card { border: none; box-shadow: none; padding: 0; }
-              .no-print { display: none; }
             }
           </style>
         </head>
         <body>
-          <div class="no-print" style="max-width: 880px; margin: 0 auto 16px auto; display: flex; justify-content: flex-end; gap: 10px;">
-            <button onclick="window.print()" style="background: #2563eb; color: #fff; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer;">
-              🖨️ Print / Save as PDF
-            </button>
-          </div>
-
           <div class="quote-card">
             <table class="header-table">
               <tr>
                 <td>
-                  <div style="font-size: 22px; font-weight: 900; color: #1e3a8a; letter-spacing: -0.5px;">UrbanSpan Infrastructure & Steel Pvt Ltd</div>
-                  <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Primary Steel Distro · Raipur & Indore Hubs</div>
+                  <div style="font-size: 20px; font-weight: 900; color: #1e3a8a; letter-spacing: -0.5px;">UrbanSpan Infrastructure & Steel Pvt Ltd</div>
+                  <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">Primary Steel Distribution · Raipur & Indore Hubs</div>
                   <div style="font-size: 11px; color: #4b5563; font-weight: 600; margin-top: 2px;">GSTIN: 22AAAAA0000A1Z5</div>
                 </td>
                 <td style="text-align: right; vertical-align: top;">
-                  <div style="font-size: 18px; font-weight: 800; color: #2563eb;">COMMERCIAL QUOTATION</div>
-                  <div style="font-size: 12px; font-weight: bold; margin-top: 4px;">Ref: <span style="font-family: monospace;">${quoteRef}</span></div>
-                  <div style="font-size: 12px; color: #6b7280;">Date: ${todayStr}</div>
+                  <div style="font-size: 16px; font-weight: 800; color: #2563eb;">COMMERCIAL QUOTATION</div>
+                  <div style="font-size: 12px; font-weight: bold; margin-top: 2px;">Ref: <span style="font-family: monospace;">${quoteRef}</span></div>
+                  <div style="font-size: 11px; color: #6b7280;">Date: ${todayStr}</div>
                 </td>
               </tr>
             </table>
 
             <div class="client-grid">
               <div>
-                <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: #64748b; margin-bottom: 4px;">Billed & Supplied To</div>
-                <div style="font-size: 15px; font-weight: bold; color: #0f172a;">${clientName}</div>
-                ${companyName ? `<div style="font-size: 13px; font-weight: 600; color: #334155;">${companyName}</div>` : ''}
-                ${clientPhone ? `<div style="font-size: 12px; color: #475569;">Phone: ${clientPhone}</div>` : ''}
-                ${clientEmail ? `<div style="font-size: 12px; color: #475569;">Email: ${clientEmail}</div>` : ''}
+                <div style="font-size: 10px; text-transform: uppercase; font-weight: bold; color: #64748b; margin-bottom: 2px;">Billed & Supplied To</div>
+                <div style="font-size: 14px; font-weight: bold; color: #0f172a;">${clientName}</div>
+                ${companyName ? `<div style="font-size: 12px; font-weight: 600; color: #334155;">${companyName}</div>` : ''}
+                ${clientPhone ? `<div style="font-size: 11px; color: #475569;">Phone: ${clientPhone}</div>` : ''}
+                ${clientEmail ? `<div style="font-size: 11px; color: #475569;">Email: ${clientEmail}</div>` : ''}
               </div>
               <div>
-                <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: #64748b; margin-bottom: 4px;">Commercial Delivery Terms</div>
-                <div style="font-size: 14px; font-weight: bold; color: #1e40af;">
+                <div style="font-size: 10px; text-transform: uppercase; font-weight: bold; color: #64748b; margin-bottom: 2px;">Commercial Delivery Terms</div>
+                <div style="font-size: 13px; font-weight: bold; color: #1e40af;">
                   ${isFOR ? 'F.O.R. Delivered Destination' : 'Ex-Plant / Ex-Mill Gate'}
                   <span class="${isFOR ? 'badge-for' : 'badge-ex'}">${isFOR ? 'F.O.R.' : 'EXW'}</span>
                 </div>
-                <div style="font-size: 12px; color: #475569; margin-top: 4px;">
+                <div style="font-size: 11px; color: #475569; margin-top: 2px;">
                   Destination: <strong>${deliveryDestination || (isFOR ? 'Indore Project Site' : 'Ex-Raipur Mill')}</strong>
                 </div>
-                <div style="font-size: 12px; color: #dc2626; font-weight: 600; margin-top: 2px;">Rate Validity: 24 Hours Spot Rate</div>
+                <div style="font-size: 11px; color: #dc2626; font-weight: 600; margin-top: 2px;">Rate Validity: 24 Hours Spot Rate</div>
               </div>
             </div>
 
@@ -344,8 +402,8 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                 <td style="text-align: right; font-weight: 600;">₹${Math.round(taxAmount / 2).toLocaleString('en-IN')}</td>
               </tr>
               <tr style="border-top: 2px solid #0f172a; border-bottom: 2px solid #0f172a;">
-                <td style="font-size: 14px; font-weight: 900; color: #1e3a8a; padding: 8px 8px;">Consignment Grand Total:</td>
-                <td style="font-size: 16px; font-weight: 900; color: #1e3a8a; text-align: right; padding: 8px 8px;">₹${grandTotal.toLocaleString('en-IN')}</td>
+                <td style="font-size: 13px; font-weight: 900; color: #1e3a8a; padding: 6px 8px;">Consignment Grand Total:</td>
+                <td style="font-size: 15px; font-weight: 900; color: #1e3a8a; text-align: right; padding: 6px 8px;">₹${grandTotal.toLocaleString('en-IN')}</td>
               </tr>
             </table>
 
@@ -357,8 +415,8 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
             ` : ''}
 
             <div class="terms-box">
-              <div style="font-weight: bold; margin-bottom: 6px; color: #111827;">Standard Commercial Terms & Conditions:</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div style="font-weight: bold; margin-bottom: 4px; color: #111827;">Standard Commercial Terms & Conditions:</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div>
                   <div>• <strong>Payment Terms:</strong> 100% RTGS Advance against Proforma Invoice</div>
                   <div>• <strong>Supply Terms:</strong> ${isFOR ? 'F.O.R. Destination Delivered' : 'Ex-Mill Raipur Gate'}</div>
@@ -375,15 +433,297 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
         </body>
       </html>
     `;
+  };
+
+  // Safe In-App Printing Handler (Never destroys React app lifecycle or replaces window)
+  const handlePrintQuotation = (inq) => {
+    try {
+      let iframe = document.getElementById('quotation-print-frame');
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = 'quotation-print-frame';
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        document.body.appendChild(iframe);
+      }
+
+      const htmlContent = generateQuotationHtml(inq);
+      const doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(htmlContent);
+      doc.close();
+
+      setTimeout(() => {
+        try {
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+        } catch (err) {
+          console.warn('Iframe print failed, falling back to window.print', err);
+          window.print();
+        }
+      }, 300);
+    } catch (e) {
+      console.error('Print trigger failed:', e);
+      window.print();
+    }
+  };
+
+  // WhatsApp Share Handler
+  const handleWhatsAppShare = (inq) => {
+    const quoteData = inq.quote_data || {};
+    const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
+    const grandTotal = Number(quoteData.grand_total || inq.expected_value || 0).toLocaleString('en-IN');
+    const items = quoteData.items || inq.items || [];
+    const itemsStr = items.map(i => `• ${i.product_name || i.name}: ${i.quantity || i.qty} ${i.unit || 'MT'} @ ₹${Number(i.quoted_rate || i.unit_price || i.base_price || 0).toLocaleString('en-IN')}`).join('\n');
+
+    const msg = `*Urbanspan Commercial Steel Quotation*` +
+      `\n*Ref:* ${quoteRef}` +
+      `\n*Client:* ${customerUser?.company || customerUser?.name || inq.name}` +
+      `\n\n*Items:*\n${itemsStr}` +
+      `\n\n*Total Value (incl. 18% GST):* ₹${grandTotal}` +
+      `\n*Supply Terms:* ${quoteData.delivery_type === 'for' ? 'F.O.R. Site Delivered' : 'Ex-Mill Gate'}` +
+      `\n\nView in portal: https://www.urbanspaninfra.co.in/portal`;
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  };
+
+  // Copy Quotation Summary to Clipboard
+  const handleCopyQuoteText = (inq) => {
+    const quoteData = inq.quote_data || {};
+    const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
+    const grandTotal = Number(quoteData.grand_total || inq.expected_value || 0).toLocaleString('en-IN');
+    const items = quoteData.items || inq.items || [];
+    const itemsStr = items.map(i => `• ${i.product_name || i.name}: ${i.quantity || i.qty} ${i.unit || 'MT'} @ ₹${Number(i.quoted_rate || i.unit_price || i.base_price || 0).toLocaleString('en-IN')}`).join('\n');
+
+    const text = `UrbanSpan Commercial Quotation (${quoteRef})\n` +
+      `Client: ${customerUser?.company || customerUser?.name || inq.name}\n\n` +
+      `${itemsStr}\n\n` +
+      `Total Value: ₹${grandTotal}\n` +
+      `Terms: ${quoteData.delivery_type === 'for' ? 'F.O.R. Delivered' : 'Ex-Plant Raipur'}`;
+
+    navigator.clipboard.writeText(text);
+    setCopiedQuote(true);
+    setTimeout(() => setCopiedQuote(false), 2000);
+  };
+
+  const handleGenerateInvoicePdf = (order, dispatch) => {
+    if (!dispatch) {
+      alert('Consignment dispatch data unavailable for invoice generation.');
+      return;
+    }
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      alert('Please allow popups to download or print the Tax Invoice.');
+      return;
+    }
+
+    const invoiceNo = dispatch.customer_invoice_no || `US-INV-${new Date().getFullYear()}-${dispatch.consignment_number ? String(dispatch.consignment_number).slice(-4) : '0099'}`;
+    const invoiceDate = dispatch.dispatch_date || new Date().toISOString().slice(0, 10);
+    const truckNo = dispatch.truck_number || 'Trailer';
+    const ewayBill = dispatch.eway_bill_no || '9918273645';
+    const driverName = dispatch.driver_name || 'Assigned Driver';
+    const driverPhone = dispatch.driver_phone || '';
+    const netWeight = Number(dispatch.net_weight || dispatch.dispatched_quantity || 35.000);
+    const clientName = customerUser?.name || 'Valued Client';
+    const companyName = customerUser?.company || order.title || 'Client Organization';
+    const gstin = customerUser?.gstin || customerUser?.gst_number || '23AAGCS9988H1Z4';
+    const address = customerUser?.address || 'Project Jobsite, Madhya Pradesh';
+
+    const contractedQty = Number(order.custom_data?.total_tonnage || order.quantity_mt || 50);
+    const ratePerMT = order.deal_value && contractedQty > 0
+      ? Math.round(Number(order.deal_value) / contractedQty)
+      : 52000;
+    const subtotal = Math.round(netWeight * ratePerMT);
+    const cgst = Math.round(subtotal * 0.09);
+    const sgst = Math.round(subtotal * 0.09);
+    const totalAmount = subtotal + cgst + sgst;
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>TAX INVOICE - ${invoiceNo}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #0f172a; margin: 0; padding: 24px; background: #fff; }
+            .invoice-card { max-width: 860px; margin: 0 auto; border: 2px solid #0f172a; border-radius: 8px; padding: 24px; }
+            .header { display: flex; justify-content: space-between; border-bottom: 2px solid #0f172a; padding-bottom: 12px; }
+            .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; font-size: 12px; }
+            .box { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; }
+            .table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+            .table th { background: #0f172a; color: #fff; padding: 8px; text-align: left; text-transform: uppercase; font-size: 10px; }
+            .table td { border-bottom: 1px solid #e2e8f0; padding: 8px; }
+            .totals { width: 340px; margin-left: auto; font-size: 12px; }
+            .totals td { padding: 4px 8px; }
+            @media print {
+              body { padding: 0; }
+              .invoice-card { border: 1px solid #000; }
+              .no-print { display: none; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="max-width: 860px; margin: 0 auto 16px auto; display: flex; justify-content: flex-end; gap: 10px;">
+            <button onclick="window.print()" style="background: #1e3a8a; color: #fff; border: none; padding: 10px 24px; font-weight: bold; border-radius: 6px; cursor: pointer;">
+              🖨️ Print / Save Tax Invoice (PDF)
+            </button>
+          </div>
+          <div class="invoice-card">
+            <div class="header">
+              <div>
+                <div style="font-size: 20px; font-weight: 900; color: #1e3a8a;">URBANSPAN INFRASTRUCTURE PVT. LTD.</div>
+                <div style="font-size: 11px; color: #475569; margin-top: 2px;">Primary Steel Distributor & Stockyard Logistics Hub</div>
+                <div style="font-size: 11px; font-weight: 600;">115 Scheme 97, Vanijyak Mandi, Indore, Madhya Pradesh - 452010</div>
+                <div style="font-size: 11px; font-weight: bold; color: #1e3a8a; margin-top: 2px;">GSTIN: 23AAECU8819Q1ZN • PAN: AAECU8819Q</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="display: inline-block; background: #1e3a8a; color: #fff; font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 4px; text-transform: uppercase;">
+                  TAX INVOICE
+                </div>
+                <div style="font-size: 13px; font-weight: bold; margin-top: 6px;">${invoiceNo}</div>
+                <div style="font-size: 11px; color: #64748b;">Date: ${invoiceDate}</div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="box">
+                <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 4px; text-transform: uppercase; font-size: 11px;">Billed To (Customer):</div>
+                <div style="font-weight: bold; font-size: 13px;">${companyName}</div>
+                <div>Attn: ${clientName}</div>
+                <div>${address}</div>
+                <div style="margin-top: 4px; font-weight: bold; color: #0f172a;">GSTIN: ${gstin}</div>
+              </div>
+              <div class="box">
+                <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 4px; text-transform: uppercase; font-size: 11px;">Consignment & Logistics Details:</div>
+                <div><strong>Vehicle No:</strong> ${truckNo}</div>
+                <div><strong>Driver:</strong> ${driverName} ${driverPhone ? `(${driverPhone})` : ''}</div>
+                <div><strong>e-Way Bill No:</strong> EWB-${ewayBill}</div>
+                <div><strong>Delivery Destination:</strong> ${address}</div>
+              </div>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Item Description</th>
+                  <th>HSN / SAC</th>
+                  <th style="text-align: center;">Qty (MT)</th>
+                  <th style="text-align: right;">Rate (₹/MT)</th>
+                  <th style="text-align: right;">Taxable Value (₹)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <strong>High Ductility TMT Steel Rebars (Fe-550D)</strong>
+                    <div style="font-size: 10px; color: #64748b;">Conforming to IS 1786:2008 Grade Fe-550D • Tested & Certified</div>
+                  </td>
+                  <td>7214</td>
+                  <td style="text-align: center; font-weight: bold;">${netWeight.toFixed(3)} MT</td>
+                  <td style="text-align: right; font-weight: 600;">₹${ratePerMT.toLocaleString('en-IN')}</td>
+                  <td style="text-align: right; font-weight: bold;">₹${subtotal.toLocaleString('en-IN')}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="totals">
+              <tr>
+                <td>Subtotal (Taxable Value):</td>
+                <td style="text-align: right; font-weight: 600;">₹${subtotal.toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td>Central GST (CGST @ 9%):</td>
+                <td style="text-align: right; font-weight: 600;">₹${cgst.toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td>State GST (SGST @ 9%):</td>
+                <td style="text-align: right; font-weight: 600;">₹${sgst.toLocaleString('en-IN')}</td>
+              </tr>
+              <tr style="border-top: 2px solid #0f172a; border-bottom: 2px solid #0f172a;">
+                <td style="font-size: 14px; font-weight: 900; color: #1e3a8a; padding: 6px 0;">Invoice Total:</td>
+                <td style="font-size: 15px; font-weight: 900; color: #1e3a8a; text-align: right; padding: 6px 0;">₹${totalAmount.toLocaleString('en-IN')}</td>
+              </tr>
+            </table>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; font-size: 11px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+              <div>
+                <strong>Bank RTGS / NEFT Details:</strong><br/>
+                Bank: HDFC Bank Ltd • Branch: Vijay Nagar, Indore<br/>
+                Account Name: URBANSPAN INFRASTRUCTURE PVT. LTD.<br/>
+                A/C No: 50200088991122 • IFSC: HDFC0001234
+              </div>
+              <div style="text-align: right; padding-top: 24px;">
+                <strong>For URBANSPAN INFRASTRUCTURE PVT. LTD.</strong><br/><br/>
+                <span style="font-size: 10px; color: #64748b;">Authorised Signatory</span>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
 
     printWindow.document.open();
     printWindow.document.write(htmlContent);
     printWindow.document.close();
   };
 
+  const handleOpenConfirmDeliveryModal = (order, tr) => {
+    setConfirmDeliveryModal({
+      isOpen: true,
+      orderId: order.id,
+      consignmentId: tr.id,
+      truckNumber: tr.truck_number || 'Trailer',
+      netWeight: tr.net_weight || tr.net_weight_mt || tr.quantity_mt || null,
+      invoiceNo: tr.customer_invoice_no || '',
+      isSubmitting: false,
+      error: null
+    });
+  };
+
+  const handleExecuteDeliveryConfirmation = async () => {
+    const { orderId, consignmentId, truckNumber } = confirmDeliveryModal;
+    if (!orderId || !consignmentId) return;
+
+    try {
+      setConfirmDeliveryModal(prev => ({ ...prev, isSubmitting: true, error: null }));
+      const res = await confirmCustomerDelivery(orderId, consignmentId);
+      if (res?.success) {
+        setConfirmDeliveryModal({
+          isOpen: false,
+          orderId: null,
+          consignmentId: null,
+          truckNumber: '',
+          netWeight: null,
+          invoiceNo: '',
+          isSubmitting: false,
+          error: null
+        });
+        setToastNotification({
+          type: 'success',
+          message: `Delivery receipt confirmed for ${truckNumber}. Your order status has been updated!`
+        });
+        setTimeout(() => setToastNotification(null), 5000);
+        await fetchOrders();
+      } else {
+        setConfirmDeliveryModal(prev => ({ ...prev, isSubmitting: false, error: res?.message || 'Failed to confirm delivery.' }));
+      }
+    } catch (err) {
+      console.error('Confirm delivery error:', err);
+      setConfirmDeliveryModal(prev => ({ ...prev, isSubmitting: false, error: err.response?.data?.message || 'Network error while confirming delivery. Please try again.' }));
+    }
+  };
+
   if (customerUser) {
     return (
-      <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <>
+        <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Welcome Header */}
         <div className="bg-white shadow-lg border border-slate-200 p-6 sm:p-8 rounded-3xl mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
@@ -404,6 +744,16 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                 {(customerUser.gstin || customerUser.gst_number) && (
                   <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                     GSTIN: {customerUser.gstin || customerUser.gst_number}
+                  </span>
+                )}
+                {customerUser.category && (
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    🏷️ {customerUser.category}
+                  </span>
+                )}
+                {customerUser.city && (
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                    📍 {customerUser.city}
                   </span>
                 )}
               </div>
@@ -449,54 +799,40 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
               </button>
 
               <button
-                onClick={() => { setActivePortalTab('orders'); setOrderFilterTab('active'); }}
+                onClick={() => setActivePortalTab('orders')}
                 className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                  activePortalTab === 'orders' && orderFilterTab === 'active'
-                    ? 'bg-white text-blue-700 shadow-sm'
+                  activePortalTab === 'orders'
+                    ? 'bg-white text-indigo-700 shadow-sm'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <Truck className="w-4 h-4 text-blue-600" />
-                <span>Active In-Flight ({activeOrders.length})</span>
-              </button>
-
-              <button
-                onClick={() => { setActivePortalTab('orders'); setOrderFilterTab('delivered'); }}
-                className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                  activePortalTab === 'orders' && orderFilterTab === 'delivered'
-                    ? 'bg-white text-emerald-700 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <CheckCircle className="w-4 h-4 text-emerald-600" />
-                <span>Delivered History ({deliveredOrders.length})</span>
+                <Truck className="w-4 h-4 text-indigo-600" />
+                <span>Active Supply Contracts ({activeOrders.length})</span>
               </button>
             </div>
 
-            {/* TAB 1: INQUIRIES & SPOT QUOTES */}
+            {/* TAB 1: INQUIRIES & QUOTATIONS */}
             {activePortalTab === 'inquiries' && (
               <div>
                 {inquiriesLoading ? (
-                  <div className="p-8 text-center text-slate-400 text-xs">Loading commercial inquiries...</div>
+                  <div className="p-8 text-center text-slate-400 text-xs">Loading commercial quotes...</div>
                 ) : inquiries.length === 0 ? (
                   <div className="p-8 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">
-                    <p className="text-sm font-semibold text-slate-700">No submitted inquiries found</p>
-                    <p className="text-xs text-slate-400 mt-1">Submit an RFQ from our product catalog to request live mill quotations.</p>
+                    <p className="text-sm font-semibold text-slate-700">No active commercial inquiries found</p>
+                    <p className="text-xs text-slate-400 mt-1">Submit an RFQ from our product catalog to track your live quotations and mill schedules.</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {inquiries.map((inq) => {
-                      const status = inq.status || 'new';
                       const statusMap = {
-                        new: { label: 'Received / Under Review', color: 'bg-blue-100 text-blue-800' },
-                        contacted: { label: 'Sales Desk Assigned', color: 'bg-amber-100 text-amber-800' },
-                        qualified: { label: 'Commercial Evaluation', color: 'bg-indigo-100 text-indigo-800' },
-                        proposal: { label: 'Official Quote Ready', color: 'bg-purple-100 text-purple-800' },
-                        negotiation: { label: 'Rate Finalisation', color: 'bg-pink-100 text-pink-800' },
-                        converted: { label: 'Contract Booked & Active', color: 'bg-emerald-100 text-emerald-800' },
-                        won: { label: 'Contract Approved', color: 'bg-emerald-100 text-emerald-800' },
-                        lost: { label: 'Closed', color: 'bg-slate-100 text-slate-700' }
+                        new: { label: 'Inquiry Received', color: 'bg-blue-50 text-blue-700 border border-blue-200' },
+                        contacted: { label: 'Pricing Desk Review', color: 'bg-amber-50 text-amber-700 border border-amber-200' },
+                        qualified: { label: 'Under Negotiation', color: 'bg-purple-50 text-purple-700 border border-purple-200' },
+                        proposal: { label: 'Quotation Ready', color: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
+                        converted: { label: 'Contract Active', color: 'bg-emerald-100 text-emerald-800 border border-emerald-300' },
+                        lost: { label: 'Cancelled', color: 'bg-slate-100 text-slate-600' }
                       };
+                      const status = inq.status || 'new';
                       const statusInfo = statusMap[status] || { label: status.toUpperCase(), color: 'bg-slate-100 text-slate-700' };
 
                       const inquiryTitle = inq.items?.[0]?.product_name 
@@ -504,9 +840,10 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                         : inq.name || inq.title || 'Steel Procurement RFQ';
 
                       const quoteData = inq.quote_data || {};
-                      const isQuoteApproved = inq.quote_status === 'approved' || inq.quote_status === 'confirmed' || inq.status === 'proposal' || inq.status === 'converted' || inq.status === 'won';
+                      const isQuoteConfirmedByStaff = inq.quote_status === 'confirmed' || inq.quote_status === 'dispatched' || inq.status === 'converted' || inq.status === 'won';
+                      const isQuoteApprovedByManagement = inq.quote_status === 'approved';
                       const isQuotePendingApproval = inq.quote_status === 'pending_approval';
-                      const hasConfirmedQuote = isQuoteApproved && quoteData && (quoteData.items || quoteData.base_subtotal || quoteData.grand_total);
+                      const hasConfirmedQuote = isQuoteConfirmedByStaff && quoteData && (quoteData.items || quoteData.base_subtotal || quoteData.grand_total);
                       const isFOR = quoteData.delivery_type === 'for' || quoteData.quote_type === 'for' || quoteData.delivery_type === 'for_delivered';
                       const destination = quoteData.destination || quoteData.delivery_destination || inq.custom_data?.destination || inq.custom_data?.city || '';
 
@@ -518,7 +855,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                               <div className="text-xs text-slate-500 mt-0.5">
                                 Submitted on {new Date(inq.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                                 {inq.assigned_rep_name && (
-                                  <span> • Assigned Sales Lead: <b className="text-slate-700">{inq.assigned_rep_name}</b></span>
+                                  <span> • Account Manager: <b className="text-slate-700">{inq.assigned_rep_name}</b></span>
                                 )}
                               </div>
                             </div>
@@ -551,7 +888,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                     <thead>
                                       <tr className="bg-slate-50 text-slate-500 border-b border-slate-200">
                                         <th className="py-2 px-2 font-semibold">Product</th>
-                                        <th className="py-2 px-2 font-semibold text-center">Tonnage</th>
+                                        <th className="py-2 px-2 font-semibold text-center">Quantity</th>
                                         <th className="py-2 px-2 font-semibold text-right">Quoted Rate</th>
                                         <th className="py-2 px-2 font-semibold text-right">Subtotal</th>
                                       </tr>
@@ -609,14 +946,15 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                 </div>
                               )}
 
-                              {/* Download PDF Button (Confirmed Only) */}
-                              <div className="pt-2 flex justify-end">
+                              {/* In-App Quotation Viewer Trigger Button */}
+                              <div className="pt-2 flex flex-wrap items-center justify-end gap-2">
                                 <button
-                                  onClick={() => downloadQuotationPDF(inq)}
-                                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                                  type="button"
+                                  onClick={() => openQuotePreviewModal(inq)}
+                                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm active:scale-98"
                                 >
-                                  <Download className="w-3.5 h-3.5" />
-                                  <span>Download Official Quote PDF</span>
+                                  <Eye className="w-3.5 h-3.5" />
+                                  <span>View & Download Official Quote</span>
                                 </button>
                               </div>
                             </div>
@@ -666,15 +1004,37 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                 </div>
                               )}
 
-                              <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-200/60 text-xs text-blue-900 flex items-start gap-2.5">
-                                <Clock className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                                <div>
-                                  <div className="font-bold text-blue-950">Pricing Desk Review in Progress</div>
-                                  <div className="text-blue-800 text-[11px] mt-0.5 leading-relaxed">
-                                    Our commercial desk is verifying mill rolling schedules, freight logistics, and spot rates for your requirement. Your official confirmed quote and downloadable PDF will be made available here once confirmed by our sales desk.
+                              {isQuoteApprovedByManagement ? (
+                                <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-950 flex items-start gap-2.5 shadow-sm">
+                                  <Clock className="w-4 h-4 text-blue-600 mt-0.5 shrink-0 animate-pulse" />
+                                  <div>
+                                    <div className="font-bold text-blue-950">Pricing Authorized — Final Account Manager Verification</div>
+                                    <div className="text-blue-800 text-[11px] mt-0.5 leading-relaxed">
+                                      Commercial pricing has been authorized by management. Your account manager ({inq.assigned_rep_name || 'Commercial Desk'}) is finalizing dispatch logistics and contract terms, and will release your official downloadable quote shortly.
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+                              ) : isQuotePendingApproval ? (
+                                <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950 flex items-start gap-2.5 shadow-sm">
+                                  <Clock className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                                  <div>
+                                    <div className="font-bold text-amber-950">Management Pricing Authorization in Progress</div>
+                                    <div className="text-amber-800 text-[11px] mt-0.5 leading-relaxed">
+                                      Your spot quotation is currently undergoing commercial authorization with our pricing directors. Official proforma quote and downloadable PDF will be unlocked once approved and released.
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-200/60 text-xs text-blue-900 flex items-start gap-2.5">
+                                  <Clock className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+                                  <div>
+                                    <div className="font-bold text-blue-950">Pricing Desk Review in Progress</div>
+                                    <div className="text-blue-800 text-[11px] mt-0.5 leading-relaxed">
+                                      Our commercial desk is verifying mill rolling schedules, freight logistics, and spot rates for your requirement. Your official confirmed quote and downloadable PDF will be made available here once confirmed by our sales desk.
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           )}
 
@@ -693,7 +1053,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                 href={`tel:${inq.assigned_rep_phone}`}
                                 className="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-bold hover:bg-indigo-100 transition-colors flex items-center gap-1"
                               >
-                                <Phone className="w-3.5 h-3.5" /> Call Sales Lead ({inq.assigned_rep_phone})
+                                <Phone className="w-3.5 h-3.5" /> Call Account Manager ({inq.assigned_rep_phone})
                               </a>
                             ) : accountTeam?.account_manager?.phone ? (
                               <a
@@ -767,8 +1127,32 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                         ? order.items.reduce((acc, it) => acc + Number(it.quantity || 0), 0)
                         : Number(order.custom_data?.total_tonnage || order.custom_data?.quote_data?.total_tonnage || order.custom_data?.tonnage || order.custom_data?.quantity || order.quantity_mt || 0);
 
-                      // 2. Extract live fleet dispatches (syncing both split fleet array and single-truck dispatch_details)
-                      let fleetDispatches = order.custom_data?.sub_entities?.fleet_dispatches || order.custom_data?.fleet_dispatches || [];
+                      // 2. Extract live fleet dispatches (syncing backend consignments, split fleet array, and single-truck dispatch_details)
+                      let fleetDispatches = (Array.isArray(order.fleet_dispatches) && order.fleet_dispatches.length > 0)
+                        ? order.fleet_dispatches
+                        : (Array.isArray(order.consignments) && order.consignments.length > 0)
+                        ? order.consignments.map(c => ({
+                            id: c.id,
+                            consignment_number: c.consignment_number,
+                            truck_number: c.truck_number || 'Trailer',
+                            driver_name: c.driver_name || 'Assigned Driver',
+                            driver_phone: c.driver_phone || '',
+                            dispatched_quantity: Number(c.net_weight || c.tonnage || 0),
+                            gross_weight: c.gross_weight ? Number(c.gross_weight) : null,
+                            tare_weight: c.tare_weight ? Number(c.tare_weight) : null,
+                            net_weight: Number(c.net_weight || c.tonnage || 0),
+                            eway_bill_no: c.eway_bill_no || '',
+                            customer_invoice_no: c.customer_invoice_no || '',
+                            customer_invoice_url: c.customer_invoice_url || null,
+                            dispatch_date: c.created_at ? (typeof c.created_at === 'string' ? c.created_at.slice(0, 10) : new Date(c.created_at).toISOString().slice(0, 10)) : null,
+                            status: (c.tracking_status === 'delivered' || c.billing_stage === 'paid_reconciled')
+                              ? 'Delivered'
+                              : (c.billing_stage === 'invoiced_in_transit' || c.tracking_status === 'in_transit')
+                              ? 'In Transit'
+                              : 'Loaded'
+                          }))
+                        : (order.custom_data?.sub_entities?.fleet_dispatches || order.custom_data?.fleet_dispatches || []);
+
                       const dd = order.dispatch_details || {};
                       if (fleetDispatches.length === 0 && (dd.truck_number || dd.tonnage || dd.net_weight)) {
                         fleetDispatches = [{
@@ -860,9 +1244,16 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                   <tbody className="divide-y divide-slate-100 text-slate-700">
                                     {fleetDispatches.map((tr, tIdx) => (
                                       <tr key={tr.id || tIdx} className="hover:bg-slate-50/80 transition-colors">
-                                        <td className="py-2.5 font-bold text-slate-900 flex items-center gap-1.5">
-                                          <Truck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                                          <span>{tr.truck_number || 'Trailer'}</span>
+                                        <td className="py-2.5 font-bold text-slate-900">
+                                          <div className="flex items-center gap-1.5">
+                                            <Truck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                            <span>{tr.truck_number || 'Trailer'}</span>
+                                          </div>
+                                          {tr.consignment_number && (
+                                            <div className="text-[10px] font-mono text-slate-400 font-normal">
+                                              {tr.consignment_number}
+                                            </div>
+                                          )}
                                         </td>
                                         <td className="py-2.5">
                                           <div className="font-semibold text-slate-800">{tr.driver_name || 'Assigned Driver'}</div>
@@ -881,21 +1272,58 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                           )}
                                         </td>
                                         <td className="py-2.5 font-mono text-[11px] text-slate-600">
-                                          {tr.eway_bill_no ? `EWB-${tr.eway_bill_no}` : '—'}
+                                          {tr.eway_bill_no ? (
+                                            <div>{tr.eway_bill_no.startsWith('EWB') ? tr.eway_bill_no : `EWB-${tr.eway_bill_no}`}</div>
+                                          ) : (
+                                            <div>—</div>
+                                          )}
+                                          <button
+                                            type="button"
+                                            onClick={() => handleGenerateInvoicePdf(order, tr)}
+                                            className="mt-1 text-[10px] text-indigo-600 hover:text-indigo-800 font-sans font-bold flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200 transition-colors cursor-pointer"
+                                            title="Download / Print Official GST Tax Invoice (PDF)"
+                                          >
+                                            <FileText className="w-3 h-3 text-indigo-600" />
+                                            <span>{tr.customer_invoice_no || 'US-INV-2026-0099'}</span>
+                                          </button>
                                         </td>
                                         <td className="py-2.5 text-[11px] text-slate-500">
                                           {tr.dispatch_date || '—'}
                                         </td>
                                         <td className="py-2.5 text-right">
-                                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                                            tr.status === 'Delivered'
-                                              ? 'bg-emerald-100 text-emerald-800'
-                                              : tr.status === 'In Transit'
-                                              ? 'bg-blue-100 text-blue-800'
-                                              : 'bg-amber-100 text-amber-800'
-                                          }`}>
-                                            {tr.status || 'Loaded'}
-                                          </span>
+                                          <div className="flex flex-col items-end gap-1">
+                                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                                              tr.status === 'Delivered'
+                                                ? 'bg-emerald-100 text-emerald-800'
+                                                : tr.status === 'In Transit'
+                                                ? 'bg-blue-100 text-blue-800'
+                                                : 'bg-amber-100 text-amber-800'
+                                            }`}>
+                                              {tr.status || 'Loaded'}
+                                            </span>
+
+                                            {tr.pod_url && (
+                                              <a
+                                                href={tr.pod_url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold border border-slate-300"
+                                                title="View Stamped Weighbridge Scale Slip / POD"
+                                              >
+                                                <FileText className="w-2.5 h-2.5 text-emerald-600" /> POD Slip
+                                              </a>
+                                            )}
+                                          </div>
+
+                                          {tr.status !== 'Delivered' && (
+                                            <button
+                                              type="button"
+                                              onClick={() => handleOpenConfirmDeliveryModal(order, tr)}
+                                              className="mt-1 inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold shadow-xs active:scale-95 transition-all cursor-pointer"
+                                            >
+                                              <CheckCircle2 className="w-3 h-3" /> Confirm Received on Site
+                                            </button>
+                                          )}
                                         </td>
                                       </tr>
                                     ))}
@@ -1108,102 +1536,747 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
             </div>
           </div>
         </div>
+
+        {/* IN-APP OFFICIAL QUOTATION VIEWER & DOWNLOAD MODAL */}
+        {selectedQuoteForPreview && (
+          <div className="fixed inset-0 z-[60] bg-slate-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-2 sm:p-4 pb-20 sm:pb-4 overflow-y-auto animate-in fade-in duration-200">
+            <div className="bg-white w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] sm:max-h-[92vh] border border-slate-200">
+              
+              {/* Modal Top Header with Clear Back & Action Controls */}
+              <div className="px-4 sm:px-5 py-3 bg-slate-900 text-white flex items-center justify-between gap-2 shrink-0">
+                <div className="flex items-center gap-2 min-w-0">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedQuoteForPreview(null)}
+                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors flex items-center gap-1 text-xs font-bold shrink-0"
+                    title="Back to My Quotes"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Back</span>
+                  </button>
+                  <div className="truncate">
+                    <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider block">
+                      Official Quotation
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold text-white font-mono truncate">
+                      US-Q-{selectedQuoteForPreview.id.slice(0, 8).toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handlePrintQuotation(selectedQuoteForPreview)}
+                    className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] sm:text-xs font-bold flex items-center gap-1 transition-all shadow-sm active:scale-98"
+                    title="Print or Save PDF"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Print / Save PDF</span>
+                    <span className="sm:hidden">Print</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleWhatsAppShare(selectedQuoteForPreview)}
+                    className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center gap-1 transition-all shadow-sm active:scale-98"
+                    title="Share on WhatsApp"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">WhatsApp</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCopyQuoteText(selectedQuoteForPreview)}
+                    className="p-1.5 sm:p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-bold"
+                    title="Copy Quote Text"
+                  >
+                    {copiedQuote ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedQuoteForPreview(null)}
+                    className="p-1.5 sm:p-2 rounded-xl bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white transition-colors"
+                    title="Close"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Scrollable Quotation Preview Body */}
+              <div className="p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-100/60">
+                {(() => {
+                  const inq = selectedQuoteForPreview;
+                  const quoteData = inq.quote_data || {};
+                  const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
+                  const clientName = customerUser?.name || inq.name || 'Valued Client';
+                  const companyName = customerUser?.company || inq.company || inq.party_name || '';
+                  const clientPhone = customerUser?.phone || inq.phone || '';
+                  const clientEmail = customerUser?.email || inq.email || '';
+                  
+                  const deliveryType = quoteData.delivery_type || quoteData.quote_type || 'for';
+                  const isFOR = deliveryType === 'for' || deliveryType === 'for_delivered';
+                  const deliveryDestination = quoteData.destination || quoteData.delivery_destination || inq.custom_data?.destination || inq.custom_data?.city || 'Indore Project Site';
+                  
+                  const items = Array.isArray(quoteData.items) && quoteData.items.length > 0
+                    ? quoteData.items
+                    : (inq.items || []);
+
+                  const materialSubtotal = Number(quoteData.material_subtotal || quoteData.base_subtotal || inq.expected_value || 0);
+                  const loadingAmount = Number(quoteData.loading_subtotal || quoteData.loading_total || 0);
+                  const loadingRate = Number(quoteData.loading_rate || 0);
+                  const loadingType = quoteData.loading_type || 'per_mt';
+                  const loadingDetails = loadingAmount > 0 ? (loadingType === 'per_mt' ? `₹${loadingRate}/MT` : 'Flat Consignment') : '';
+
+                  const freightAmount = isFOR ? Number(quoteData.freight_subtotal || quoteData.freight_total || 0) : 0;
+                  const freightRate = Number(quoteData.freight_rate || 0);
+                  const freightType = quoteData.freight_type || 'per_mt';
+                  const freightDetails = isFOR && freightAmount > 0 ? (freightType === 'per_mt' ? `₹${freightRate}/MT` : 'Flat Freight') : '';
+
+                  const taxableSubtotal = Number(quoteData.base_subtotal || (materialSubtotal + loadingAmount + freightAmount));
+                  const taxRate = 18;
+                  const taxAmount = Math.round(taxableSubtotal * (taxRate / 100));
+                  const grandTotal = Number(quoteData.grand_total || (taxableSubtotal + taxAmount));
+                  const quoteNotes = quoteData.quote_notes || quoteData.notes || inq.notes || '';
+                  const todayStr = new Date(inq.created_at || Date.now()).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+                  return (
+                    <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6 max-w-3xl mx-auto">
+                      
+                      {/* Quotation Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b-2 border-indigo-600">
+                        <div>
+                          <div className="text-xl sm:text-2xl font-black text-indigo-950 tracking-tight">
+                            UrbanSpan Infrastructure & Steel Pvt Ltd
+                          </div>
+                          <div className="text-xs text-slate-500 mt-1">
+                            Primary Steel Distribution · Raipur & Indore Industrial Hubs
+                          </div>
+                          <div className="text-xs font-semibold text-slate-700 mt-0.5">
+                            GSTIN: 22AAAAA0000A1Z5
+                          </div>
+                        </div>
+
+                        <div className="sm:text-right">
+                          <div className="text-sm font-extrabold text-indigo-600 uppercase tracking-wider">
+                            Commercial Quotation
+                          </div>
+                          <div className="text-xs font-bold text-slate-800 font-mono mt-0.5">
+                            Ref: {quoteRef}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            Date: {todayStr}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Client & Delivery Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                        <div>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                            Billed & Supplied To
+                          </span>
+                          <div className="text-sm font-bold text-slate-900">{clientName}</div>
+                          {companyName && <div className="font-semibold text-slate-700">{companyName}</div>}
+                          {clientPhone && <div className="text-slate-600 mt-0.5">Phone: {clientPhone}</div>}
+                          {clientEmail && <div className="text-slate-600">Email: {clientEmail}</div>}
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                            Commercial Delivery Terms
+                          </span>
+                          <div className="font-bold text-indigo-900 flex items-center gap-2">
+                            <span>{isFOR ? 'F.O.R. Delivered Destination' : 'Ex-Plant / Ex-Mill Gate'}</span>
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${isFOR ? 'bg-blue-100 text-blue-800' : 'bg-slate-200 text-slate-700'}`}>
+                              {isFOR ? 'F.O.R.' : 'EXW'}
+                            </span>
+                          </div>
+                          <div className="text-slate-600 mt-1">
+                            Destination: <strong className="text-slate-800">{deliveryDestination}</strong>
+                          </div>
+                          <div className="text-red-600 font-semibold mt-0.5">
+                            Rate Validity: 24 Hours Spot Rate
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Items Table */}
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs border-collapse">
+                          <thead>
+                            <tr className="bg-slate-100/80 text-slate-600 border-b border-slate-200">
+                              <th className="py-2.5 px-3 font-bold w-8">#</th>
+                              <th className="py-2.5 px-3 font-bold">Item Description</th>
+                              <th className="py-2.5 px-3 font-bold text-center">Quantity</th>
+                              <th className="py-2.5 px-3 font-bold text-right">Quoted Rate</th>
+                              <th className="py-2.5 px-3 font-bold text-right">Taxable Subtotal</th>
+                              <th className="py-2.5 px-3 font-bold text-right">18% GST</th>
+                              <th className="py-2.5 px-3 font-bold text-right">Line Total</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 text-slate-700">
+                            {items.map((item, idx) => {
+                              const qty = Number(item.quantity || item.qty || 1);
+                              const unit = item.unit || 'MT';
+                              const rate = Number(item.quoted_rate || item.unit_price || item.benchmark_rate || item.base_price || 0);
+                              const itemSubtotal = Number(item.subtotal || (qty * rate));
+                              const itemGst = itemSubtotal * 0.18;
+                              const itemLineTotal = itemSubtotal + itemGst;
+
+                              return (
+                                <tr key={idx} className="hover:bg-slate-50/50">
+                                  <td className="py-3 px-3 font-bold text-slate-900">{idx + 1}</td>
+                                  <td className="py-3 px-3">
+                                    <div className="font-bold text-slate-900">{item.product_name || item.name}</div>
+                                    <div className="text-[10px] text-slate-400">IS 1786:2008 Fe-550D High Ductility {item.notes ? `• ${item.notes}` : ''}</div>
+                                  </td>
+                                  <td className="py-3 px-3 text-center font-bold text-slate-800">
+                                    {qty.toFixed(2)} {unit}
+                                  </td>
+                                  <td className="py-3 px-3 text-right font-semibold text-slate-800">
+                                    ₹{rate.toLocaleString('en-IN')}/{unit}
+                                  </td>
+                                  <td className="py-3 px-3 text-right font-semibold text-slate-800">
+                                    ₹{Math.round(itemSubtotal).toLocaleString('en-IN')}
+                                  </td>
+                                  <td className="py-3 px-3 text-right text-slate-500">
+                                    ₹{Math.round(itemGst).toLocaleString('en-IN')}
+                                  </td>
+                                  <td className="py-3 px-3 text-right font-black text-indigo-700">
+                                    ₹{Math.round(itemLineTotal).toLocaleString('en-IN')}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Financial Totals Breakdown */}
+                      <div className="flex justify-end pt-2">
+                        <div className="w-full sm:w-80 space-y-1.5 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
+                          <div className="flex justify-between text-slate-600">
+                            <span>Material Basic Subtotal:</span>
+                            <span className="font-bold text-slate-900">₹{Math.round(materialSubtotal).toLocaleString('en-IN')}</span>
+                          </div>
+
+                          {loadingAmount > 0 && (
+                            <div className="flex justify-between text-sky-700 font-semibold">
+                              <span>Loading Charges {loadingDetails ? `(${loadingDetails})` : ''}:</span>
+                              <span>+₹{Math.round(loadingAmount).toLocaleString('en-IN')}</span>
+                            </div>
+                          )}
+
+                          {isFOR && freightAmount > 0 && (
+                            <div className="flex justify-between text-blue-700 font-semibold">
+                              <span>Freight Charges {freightDetails ? `(${freightDetails})` : ''}:</span>
+                              <span>+₹{Math.round(freightAmount).toLocaleString('en-IN')}</span>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between text-slate-900 font-bold pt-1 border-t border-slate-200">
+                            <span>Total Taxable Base Value:</span>
+                            <span>₹{Math.round(taxableSubtotal).toLocaleString('en-IN')}</span>
+                          </div>
+
+                          <div className="flex justify-between text-slate-500">
+                            <span>CGST (9.0%):</span>
+                            <span>₹{Math.round(taxAmount / 2).toLocaleString('en-IN')}</span>
+                          </div>
+                          <div className="flex justify-between text-slate-500">
+                            <span>SGST (9.0%):</span>
+                            <span>₹{Math.round(taxAmount / 2).toLocaleString('en-IN')}</span>
+                          </div>
+
+                          <div className="flex justify-between items-baseline pt-2 border-t-2 border-indigo-600 font-black text-sm text-indigo-950">
+                            <span>Consignment Grand Total:</span>
+                            <span className="text-base text-indigo-700">₹{grandTotal.toLocaleString('en-IN')}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Quotation Notes */}
+                      {quoteNotes && quoteNotes.trim() && (
+                        <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                          <span className="font-bold block mb-1">📌 Special Quotation Terms & Dispatch Notes:</span>
+                          <p className="leading-relaxed m-0 whitespace-pre-line">{quoteNotes}</p>
+                        </div>
+                      )}
+
+                      {/* Commercial Terms & Conditions */}
+                      <div className="pt-3 border-t border-slate-200 text-[11px] text-slate-500 space-y-1">
+                        <span className="font-bold text-slate-700 block mb-1">Standard Commercial Terms & Conditions:</span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <div>
+                            <div>• <strong>Payment Terms:</strong> 100% RTGS Advance against Proforma Invoice</div>
+                            <div>• <strong>Supply Terms:</strong> {isFOR ? 'F.O.R. Destination Delivered' : 'Ex-Mill Raipur Gate'}</div>
+                            <div>• <strong>Tolerance:</strong> Standard IS 1786 rolling tolerance ±0.5%</div>
+                          </div>
+                          <div>
+                            <div>• <strong>Bank:</strong> HDFC Bank Ltd (A/C: 50200012345678)</div>
+                            <div>• <strong>IFSC:</strong> HDFC0001234 (Main Branch)</div>
+                            <div>• <strong>MTC:</strong> Original Mill Test Certificate provided upon loading.</div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Modal Bottom Footer Navigation Bar */}
+              <div className="px-4 sm:px-5 py-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setSelectedQuoteForPreview(null)}
+                  className="px-3 sm:px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Back</span>
+                </button>
+
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleWhatsAppShare(selectedQuoteForPreview)}
+                    className="px-3 sm:px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-98"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                    <span>WhatsApp</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handlePrintQuotation(selectedQuoteForPreview)}
+                    className="px-3.5 sm:px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-98"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    <span>Print / PDF</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
       </div>
+
+        {/* In-Website Delivery Confirmation Modal (No Browser Popups, Zero ERP Jargon) */}
+        {confirmDeliveryModal.isOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+            <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 max-w-md w-full p-6 sm:p-7 relative">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-xs">
+                  <Truck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-slate-900 leading-tight">Confirm Site Delivery</h3>
+                  <p className="text-xs text-slate-500 font-medium">Verify material arrival at your project site</p>
+                </div>
+              </div>
+
+              {/* Consignment details card */}
+              <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 mb-5 space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-500 font-medium">Truck / Trailer:</span>
+                  <span className="font-mono font-bold text-slate-900">{confirmDeliveryModal.truckNumber}</span>
+                </div>
+                {confirmDeliveryModal.netWeight && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-500 font-medium">Net Dispatched Weight:</span>
+                    <span className="font-bold text-slate-900">{confirmDeliveryModal.netWeight} MT</span>
+                  </div>
+                )}
+                {confirmDeliveryModal.invoiceNo && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-500 font-medium">Tax Invoice:</span>
+                    <span className="font-mono font-semibold text-indigo-600">{confirmDeliveryModal.invoiceNo}</span>
+                  </div>
+                )}
+              </div>
+
+              <p className="text-xs text-slate-600 mb-6 leading-relaxed">
+                Has this consignment arrived and been verified by your site team? Confirming receipt will mark this truckload as delivered and update your order fulfillment tracker.
+              </p>
+
+              {confirmDeliveryModal.error && (
+                <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <span>{confirmDeliveryModal.error}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2.5">
+                <button
+                  type="button"
+                  disabled={confirmDeliveryModal.isSubmitting}
+                  onClick={() => setConfirmDeliveryModal({ isOpen: false, orderId: null, consignmentId: null, truckNumber: '', netWeight: null, invoiceNo: '', isSubmitting: false, error: null })}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={confirmDeliveryModal.isSubmitting}
+                  onClick={handleExecuteDeliveryConfirmation}
+                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/20 active:scale-95 flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                >
+                  {confirmDeliveryModal.isSubmitting ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Confirming...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Confirm Receipt</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Floating in-app Toast Notification */}
+        {toastNotification && (
+          <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-800 flex items-center justify-between gap-3 animate-in slide-in-from-bottom-5 duration-300">
+            <div className="flex items-center gap-3">
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${toastNotification.type === 'success' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                {toastNotification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+              </div>
+              <p className="text-xs font-medium">{toastNotification.message}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setToastNotification(null)}
+              className="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </>
     );
   }
 
   return (
-    <div className="py-16 max-w-md mx-auto px-4">
-      <div className="bg-white shadow-lg border border-slate-200 p-8 rounded-3xl">
+    <div className={`py-12 mx-auto px-4 transition-all duration-300 ${isRegisterMode ? 'max-w-2xl' : 'max-w-md'}`}>
+      <div className="bg-white shadow-xl border border-slate-200 p-6 sm:p-10 rounded-3xl">
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-200">
-            <Lock className="w-6 h-6 text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-200 text-white">
+            {isRegisterMode ? <UserPlus className="w-7 h-7" /> : <Lock className="w-7 h-7" />}
           </div>
-          <h2 className="text-2xl font-extrabold text-slate-900">
-            {isRegisterMode ? 'Register Client Account' : 'Urbanspan Client Sign In'}
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            {isRegisterMode ? 'Create New Client Account' : 'Urbanspan Client Sign In'}
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            {isRegisterMode ? 'Create a client account for live order tracking & mill test certificates' : 'Access your steel supply contracts & live delivery milestones'}
+          <p className="text-xs sm:text-sm text-slate-500 mt-1.5 max-w-lg mx-auto leading-relaxed">
+            {isRegisterMode 
+              ? 'Register your company profile for personalized wholesale pricing, instant commercial proforma quotes, and live order tracking.'
+              : 'Access your steel supply contracts, live trailer dispatches & weighbridge records.'}
           </p>
         </div>
 
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs mb-6 flex items-center gap-2">
+          <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs mb-6 flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {isRegisterMode && (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {isRegisterMode ? (
+            <>
+              {/* Section 1: Contact & Credentials */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-xs font-bold">1</span>
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Contact &amp; Account Credentials</h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Contact Person Full Name <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Amit Sharma"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                      />
+                      <User className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Phone / WhatsApp Number <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        required
+                        placeholder="e.g. 98260 12345"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                      />
+                      <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Business Email Address <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="email"
+                        required
+                        placeholder="amit@metroinfra.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                      />
+                      <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Set Portal Password <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPortalPassword ? 'text' : 'password'}
+                        required
+                        placeholder="••••••••"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        className="w-full pl-9 pr-10 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                      />
+                      <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                      <button
+                        type="button"
+                        onClick={() => setShowPortalPassword(prev => !prev)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer"
+                        tabIndex={-1}
+                        aria-label={showPortalPassword ? 'Hide password' : 'Show password'}
+                      >
+                        {showPortalPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Section 2: Business & Self-Categorization */}
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-xs font-bold">2</span>
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Company &amp; Business Profile</h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Company / Organization Name <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Metro Infra Projects Ltd"
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                      />
+                      <Building className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-xs font-semibold text-slate-700">
+                        GSTIN (GST Number)
+                      </label>
+                      <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">Optional</span>
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="e.g. 23AAAAA0000A1Z5"
+                        value={formData.gstin}
+                        onChange={(e) => setFormData({ ...formData, gstin: e.target.value.toUpperCase() })}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm font-mono focus:bg-white focus:outline-none focus:border-indigo-600 uppercase transition-colors"
+                      />
+                      <Shield className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1">For B2B 18% Input Tax Credit (ITC) on proforma invoices</p>
+                  </div>
+                </div>
+
+                {/* Client Category Selection (Optional) */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-xs font-semibold text-slate-700">
+                      How do you categorize your business?
+                    </label>
+                    <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">Optional</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {CLIENT_CATEGORIES.map((cat) => {
+                      const CatIcon = cat.icon;
+                      const isSelected = formData.category === cat.id;
+                      return (
+                        <div
+                          key={cat.id}
+                          onClick={() => setFormData({ ...formData, category: isSelected ? '' : cat.id })}
+                          className={`p-3 rounded-xl border cursor-pointer transition-all flex items-start gap-3 ${
+                            isSelected 
+                              ? 'bg-indigo-50/80 border-indigo-600 shadow-xs ring-1 ring-indigo-600' 
+                              : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                            isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            <CatIcon className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <span className={`text-xs font-bold truncate ${isSelected ? 'text-indigo-950' : 'text-slate-800'}`}>
+                                {cat.label}
+                              </span>
+                              {isSelected && <CheckSquare className="w-3.5 h-3.5 text-indigo-600 shrink-0" />}
+                            </div>
+                            <p className="text-[10px] text-slate-500 line-clamp-1 mt-0.5">{cat.desc}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Section 3: Project Location & Sourcing Hub */}
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-xs font-bold">3</span>
+                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Project Location &amp; Dispatch Hub</h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Primary Delivery City / Hub
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={formData.city}
+                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                        className="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 appearance-none transition-colors"
+                      >
+                        {REGIONAL_HUBS.map(city => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </select>
+                      <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                      <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-3 pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-xs font-semibold text-slate-700">
+                        Project Site / Office Address
+                      </label>
+                      <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">Optional</span>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="e.g. Super Corridor Road, Indore"
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Sign In Mode */
             <>
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">Contact Full Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Amit Sharma"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-indigo-600"
-                />
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Business Email</label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    required
+                    placeholder="amit.buyer@metroinfra.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                  />
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">Company / Infrastructure Org</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Metro Infra Projects Ltd"
-                  value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-indigo-600"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">Phone / WhatsApp</label>
-                <input
-                  type="text"
-                  placeholder="+91 98765 43210"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-indigo-600"
-                />
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPortalPassword ? 'text' : 'password'}
+                    required
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full pl-9 pr-10 py-2.5 rounded-xl bg-slate-50/50 border border-slate-200 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-indigo-600 transition-colors"
+                  />
+                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                  <button
+                    type="button"
+                    onClick={() => setShowPortalPassword(prev => !prev)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer"
+                    tabIndex={-1}
+                    aria-label={showPortalPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPortalPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
             </>
           )}
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 mb-1">Business Email</label>
-            <input
-              type="email"
-              required
-              placeholder="amit.buyer@metroinfra.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-indigo-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 mb-1">Password</label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-indigo-600"
-            />
-          </div>
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 mt-4 transition-colors"
+            className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 mt-4 transition-all active:scale-98 cursor-pointer"
           >
-            {loading ? 'Authenticating...' : isRegisterMode ? 'Create Client Account' : 'Sign In to Portal'}
+            {loading ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : isRegisterMode ? (
+              <>
+                <UserPlus className="w-4 h-4" />
+                <span>Create Client Account &amp; Access Wholesale Rates</span>
+              </>
+            ) : (
+              <>
+                <LogIn className="w-4 h-4" />
+                <span>Sign In to Customer Portal</span>
+              </>
+            )}
           </button>
         </form>
 
@@ -1213,9 +2286,9 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
               setIsRegisterMode(!isRegisterMode);
               setErrorMsg('');
             }}
-            className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold"
+            className="text-xs text-indigo-600 hover:text-indigo-800 font-bold hover:underline cursor-pointer"
           >
-            {isRegisterMode ? 'Already have an account? Sign in' : "Don't have a client account? Register"}
+            {isRegisterMode ? '← Already have an account? Sign in' : "Don't have a client account? Create new client account ➔"}
           </button>
         </div>
 
@@ -1225,7 +2298,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
             type="button" 
             onClick={onCheckUpdate} 
             disabled={isUpdating}
-            className="text-indigo-600 hover:underline font-bold flex items-center gap-1"
+            className="text-indigo-600 hover:underline font-bold flex items-center gap-1 cursor-pointer"
           >
             <RefreshCw className={`w-3 h-3 ${isUpdating ? 'animate-spin' : ''}`} />
             <span>{isUpdating ? 'Checking...' : 'Check Updates'}</span>
@@ -1235,4 +2308,3 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     </div>
   );
 }
-

@@ -18,8 +18,7 @@ export default function NewsArticlePage() {
     const fetchArticle = async () => {
       setLoading(true);
       try {
-        const csvUrl = import.meta.env.VITE_NEWS_CSV_URL;
-        if (!csvUrl) throw new Error('News data source not configured.');
+        const csvUrl = import.meta.env.VITE_NEWS_CSV_URL || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtAw5mWnVAiJUNPPOLjHMCciLhcMf4feXQ9wH_ZmLIUvAWhRacvPHMY4bHyKZWusOCA4gGCymy7p9g/pub?output=csv';
 
         const response = await fetch(csvUrl, { cache: 'no-store' });
         const csvText = await response.text();
@@ -28,9 +27,10 @@ export default function NewsArticlePage() {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
+            const targetId = String(id || '').toLowerCase();
             const found = results.data.find(a => 
-              (a.ID && a.ID === id) || 
-              (!a.ID && encodeURIComponent(a.Title.replace(/\s+/g, '-').toLowerCase()) === id)
+              (a?.ID && String(a.ID).toLowerCase() === targetId) || 
+              (a?.Title && typeof a.Title === 'string' && encodeURIComponent(a.Title.replace(/\s+/g, '-').toLowerCase()) === targetId)
             );
             
             if (found) {

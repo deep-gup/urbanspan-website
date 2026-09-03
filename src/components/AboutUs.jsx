@@ -30,8 +30,10 @@ export default function AboutUs() {
   return (
     <div className="py-24 bg-slate-50">
       <SEO 
-        title="About Us - 45 Years of Steel Excellence & Primary Distribution"
-        description="Learn about Urbanspan Infrastructure Pvt Ltd (A Gupta & Sons Enterprise). 45+ years of steel legacy, 1.5L+ MT delivered across Madhya Pradesh, Gujarat, Maharashtra."
+        title="About Us | 45+ Years of Primary Steel Distribution Legacy"
+        description="Discover Urbanspan Infrastructure Pvt Ltd (A Gupta & Sons Enterprise). Over 45 years of steel excellence, supplying BIS-certified Fe-550D TMT rebars & structural steel across Central India."
+        keywords="about Urbanspan Infrastructure, Gupta and Sons Indore, steel distributor history, primary steel Madhya Pradesh, Ashok Gupta steel"
+        url="https://urbanspaninfra.co.in/about-us"
         structuredData={aboutSchema}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,9 +43,9 @@ export default function AboutUs() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-steel/10 text-brand-steel text-sm font-bold mb-6">
             <Award className="w-4 h-4" /> A Gupta & Sons Enterprise
           </div>
-          <h2 className="font-heading text-4xl sm:text-5xl font-black text-brand-navy mb-6">
+          <h1 className="font-heading text-4xl sm:text-5xl font-black text-brand-navy mb-6">
             A Legacy of Steel Excellence
-          </h2>
+          </h1>
           <p className="text-lg text-slate-600 leading-relaxed">
             With 45 years of steadfast presence in the steel business, we have earned widespread recognition and respect throughout Central India and beyond. We are among the first movers in the sales and distribution of primary steel.
           </p>

@@ -277,9 +277,9 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
     "@context": "https://schema.org/",
     "@type": "Product",
     "name": product.name,
-    "image": galleryImages,
+    "image": galleryImages.map(img => img.startsWith('/') ? `https://urbanspaninfra.co.in${img}` : img),
     "description": product.description || `${product.name} supplied by Urbanspan Infrastructure.`,
-    "sku": product.sku,
+    "sku": product.sku || product.id,
     "category": product.category,
     "brand": {
       "@type": "Brand",
@@ -287,20 +287,25 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
     },
     "offers": {
       "@type": "Offer",
-      "url": `https://urbanspaninfra.co.in/products/${product.sku}`,
+      "url": getPublicShareUrl(),
       "priceCurrency": product.currency || "INR",
-      "price": product.base_price || 0,
+      "price": product.base_price || 48000,
       "availability": "https://schema.org/InStock",
-      "itemCondition": "https://schema.org/NewCondition"
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": {
+        "@type": "Organization",
+        "name": "Urbanspan Infrastructure Pvt. Ltd."
+      }
     }
   };
 
   return (
     <div className="py-12 md:py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <SEO 
-        title={`${product.name} - Specifications & Bulk Supply`}
-        description={product.description ? product.description.substring(0, 160) : `Buy ${product.name} in bulk. Certified primary steel distribution.`}
+        title={`${product.name} - Technical Specs & Wholesale Pricing`}
+        description={product.description ? product.description.substring(0, 160) : `Procure ${product.name} in bulk. Certified primary steel distribution with transparent benchmark rates in Central India.`}
         image={currentImage}
+        url={getPublicShareUrl()}
         type="product"
         structuredData={productStructuredData}
       />

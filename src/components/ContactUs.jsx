@@ -21,8 +21,8 @@ export default function ContactUs({ customerUser }) {
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 22.7533,
-      "longitude": 75.8937
+      "latitude": 22.6640369,
+      "longitude": 75.8212843
     },
     "openingHoursSpecification": [
       {
@@ -38,8 +38,10 @@ export default function ContactUs({ customerUser }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <SEO 
-        title="Contact Us & Corporate Office | Indore, Madhya Pradesh"
-        description="Contact Urbanspan Infrastructure Private Limited in Indore, MP. Phone: 094259 22225, Email: support@urbanspaninfra.co.in. Primary steel distribution & mill delivery."
+        title="Contact Us & Corporate Office | Scheme 97, Indore, MP"
+        description="Contact Urbanspan Infrastructure Private Limited at 115 Scheme 97, Vanijyak Mandi, Indore, MP 452009. Phone: 094259 22225. Primary steel distribution, Fe-550D TMT, and direct mill supply."
+        keywords="contact Urbanspan, steel distributor Indore phone, Scheme 97 Vanijyak Mandi steel yard, Fe 550D suppliers contact, steel price quote Indore"
+        url="https://urbanspaninfra.co.in/contact"
         structuredData={localBusinessSchema}
       />
 
@@ -47,9 +49,11 @@ export default function ContactUs({ customerUser }) {
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-emerald-700 text-xs font-bold mb-4 shadow-sm">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Verified Google Business Profile
         </div>
-        <h2 className="font-heading text-4xl font-bold text-brand-navy mb-4">Get In Touch</h2>
+        <h1 className="font-heading text-4xl font-bold text-brand-navy mb-4">
+          Contact Urbanspan Infrastructure | Indore Corporate Office &amp; Warehousing Hub
+        </h1>
         <p className="text-slate-600 max-w-2xl mx-auto">
-          Have a question or need a custom quote? Reach out to our team of steel experts and we'll get back to you promptly.
+          Have a project inquiry, bulk tonnage requirement, or need a custom rate quote? Reach out to our sales engineering desk in Indore.
         </p>
       </div>
 
@@ -68,19 +72,19 @@ export default function ContactUs({ customerUser }) {
                   <MapPin className="w-5 h-5 text-brand-steel" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">Corporate Office & Warehouse</h4>
+                  <h4 className="font-bold text-slate-900 mb-1">Corporate Office &amp; Warehouse</h4>
                   <p className="text-slate-600 leading-relaxed">
                     Urbanspan Infrastructure Pvt. Ltd.<br/>
                     115 Scheme 97, Vanijyak Mandi<br/>
                     Indore, Madhya Pradesh 452009, India
                   </p>
                   <a
-                    href="https://maps.google.com/?q=Urbanspan+Infrastructure+115+Scheme+97+Vanijyak+Mandi+Indore"
+                    href="https://maps.app.goo.gl/Nh5C821QtJ6M79589"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-steel hover:text-brand-steel-dark mt-2"
                   >
-                    <Navigation className="w-3.5 h-3.5" /> Get Directions on Google Maps <ExternalLink className="w-3 h-3" />
+                    <Navigation className="w-3.5 h-3.5" /> View on Google Maps / Get Directions <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
               </div>
@@ -124,17 +128,17 @@ export default function ContactUs({ customerUser }) {
             </div>
           </div>
 
-          <div className="bg-white p-2 rounded-2xl border border-slate-200 shadow-sm h-[300px] overflow-hidden">
-             {/* Embedded Google Map */}
+          <div className="bg-white p-2 rounded-2xl border border-slate-200 shadow-sm h-[320px] overflow-hidden">
+             {/* Verified Google Business Profile Embedded Map */}
             <iframe 
-              src="https://maps.google.com/maps?q=22.7533,75.8937&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3681.725072693629!2d75.8212843!3d22.6640369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa94fbce798dfc901%3A0xa266d7435bd641c0!2sURBANSPAN%20INFRASTRUCTURE%20PVT.%20LTD.!5e0!3m2!1sen!2sin!4v1788363879860!5m2!1sen!2sin" 
               width="100%" 
               height="100%" 
               style={{ border: 0, borderRadius: '12px' }} 
               allowFullScreen="" 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              title="Urbanspan Infrastructure Google Business Location"
+              title="URBANSPAN INFRASTRUCTURE PVT. LTD. Official Google Business Profile Location"
             ></iframe>
           </div>
         </div>
