@@ -52,6 +52,29 @@ const formatStageLabel = (stage) => {
   return map[clean] || stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 };
 
+const formatMatrixSummary = (matrix, unit = 'MT') => {
+  if (!matrix || typeof matrix !== 'object') return null;
+  const parts = [];
+  const order = ['8mm', '10mm', '12mm', '16mm', '20mm', '25mm', '28mm', '32mm'];
+  order.forEach(k => {
+    const v = parseFloat(matrix[k]);
+    if (!isNaN(v) && v > 0) parts.push(`${k}: ${v} ${unit}`);
+  });
+  Object.keys(matrix).forEach(k => {
+    if (!order.includes(k) && k !== 'customRows' && !k.startsWith('_')) {
+      const v = parseFloat(matrix[k]);
+      if (!isNaN(v) && v > 0) parts.push(`${k}: ${v} ${unit}`);
+    }
+  });
+  if (Array.isArray(matrix.customRows)) {
+    matrix.customRows.forEach(r => {
+      const v = parseFloat(r?.qty);
+      if (r?.section && !isNaN(v) && v > 0) parts.push(`${r.section}: ${v} ${unit}`);
+    });
+  }
+  return parts.length > 0 ? parts.join(' · ') : null;
+};
+
 export default function CustomerPortal({ customerUser, setCustomerUser, appVersion, onCheckUpdate, isUpdating, otaStatus }) {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [activePortalTab, setActivePortalTab] = useState('inquiries');
@@ -276,6 +299,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
       const itemSubtotal = Number(item.subtotal || (Number(qty) * rate));
       const itemGst = itemSubtotal * 0.18;
       const itemLineTotal = itemSubtotal + itemGst;
+      const matSummary = formatMatrixSummary(item.section_matrix || item.custom_specifications?.section_matrix, unit);
 
       return `
         <tr style="border-bottom: 1px solid #e5e7eb;">
@@ -283,6 +307,7 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
           <td style="padding: 10px 8px;">
             <div style="font-weight: bold; color: #111827;">${item.product_name || item.name}</div>
             <div style="font-size: 11px; color: #6b7280;">IS 1786:2008 Fe-550D High Ductility Grade ${item.notes ? `• ${item.notes}` : ''}</div>
+            ${matSummary ? `<div style="margin-top: 4px; font-size: 10px; color: #4338ca; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 4px; padding: 2px 6px; display: inline-block;"><strong>📐 Section Matrix:</strong> ${matSummary}</div>` : ''}
           </td>
           <td style="padding: 10px 8px; text-align: center; font-weight: 600;">${qty} ${unit}</td>
           <td style="padding: 10px 8px; text-align: right; font-weight: 600;">₹${rate.toLocaleString('en-IN')}/${unit}</td>
@@ -478,7 +503,11 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
     const grandTotal = Number(quoteData.grand_total || inq.expected_value || 0).toLocaleString('en-IN');
     const items = quoteData.items || inq.items || [];
-    const itemsStr = items.map(i => `• ${i.product_name || i.name}: ${i.quantity || i.qty} ${i.unit || 'MT'} @ ₹${Number(i.quoted_rate || i.unit_price || i.base_price || 0).toLocaleString('en-IN')}`).join('\n');
+    const itemsStr = items.map(i => {
+      const mat = formatMatrixSummary(i.section_matrix || i.custom_specifications?.section_matrix, i.unit || 'MT');
+      const matText = mat ? `\n    └ Matrix: ${mat}` : '';
+      return `• ${i.product_name || i.name}: ${i.quantity || i.qty} ${i.unit || 'MT'} @ ₹${Number(i.quoted_rate || i.unit_price || i.base_price || 0).toLocaleString('en-IN')}${matText}`;
+    }).join('\n');
 
     const msg = `*Urbanspan Commercial Steel Quotation*` +
       `\n*Ref:* ${quoteRef}` +
@@ -498,7 +527,11 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
     const grandTotal = Number(quoteData.grand_total || inq.expected_value || 0).toLocaleString('en-IN');
     const items = quoteData.items || inq.items || [];
-    const itemsStr = items.map(i => `• ${i.product_name || i.name}: ${i.quantity || i.qty} ${i.unit || 'MT'} @ ₹${Number(i.quoted_rate || i.unit_price || i.base_price || 0).toLocaleString('en-IN')}`).join('\n');
+    const itemsStr = items.map(i => {
+      const mat = formatMatrixSummary(i.section_matrix || i.custom_specifications?.section_matrix, i.unit || 'MT');
+      const matText = mat ? `\n    └ Matrix: ${mat}` : '';
+      return `• ${i.product_name || i.name}: ${i.quantity || i.qty} ${i.unit || 'MT'} @ ₹${Number(i.quoted_rate || i.unit_price || i.base_price || 0).toLocaleString('en-IN')}${matText}`;
+    }).join('\n');
 
     const text = `UrbanSpan Commercial Quotation (${quoteRef})\n` +
       `Client: ${customerUser?.company || customerUser?.name || inq.name}\n\n` +
@@ -894,23 +927,31 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                       </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
-                                      {quoteData.items.map((item, idx) => (
-                                        <tr key={idx}>
-                                          <td className="py-2 px-2 font-bold text-slate-800">
-                                            {item.product_name || item.name}
-                                            {item.notes && <div className="text-[10px] text-slate-400 font-normal">{item.notes}</div>}
-                                          </td>
-                                          <td className="py-2 px-2 text-center font-semibold text-slate-700">
-                                            {item.quantity || item.qty} {item.unit || 'MT'}
-                                          </td>
-                                          <td className="py-2 px-2 text-right font-semibold text-slate-800">
-                                            ₹{Number(item.quoted_rate || item.base_price || 0).toLocaleString('en-IN')}/{item.unit || 'MT'}
-                                          </td>
-                                          <td className="py-2 px-2 text-right font-bold text-slate-900">
-                                            ₹{Math.round(Number(item.subtotal || ((item.quantity || 1) * (item.quoted_rate || 0)))).toLocaleString('en-IN')}
-                                          </td>
-                                        </tr>
-                                      ))}
+                                      {quoteData.items.map((item, idx) => {
+                                         const matSummary = formatMatrixSummary(item.section_matrix || item.custom_specifications?.section_matrix, item.unit || 'MT');
+                                         return (
+                                           <tr key={idx}>
+                                             <td className="py-2 px-2 font-bold text-slate-800">
+                                               <div>{item.product_name || item.name}</div>
+                                               {item.notes && <div className="text-[10px] text-slate-400 font-normal">{item.notes}</div>}
+                                               {matSummary && (
+                                                 <div className="mt-1 text-[10px] text-indigo-700 font-semibold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 inline-block">
+                                                   📐 Section Matrix: {matSummary}
+                                                 </div>
+                                               )}
+                                             </td>
+                                             <td className="py-2 px-2 text-center font-semibold text-slate-700">
+                                               {item.quantity || item.qty} {item.unit || 'MT'}
+                                             </td>
+                                             <td className="py-2 px-2 text-right font-semibold text-slate-800">
+                                               ₹{Number(item.quoted_rate || item.base_price || 0).toLocaleString('en-IN')}/{item.unit || 'MT'}
+                                             </td>
+                                             <td className="py-2 px-2 text-right font-bold text-slate-900">
+                                               ₹{Math.round(Number(item.subtotal || ((item.quantity || 1) * (item.quoted_rate || 0)))).toLocaleString('en-IN')}
+                                             </td>
+                                           </tr>
+                                         );
+                                       })}
                                     </tbody>
                                   </table>
                                 </div>
@@ -977,12 +1018,22 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                               {inq.items && inq.items.length > 0 && (
                                 <div className="bg-white/80 p-3 rounded-lg border border-amber-200/60 space-y-1 text-slate-700">
                                   <div className="text-slate-500 font-semibold uppercase text-[10px]">Requested Material Specifications:</div>
-                                  {inq.items.map((item, idx) => (
-                                    <div key={idx} className="flex justify-between items-center text-slate-800 font-medium">
-                                      <span>• {item.product_name || item.name} {item.variant_name ? `(${item.variant_name})` : ''}</span>
-                                      <span className="font-bold">{item.quantity || item.custom_specifications?.requested_quantity || 1} {item.product_unit || item.unit || 'MT'}</span>
-                                    </div>
-                                  ))}
+                                  {inq.items.map((item, idx) => {
+                                    const matSummary = formatMatrixSummary(item.section_matrix || item.custom_specifications?.section_matrix, item.product_unit || item.unit || 'MT');
+                                    return (
+                                      <div key={idx} className="space-y-0.5">
+                                        <div className="flex justify-between items-center text-slate-800 font-medium">
+                                          <span>• {item.product_name || item.name} {item.variant_name ? `(${item.variant_name})` : ''}</span>
+                                          <span className="font-bold">{item.quantity || item.custom_specifications?.requested_quantity || 1} {item.product_unit || item.unit || 'MT'}</span>
+                                        </div>
+                                        {matSummary && (
+                                          <div className="text-[10px] text-indigo-700 font-semibold pl-3">
+                                            📐 Section Matrix: {matSummary}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
                                 </div>
                               )}
                             </div>
@@ -992,15 +1043,25 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                               {inq.items && inq.items.length > 0 && (
                                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
                                   <div className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Requested Material Specifications:</div>
-                                  {inq.items.map((item, idx) => (
-                                    <div key={idx} className="flex justify-between items-center text-slate-700 font-medium border-b border-slate-100 last:border-0 pb-1.5 last:pb-0">
-                                      <span>• {item.product_name || item.name} {item.variant_name ? `(${item.variant_name})` : ''}</span>
-                                      <span className="font-bold text-slate-900">
-                                        {item.quantity || item.custom_specifications?.requested_quantity || 1} {item.product_unit || item.unit || 'MT'}
-                                        {item.base_price ? ` @ ₹${Number(item.base_price).toLocaleString('en-IN')}/${item.product_unit || 'MT'}` : ''}
-                                      </span>
-                                    </div>
-                                  ))}
+                                  {inq.items.map((item, idx) => {
+                                    const matSummary = formatMatrixSummary(item.section_matrix || item.custom_specifications?.section_matrix, item.product_unit || item.unit || 'MT');
+                                    return (
+                                      <div key={idx} className="border-b border-slate-100 last:border-0 pb-1.5 last:pb-0 space-y-0.5">
+                                        <div className="flex justify-between items-center text-slate-700 font-medium">
+                                          <span>• {item.product_name || item.name} {item.variant_name ? `(${item.variant_name})` : ''}</span>
+                                          <span className="font-bold text-slate-900">
+                                            {item.quantity || item.custom_specifications?.requested_quantity || 1} {item.product_unit || item.unit || 'MT'}
+                                            {item.base_price ? ` @ ₹${Number(item.base_price).toLocaleString('en-IN')}/${item.product_unit || 'MT'}` : ''}
+                                          </span>
+                                        </div>
+                                        {matSummary && (
+                                          <div className="text-[10px] text-indigo-700 font-semibold pl-3">
+                                            📐 Section Matrix: {matSummary}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
                                 </div>
                               )}
 
@@ -1207,12 +1268,22 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                           {order.items && order.items.length > 0 && (
                             <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
                               <div className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Itemized Line Manifest:</div>
-                              {order.items.map((item, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-slate-700 font-medium border-b border-slate-100 last:border-0 pb-1.5 last:pb-0">
-                                  <span>• {item.product_name} {item.variant_name ? `(${item.variant_name})` : ''}</span>
-                                  <span className="font-bold text-slate-900">{item.quantity} {item.product_unit || 'MT'} @ ₹{Number(item.unit_price).toLocaleString('en-IN')}/{item.product_unit || 'MT'}</span>
-                                </div>
-                              ))}
+                              {order.items.map((item, idx) => {
+                                const matSummary = formatMatrixSummary(item.section_matrix || item.custom_specifications?.section_matrix, item.product_unit || 'MT');
+                                return (
+                                  <div key={idx} className="flex justify-between items-center text-slate-700 font-medium border-b border-slate-100 last:border-0 pb-1.5 last:pb-0">
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                      <span>• {item.product_name} {item.variant_name ? `(${item.variant_name})` : ''}</span>
+                                      {matSummary && (
+                                        <span className="text-[10px] text-indigo-700 font-semibold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
+                                          📐 {matSummary}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <span className="font-bold text-slate-900 shrink-0">{item.quantity} {item.product_unit || 'MT'} @ ₹{Number(item.unit_price).toLocaleString('en-IN')}/{item.product_unit || 'MT'}</span>
+                                  </div>
+                                );
+                              })}
                             </div>
                           )}
 
@@ -1727,12 +1798,19 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                               const itemGst = itemSubtotal * 0.18;
                               const itemLineTotal = itemSubtotal + itemGst;
 
+                              const matSummary = formatMatrixSummary(item.section_matrix || item.custom_specifications?.section_matrix, unit);
+
                               return (
                                 <tr key={idx} className="hover:bg-slate-50/50">
                                   <td className="py-3 px-3 font-bold text-slate-900">{idx + 1}</td>
                                   <td className="py-3 px-3">
                                     <div className="font-bold text-slate-900">{item.product_name || item.name}</div>
                                     <div className="text-[10px] text-slate-400">IS 1786:2008 Fe-550D High Ductility {item.notes ? `• ${item.notes}` : ''}</div>
+                                    {matSummary && (
+                                      <div className="mt-1 text-[10px] text-indigo-700 font-semibold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 inline-block">
+                                        📐 Section Matrix: {matSummary}
+                                      </div>
+                                    )}
                                   </td>
                                   <td className="py-3 px-3 text-center font-bold text-slate-800">
                                     {qty.toFixed(2)} {unit}
