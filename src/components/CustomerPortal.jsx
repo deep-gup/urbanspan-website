@@ -260,6 +260,16 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
   // Helper to generate Quotation HTML for printing
   const generateQuotationHtml = (inq) => {
     const quoteData = inq.quote_data || {};
+    const template = quoteData.template || {};
+    const companyNameHeader = template.company_name || 'UrbanSpan Infrastructure Pvt Ltd';
+    const companyTagline = template.company_tagline || 'Primary Steel Distribution · Raipur & Indore Industrial Hubs';
+    const companyGstin = template.gstin || '23AADCU4530F1ZQ';
+    const companyPan = template.pan_number || 'AADCU4530F';
+    const bankName = template.bank_name || 'Axis Bank Ltd';
+    const bankAccountNo = template.bank_account_no || '10209376111';
+    const bankIfsc = template.bank_ifsc || 'IDFB0041264';
+    const bankBranch = template.bank_branch || 'Indore Branch';
+
     const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
     const clientName = customerUser?.name || inq.name || 'Valued Client';
     const companyName = customerUser?.company || inq.company || inq.party_name || '';
@@ -347,9 +357,9 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
             <table class="header-table">
               <tr>
                 <td>
-                  <div style="font-size: 20px; font-weight: 900; color: #1e3a8a; letter-spacing: -0.5px;">UrbanSpan Infrastructure & Steel Pvt Ltd</div>
-                  <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">Primary Steel Distribution · Raipur & Indore Hubs</div>
-                  <div style="font-size: 11px; color: #4b5563; font-weight: 600; margin-top: 2px;">GSTIN: 22AAAAA0000A1Z5</div>
+                  <div style="font-size: 20px; font-weight: 900; color: #1e3a8a; letter-spacing: -0.5px;">${companyNameHeader}</div>
+                  <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">${companyTagline}</div>
+                  <div style="font-size: 11px; color: #4b5563; font-weight: 600; margin-top: 2px;">GSTIN: ${companyGstin}${companyPan ? ` | PAN: ${companyPan}` : ''}</div>
                 </td>
                 <td style="text-align: right; vertical-align: top;">
                   <div style="font-size: 16px; font-weight: 800; color: #2563eb;">COMMERCIAL QUOTATION</div>
@@ -448,8 +458,8 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                   <div>• <strong>Tolerance:</strong> Standard IS 1786 rolling tolerance ±0.5%</div>
                 </div>
                 <div>
-                  <div>• <strong>Bank:</strong> HDFC Bank Ltd (A/C: 50200012345678)</div>
-                  <div>• <strong>IFSC:</strong> HDFC0001234 (Main Branch)</div>
+                  <div>• <strong>Bank:</strong> ${bankName} (A/C: ${bankAccountNo})</div>
+                  <div>• <strong>IFSC:</strong> ${bankIfsc} (${bankBranch})</div>
                   <div>• <strong>MTC:</strong> Original Mill Test Certificate provided upon loading.</div>
                 </div>
               </div>
@@ -611,8 +621,8 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
               <div>
                 <div style="font-size: 20px; font-weight: 900; color: #1e3a8a;">URBANSPAN INFRASTRUCTURE PVT. LTD.</div>
                 <div style="font-size: 11px; color: #475569; margin-top: 2px;">Primary Steel Distributor & Stockyard Logistics Hub</div>
-                <div style="font-size: 11px; font-weight: 600;">115 Scheme 97, Vanijyak Mandi, Indore, Madhya Pradesh - 452010</div>
-                <div style="font-size: 11px; font-weight: bold; color: #1e3a8a; margin-top: 2px;">GSTIN: 23AAECU8819Q1ZN • PAN: AAECU8819Q</div>
+                <div style="font-size: 11px; font-weight: 600;">115 Scheme 97, Vanijyak Mandi, Indore, Madhya Pradesh - 452009</div>
+                <div style="font-size: 11px; font-weight: bold; color: #1e3a8a; margin-top: 2px;">GSTIN: 23AADCU4530F1ZQ • PAN: AADCU4530F</div>
               </div>
               <div style="text-align: right;">
                 <div style="display: inline-block; background: #1e3a8a; color: #fff; font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 4px; text-transform: uppercase;">
@@ -688,9 +698,9 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; font-size: 11px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
               <div>
                 <strong>Bank RTGS / NEFT Details:</strong><br/>
-                Bank: HDFC Bank Ltd • Branch: Vijay Nagar, Indore<br/>
+                Bank: Axis Bank Ltd • Branch: Indore Branch<br/>
                 Account Name: URBANSPAN INFRASTRUCTURE PVT. LTD.<br/>
-                A/C No: 50200088991122 • IFSC: HDFC0001234
+                A/C No: 10209376111 • IFSC: IDFB0041264
               </div>
               <div style="text-align: right; padding-top: 24px;">
                 <strong>For URBANSPAN INFRASTRUCTURE PVT. LTD.</strong><br/><br/>
@@ -1714,6 +1724,16 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                   const quoteNotes = quoteData.quote_notes || quoteData.notes || inq.notes || '';
                   const todayStr = new Date(inq.created_at || Date.now()).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
+                  const template = quoteData.template || {};
+                  const companyNameHeader = template.company_name || 'UrbanSpan Infrastructure Pvt Ltd';
+                  const companyTagline = template.company_tagline || 'Primary Steel Distribution · Raipur & Indore Industrial Hubs';
+                  const companyGstin = template.gstin || '23AADCU4530F1ZQ';
+                  const companyPan = template.pan_number || 'AADCU4530F';
+                  const bankName = template.bank_name || 'Axis Bank Ltd';
+                  const bankAccountNo = template.bank_account_no || '10209376111';
+                  const bankIfsc = template.bank_ifsc || 'IDFB0041264';
+                  const bankBranch = template.bank_branch || 'Indore Branch';
+
                   return (
                     <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6 max-w-3xl mx-auto">
                       
@@ -1721,13 +1741,13 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b-2 border-indigo-600">
                         <div>
                           <div className="text-xl sm:text-2xl font-black text-indigo-950 tracking-tight">
-                            UrbanSpan Infrastructure & Steel Pvt Ltd
+                            {companyNameHeader}
                           </div>
                           <div className="text-xs text-slate-500 mt-1">
-                            Primary Steel Distribution · Raipur & Indore Industrial Hubs
+                            {companyTagline}
                           </div>
                           <div className="text-xs font-semibold text-slate-700 mt-0.5">
-                            GSTIN: 22AAAAA0000A1Z5
+                            GSTIN: {companyGstin}{companyPan ? ` | PAN: ${companyPan}` : ''}
                           </div>
                         </div>
 
@@ -1895,8 +1915,8 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                             <div>• <strong>Tolerance:</strong> Standard IS 1786 rolling tolerance ±0.5%</div>
                           </div>
                           <div>
-                            <div>• <strong>Bank:</strong> HDFC Bank Ltd (A/C: 50200012345678)</div>
-                            <div>• <strong>IFSC:</strong> HDFC0001234 (Main Branch)</div>
+                            <div>• <strong>Bank:</strong> {bankName} (A/C: {bankAccountNo})</div>
+                            <div>• <strong>IFSC:</strong> {bankIfsc} ({bankBranch})</div>
                             <div>• <strong>MTC:</strong> Original Mill Test Certificate provided upon loading.</div>
                           </div>
                         </div>
