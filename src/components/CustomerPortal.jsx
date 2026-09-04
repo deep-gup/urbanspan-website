@@ -257,18 +257,35 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
     setSelectedQuoteForPreview(inq);
   };
 
+  // Active sanitizer to guarantee authentic production credentials even on legacy quotes
+  const resolveTemplateConfig = (tpl = {}) => {
+    const isDummyGstin = !tpl?.gstin || tpl.gstin === '22AAAAA0000A1Z5' || String(tpl.gstin).startsWith('22AAAA');
+    const isDummyBank = !tpl?.bank_account_no || tpl.bank_account_no === '50200012345678' || tpl.bank_name === 'HDFC Bank Ltd';
+    
+    return {
+      company_name: (!tpl?.company_name || tpl.company_name.includes('& Steel')) ? 'UrbanSpan Infrastructure Pvt Ltd' : tpl.company_name,
+      company_tagline: tpl?.company_tagline || 'Primary Steel Distribution · Raipur & Indore Industrial Hubs',
+      gstin: isDummyGstin ? '23AADCU4530F1ZQ' : tpl.gstin,
+      pan_number: (!tpl?.pan_number || tpl.pan_number === 'AAAAA0000A') ? 'AADCU4530F' : tpl.pan_number,
+      bank_name: isDummyBank ? 'Axis Bank Ltd' : tpl.bank_name,
+      bank_account_no: isDummyBank ? '10209376111' : tpl.bank_account_no,
+      bank_ifsc: (isDummyBank || tpl?.bank_ifsc === 'HDFC0001234') ? 'IDFB0041264' : tpl.bank_ifsc,
+      bank_branch: (isDummyBank || tpl?.bank_branch?.includes('Vanijyak Mandi Branch')) ? 'Indore Branch' : (tpl?.bank_branch || 'Indore Branch')
+    };
+  };
+
   // Helper to generate Quotation HTML for printing
   const generateQuotationHtml = (inq) => {
     const quoteData = inq.quote_data || {};
-    const template = quoteData.template || {};
-    const companyNameHeader = template.company_name || 'UrbanSpan Infrastructure Pvt Ltd';
-    const companyTagline = template.company_tagline || 'Primary Steel Distribution · Raipur & Indore Industrial Hubs';
-    const companyGstin = template.gstin || '23AADCU4530F1ZQ';
-    const companyPan = template.pan_number || 'AADCU4530F';
-    const bankName = template.bank_name || 'Axis Bank Ltd';
-    const bankAccountNo = template.bank_account_no || '10209376111';
-    const bankIfsc = template.bank_ifsc || 'IDFB0041264';
-    const bankBranch = template.bank_branch || 'Indore Branch';
+    const template = resolveTemplateConfig(quoteData.template);
+    const companyNameHeader = template.company_name;
+    const companyTagline = template.company_tagline;
+    const companyGstin = template.gstin;
+    const companyPan = template.pan_number;
+    const bankName = template.bank_name;
+    const bankAccountNo = template.bank_account_no;
+    const bankIfsc = template.bank_ifsc;
+    const bankBranch = template.bank_branch;
 
     const quoteRef = `US-Q-${inq.id.slice(0, 8).toUpperCase()}`;
     const clientName = customerUser?.name || inq.name || 'Valued Client';
@@ -1724,15 +1741,15 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                   const quoteNotes = quoteData.quote_notes || quoteData.notes || inq.notes || '';
                   const todayStr = new Date(inq.created_at || Date.now()).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-                  const template = quoteData.template || {};
-                  const companyNameHeader = template.company_name || 'UrbanSpan Infrastructure Pvt Ltd';
-                  const companyTagline = template.company_tagline || 'Primary Steel Distribution · Raipur & Indore Industrial Hubs';
-                  const companyGstin = template.gstin || '23AADCU4530F1ZQ';
-                  const companyPan = template.pan_number || 'AADCU4530F';
-                  const bankName = template.bank_name || 'Axis Bank Ltd';
-                  const bankAccountNo = template.bank_account_no || '10209376111';
-                  const bankIfsc = template.bank_ifsc || 'IDFB0041264';
-                  const bankBranch = template.bank_branch || 'Indore Branch';
+                  const template = resolveTemplateConfig(quoteData.template);
+                  const companyNameHeader = template.company_name;
+                  const companyTagline = template.company_tagline;
+                  const companyGstin = template.gstin;
+                  const companyPan = template.pan_number;
+                  const bankName = template.bank_name;
+                  const bankAccountNo = template.bank_account_no;
+                  const bankIfsc = template.bank_ifsc;
+                  const bankBranch = template.bank_branch;
 
                   return (
                     <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6 max-w-3xl mx-auto">
