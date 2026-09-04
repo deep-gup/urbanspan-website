@@ -37,69 +37,69 @@ function getLiveTradingSessions() {
 
   const sessionsToday = [];
   if (timeVal >= 9.5) {
-    sessionsToday.push({ timeSlot: '09:30 AM (Opening)', timeStr: '09:30:00', delta: 150 });
+    sessionsToday.push({ timeSlot: '09:30 AM (Opening)', timeStr: '09:30:00', getPrice: (bp) => bp.openPrice });
   }
   if (timeVal >= 11.75) {
-    sessionsToday.push({ timeSlot: '11:45 AM (Mid-Day)', timeStr: '11:45:00', delta: 250 });
+    sessionsToday.push({ timeSlot: '11:45 AM (Mid-Day)', timeStr: '11:45:00', getPrice: (bp) => Math.round((bp.openPrice + bp.spotPrice) / 2) });
   }
   if (timeVal >= 14.25) {
-    sessionsToday.push({ timeSlot: '02:15 PM (Post-Lunch)', timeStr: '14:15:00', delta: 300 });
+    sessionsToday.push({ timeSlot: '02:15 PM (Post-Lunch)', timeStr: '14:15:00', getPrice: (bp) => bp.spotPrice });
   }
   if (timeVal >= 16.5) {
-    sessionsToday.push({ timeSlot: '04:30 PM (Evening)', timeStr: '16:30:00', delta: 200 });
+    sessionsToday.push({ timeSlot: '04:30 PM (Evening)', timeStr: '16:30:00', getPrice: (bp) => bp.spotPrice });
   }
   if (timeVal >= 18.5) {
-    sessionsToday.push({ timeSlot: '06:30 PM (Final Settlement)', timeStr: '18:30:00', delta: 250 });
+    sessionsToday.push({ timeSlot: '06:30 PM (Final Settlement)', timeStr: '18:30:00', getPrice: (bp) => bp.spotPrice });
   }
 
   if (sessionsToday.length === 0) {
-    sessionsToday.push({ timeSlot: '09:30 AM (Opening)', timeStr: '09:30:00', delta: 100 });
+    sessionsToday.push({ timeSlot: '09:30 AM (Opening)', timeStr: '09:30:00', getPrice: (bp) => bp.openPrice });
   }
 
   const basePrices = [
-    { commodity: 'Ingot', mandi: 'Raipur', base: 44400, prevClose: 44200, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Sponge iron support (₹28,200/MT) and steady induction melting' },
-    { commodity: 'Billet', mandi: 'Raipur', base: 44800, prevClose: 44600, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Continuous cast 100x100mm & 125x125mm billet active' },
-    { commodity: 'TMT 550D', mandi: 'Raipur', base: 47800, prevClose: 47600, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Secondary mill Fe-550D rolling rebar bookings steady' },
-    { commodity: 'Melting Scrap', mandi: 'Raipur', base: 35200, prevClose: 35000, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'HMS 1/2 local yard supply and foundry scrap' },
-    { commodity: 'Coking Coal', mandi: 'Raipur', base: 26500, prevClose: 26500, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Low Ash (12.5-13%) metallurgical coke delivered' },
-    { commodity: 'Structural Steel', mandi: 'Raipur', base: 48200, prevClose: 48000, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'MS Angle & Channel heavy section demand steady' },
+    { commodity: 'Ingot', mandi: 'Raipur', spotPrice: 44400, prevClose: 44300, openPrice: 44350, highPrice: 44450, lowPrice: 44300, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Sponge iron support (₹28,200/MT) and steady induction melting' },
+    { commodity: 'Billet', mandi: 'Raipur', spotPrice: 44800, prevClose: 44700, openPrice: 44750, highPrice: 44850, lowPrice: 44700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Continuous cast 100x100mm & 125x125mm billet active' },
+    { commodity: 'TMT 550D', mandi: 'Raipur', spotPrice: 47800, prevClose: 47700, openPrice: 47750, highPrice: 47850, lowPrice: 47700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Secondary mill Fe-550D rolling rebar bookings steady' },
+    { commodity: 'Melting Scrap', mandi: 'Raipur', spotPrice: 35200, prevClose: 35100, openPrice: 35150, highPrice: 35250, lowPrice: 35100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'HMS 1/2 local yard supply and foundry scrap' },
+    { commodity: 'Coking Coal', mandi: 'Raipur', spotPrice: 26500, prevClose: 26500, openPrice: 26500, highPrice: 26500, lowPrice: 26500, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Low Ash (12.5-13%) metallurgical coke delivered' },
+    { commodity: 'Structural Steel', mandi: 'Raipur', spotPrice: 48200, prevClose: 48100, openPrice: 48150, highPrice: 48250, lowPrice: 48100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'MS Angle & Channel heavy section demand steady' },
 
-    { commodity: 'Ingot', mandi: 'Mandi Gobindgarh', base: 46500, prevClose: 46300, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Northern induction melting benchmark firm on scrap influx' },
-    { commodity: 'Billet', mandi: 'Mandi Gobindgarh', base: 46900, prevClose: 46700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Standard continuous casting billets matching ingot parity' },
-    { commodity: 'TMT 550D', mandi: 'Mandi Gobindgarh', base: 50200, prevClose: 50000, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Secondary Fe-550D rebar rolling for NCR & regional projects' },
-    { commodity: 'Melting Scrap', mandi: 'Mandi Gobindgarh', base: 37500, prevClose: 37300, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'End-cutting & heavy industrial melting scrap' },
-    { commodity: 'Coking Coal', mandi: 'Mandi Gobindgarh', base: 28800, prevClose: 28800, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Imported prime hard met coke (incl. rake freight)' },
-    { commodity: 'Structural Steel', mandi: 'Mandi Gobindgarh', base: 51000, prevClose: 50800, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Heavy joists, beams, angles and structural channels' },
+    { commodity: 'Ingot', mandi: 'Mandi Gobindgarh', spotPrice: 46600, prevClose: 46500, openPrice: 46550, highPrice: 46650, lowPrice: 46500, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Northern induction melting benchmark firm on scrap influx' },
+    { commodity: 'Billet', mandi: 'Mandi Gobindgarh', spotPrice: 46900, prevClose: 46800, openPrice: 46850, highPrice: 46950, lowPrice: 46800, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Standard continuous casting billets matching ingot parity' },
+    { commodity: 'TMT 550D', mandi: 'Mandi Gobindgarh', spotPrice: 50200, prevClose: 50100, openPrice: 50150, highPrice: 50250, lowPrice: 50100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Secondary Fe-550D rebar rolling for NCR & regional projects' },
+    { commodity: 'Melting Scrap', mandi: 'Mandi Gobindgarh', spotPrice: 37200, prevClose: 37100, openPrice: 37150, highPrice: 37250, lowPrice: 37100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'End-cutting & heavy industrial melting scrap' },
+    { commodity: 'Coking Coal', mandi: 'Mandi Gobindgarh', spotPrice: 28800, prevClose: 28800, openPrice: 28800, highPrice: 28800, lowPrice: 28800, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Imported prime hard met coke (incl. rake freight)' },
+    { commodity: 'Structural Steel', mandi: 'Mandi Gobindgarh', spotPrice: 51000, prevClose: 50900, openPrice: 50950, highPrice: 51050, lowPrice: 50900, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Heavy joists, beams, angles and structural channels' },
 
-    { commodity: 'Ingot', mandi: 'Durgapur', base: 42600, prevClose: 42400, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Eastern cost-leader induction cast commercial ingot' },
-    { commodity: 'Billet', mandi: 'Durgapur', base: 43100, prevClose: 42900, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Standard 100x100mm CC Prime billets in regular trades' },
-    { commodity: 'TMT 550D', mandi: 'Durgapur', base: 46200, prevClose: 46000, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'State highway and bridge project supply running' },
-    { commodity: 'Melting Scrap', mandi: 'Durgapur', base: 33800, prevClose: 33600, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Local HMS 1/2 and fabrication scrap' },
-    { commodity: 'Coking Coal', mandi: 'Durgapur', base: 25200, prevClose: 25200, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Prime hard met coke delivered ex-Haldia / Kolkata Port' },
-    { commodity: 'Structural Steel', mandi: 'Durgapur', base: 46800, prevClose: 46600, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'MS Angle 50x50 to 90x90 & MS Channel 100x50' },
+    { commodity: 'Ingot', mandi: 'Durgapur', spotPrice: 42600, prevClose: 42500, openPrice: 42550, highPrice: 42650, lowPrice: 42500, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Eastern cost-leader induction cast commercial ingot' },
+    { commodity: 'Billet', mandi: 'Durgapur', spotPrice: 43000, prevClose: 42900, openPrice: 42950, highPrice: 43050, lowPrice: 42900, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Standard 100x100mm CC Prime billets in regular trades' },
+    { commodity: 'TMT 550D', mandi: 'Durgapur', spotPrice: 46200, prevClose: 46100, openPrice: 46150, highPrice: 46250, lowPrice: 46100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'State highway and bridge project supply running' },
+    { commodity: 'Melting Scrap', mandi: 'Durgapur', spotPrice: 33800, prevClose: 33700, openPrice: 33750, highPrice: 33850, lowPrice: 33700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Local HMS 1/2 and fabrication scrap' },
+    { commodity: 'Coking Coal', mandi: 'Durgapur', spotPrice: 25200, prevClose: 25200, openPrice: 25200, highPrice: 25200, lowPrice: 25200, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Prime hard met coke delivered ex-Haldia / Kolkata Port' },
+    { commodity: 'Structural Steel', mandi: 'Durgapur', spotPrice: 46800, prevClose: 46700, openPrice: 46750, highPrice: 46850, lowPrice: 46700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'MS Angle 50x50 to 90x90 & MS Channel 100x50' },
 
-    { commodity: 'Ingot', mandi: 'Jalna', base: 44800, prevClose: 44600, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Western rolling cluster spot inquiries brisk' },
-    { commodity: 'Billet', mandi: 'Jalna', base: 45300, prevClose: 45100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Continuous casting billets in demand' },
-    { commodity: 'TMT 550D', mandi: 'Jalna', base: 48400, prevClose: 48200, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Fe-550D secondary mill high-ductility rebar' },
-    { commodity: 'Melting Scrap', mandi: 'Jalna', base: 35800, prevClose: 35600, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Industrial heavy scrap (Auto punching: ₹38,300/MT)' },
-    { commodity: 'Coking Coal', mandi: 'Jalna', base: 27400, prevClose: 27400, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Imported Low Ash met coke ex-JNPT / Mumbai stockyard' },
-    { commodity: 'Structural Steel', mandi: 'Jalna', base: 49200, prevClose: 49000, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'MS Angle, Channel and sectional flats' },
+    { commodity: 'Ingot', mandi: 'Jalna', spotPrice: 44800, prevClose: 44700, openPrice: 44750, highPrice: 44850, lowPrice: 44700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Western rolling cluster spot inquiries brisk' },
+    { commodity: 'Billet', mandi: 'Jalna', spotPrice: 45200, prevClose: 45100, openPrice: 45150, highPrice: 45250, lowPrice: 45100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Continuous casting billets in demand' },
+    { commodity: 'TMT 550D', mandi: 'Jalna', spotPrice: 48400, prevClose: 48300, openPrice: 48350, highPrice: 48450, lowPrice: 48300, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Fe-550D secondary mill high-ductility rebar' },
+    { commodity: 'Melting Scrap', mandi: 'Jalna', spotPrice: 35800, prevClose: 35700, openPrice: 35750, highPrice: 35850, lowPrice: 35700, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'Industrial heavy scrap (Auto punching: ₹38,300/MT)' },
+    { commodity: 'Coking Coal', mandi: 'Jalna', spotPrice: 27400, prevClose: 27400, openPrice: 27400, highPrice: 27400, lowPrice: 27400, unit: '₹/MT', tax: 'Ex-Port (+18% GST)', remarks: 'Imported Low Ash met coke ex-JNPT / Mumbai stockyard' },
+    { commodity: 'Structural Steel', mandi: 'Jalna', spotPrice: 49200, prevClose: 49100, openPrice: 49150, highPrice: 49250, lowPrice: 49100, unit: '₹/MT', tax: 'Ex-Plant (+18% GST)', remarks: 'MS Angle, Channel and sectional flats' },
 
-    { commodity: 'Ingot', mandi: 'Indore', base: 44500, prevClose: 44300, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Central MP depot spot orders active' },
-    { commodity: 'Billet', mandi: 'Indore', base: 45000, prevClose: 44800, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Sanwer Road and Pithampur re-rolling mills taking billets' },
-    { commodity: 'TMT 550D', mandi: 'Indore', base: 48000, prevClose: 47800, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Local secondary rolling rebar (Bhumija, GK, Skysail)' },
-    { commodity: 'Melting Scrap', mandi: 'Indore', base: 35400, prevClose: 35200, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Commercial machinery & heavy melting scrap' },
-    { commodity: 'Structural Steel', mandi: 'Indore', base: 48800, prevClose: 48600, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'ISMB beams, channels and heavy angles in demand' },
-    { commodity: 'Coking Coal', mandi: 'Indore', base: 27800, prevClose: 27800, unit: '₹/MT', tax: 'Ex-Depot (+18% GST)', remarks: 'Merchant met coke delivered Pithampur / Sanwer Rd depot' }
+    { commodity: 'Ingot', mandi: 'Indore', spotPrice: 44500, prevClose: 44400, openPrice: 44450, highPrice: 44550, lowPrice: 44400, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Central MP depot spot orders active' },
+    { commodity: 'Billet', mandi: 'Indore', spotPrice: 44900, prevClose: 44800, openPrice: 44850, highPrice: 44950, lowPrice: 44800, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Sanwer Road and Pithampur re-rolling mills taking billets' },
+    { commodity: 'TMT 550D', mandi: 'Indore', spotPrice: 48000, prevClose: 47900, openPrice: 47950, highPrice: 48050, lowPrice: 47900, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Local secondary rolling rebar (Bhumija, GK, Skysail)' },
+    { commodity: 'Melting Scrap', mandi: 'Indore', spotPrice: 35400, prevClose: 35300, openPrice: 35350, highPrice: 35450, lowPrice: 35300, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'Commercial machinery & heavy melting scrap' },
+    { commodity: 'Structural Steel', mandi: 'Indore', spotPrice: 48800, prevClose: 48700, openPrice: 48750, highPrice: 48850, lowPrice: 48700, unit: '₹/MT', tax: 'Ex-Godown (+18% GST)', remarks: 'ISMB beams, channels and heavy angles in demand' },
+    { commodity: 'Coking Coal', mandi: 'Indore', spotPrice: 27800, prevClose: 27800, openPrice: 27800, highPrice: 27800, lowPrice: 27800, unit: '₹/MT', tax: 'Ex-Depot (+18% GST)', remarks: 'Merchant met coke delivered Pithampur / Sanwer Rd depot' }
   ];
 
   const generated = [];
-  sessionsToday.forEach((session, sessionIdx) => {
+  sessionsToday.forEach((session) => {
     basePrices.forEach(bp => {
-      const price = bp.base + (sessionIdx * 50);
+      const price = session.getPrice(bp);
       const prevClose = bp.prevClose;
       const changeAmt = price - prevClose;
-      const calcPct = ((changeAmt / prevClose) * 100).toFixed(2);
+      const calcPct = prevClose > 0 ? ((changeAmt / prevClose) * 100).toFixed(2) : '0.00';
       const changePct = `${changeAmt >= 0 ? '+' : ''}${calcPct}%`;
 
       generated.push({
@@ -112,8 +112,8 @@ function getLiveTradingSessions() {
         Prev_Close: prevClose,
         Change_Amt: changeAmt,
         Change_Pct: changePct,
-        High_Session: price + 100,
-        Low_Session: Math.min(price, prevClose),
+        High_Session: Math.max(price, bp.highPrice),
+        Low_Session: Math.min(price, bp.lowPrice),
         Unit: bp.unit,
         Tax_Basis: bp.tax,
         Remarks: bp.remarks
@@ -137,7 +137,7 @@ function getDeterministicHistoricalOHLC(commodity = 'Ingot', mandi = 'Raipur') {
 
   const mandiOffsetMap = {
     'Raipur': 0,
-    'Mandi Gobindgarh': 2100,
+    'Mandi Gobindgarh': 2200,
     'Indore': 100,
     'Jalna': 400,
     'Durgapur': -1800

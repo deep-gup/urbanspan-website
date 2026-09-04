@@ -177,8 +177,8 @@ export default function MandiRatesPage({ embedded = false }) {
                 </div>
 
                 <div className="flex items-center gap-1 text-[11px] font-bold mt-1.5">
-                  <span className={changeIsUp ? (isSelected ? 'text-emerald-300' : 'text-emerald-600') : (isSelected ? 'text-rose-300' : 'text-rose-600')}>
-                    {changeIsUp ? '+' : ''}{match?.Change_Amt || 0} ({match?.Change_Pct || '0.0%'})
+                  <span className={Number(match?.Change_Amt || 0) === 0 ? (isSelected ? 'text-slate-300' : 'text-slate-500') : changeIsUp ? (isSelected ? 'text-emerald-300' : 'text-emerald-600') : (isSelected ? 'text-rose-300' : 'text-rose-600')}>
+                    {Number(match?.Change_Amt || 0) > 0 ? '+' : ''}{match?.Change_Amt || 0} ({match?.Change_Pct || '0.0%'})
                   </span>
                 </div>
               </div>
@@ -204,10 +204,14 @@ export default function MandiRatesPage({ embedded = false }) {
                   </span>
                   <span className="text-xs font-bold text-slate-500">/ MT (Ex-Plant + 18% GST)</span>
                   <span className={`text-xs font-black px-2 py-0.5 rounded-md flex items-center gap-1 ${
-                    isUp ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'
+                    Number(activeSpotRate?.Change_Amt || 0) === 0
+                      ? 'text-slate-700 bg-slate-100 border border-slate-200'
+                      : isUp
+                        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                        : 'text-rose-700 bg-rose-50 border border-rose-200'
                   }`}>
-                    {isUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                    {isUp ? '+' : ''}{activeSpotRate?.Change_Amt || 0} ({activeSpotRate?.Change_Pct || '+0.0%'})
+                    {Number(activeSpotRate?.Change_Amt || 0) === 0 ? null : (isUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />)}
+                    {Number(activeSpotRate?.Change_Amt || 0) > 0 ? '+' : ''}{activeSpotRate?.Change_Amt || 0} ({activeSpotRate?.Change_Pct || '+0.0%'})
                   </span>
                 </div>
               </div>
