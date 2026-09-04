@@ -494,16 +494,17 @@ export default function ProductDetailsPage({ onSelectProductForInquiry }) {
                   <div className="flex items-center border border-slate-300 rounded-xl bg-white p-1">
                     <button
                       type="button"
-                      onClick={() => setCustomTonnage(prev => Math.max(1, prev - 5))}
+                      onClick={() => setCustomTonnage(prev => Math.max(0.001, Number((prev - 5).toFixed(3))))}
                       className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
                     <input
                       type="number"
-                      min="1"
+                      min="0.001"
+                      step="0.001"
                       value={customTonnage}
-                      onChange={(e) => setCustomTonnage(Math.max(1, Number(e.target.value)))}
+                      onChange={(e) => setCustomTonnage(Math.max(0.001, Number(e.target.value)))}
                       className="w-16 text-center bg-transparent text-slate-900 font-black text-sm focus:outline-none"
                     />
                     <span className="text-xs text-slate-400 font-bold pr-2">{getProductUnit(product)}</span>

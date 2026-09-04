@@ -541,16 +541,17 @@ export default function CartPage({ customerUser }) {
                             <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-0.5">
                               <button
                                 type="button"
-                                onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - (itemUnit.toLowerCase() === 'kg' ? 25 : 5)))}
+                                onClick={() => updateQuantity(item.id, Math.max(0.001, Number((item.quantity - (itemUnit.toLowerCase() === 'kg' ? 25 : 5)).toFixed(3))))}
                                 className="w-7 h-7 rounded-lg bg-white hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors text-xs"
                               >
                                 <Minus className="w-3.5 h-3.5" />
                               </button>
                               <input
                                 type="number"
-                                min="1"
+                                min="0.001"
+                                step="0.001"
                                 value={item.quantity}
-                                onChange={(e) => updateQuantity(item.id, Math.max(1, Number(e.target.value)))}
+                                onChange={(e) => updateQuantity(item.id, Math.max(0.001, Number(e.target.value)))}
                                 className="w-16 text-center bg-transparent text-slate-900 font-black text-xs focus:outline-none"
                               />
                               <span className="text-[11px] text-slate-400 font-bold pr-2">{itemUnit}</span>

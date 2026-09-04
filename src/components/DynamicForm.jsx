@@ -275,7 +275,7 @@ export default function DynamicForm({ formName, title, subtitle, icon: Icon, def
         product_name: formData.product_name || selectedProduct?.name || null,
         sku: formData.sku || selectedProduct?.sku || null,
         unit: currentUnit,
-        quantity: Number(formData.quantity) || 1,
+        quantity: (!isNaN(parseFloat(formData.quantity)) && parseFloat(formData.quantity) > 0) ? parseFloat(formData.quantity) : 1,
         expected_value: computedTotal > 0 ? computedTotal : (Number(formData.expected_value) || null),
         section_matrix: Object.keys(activeMatrix).length > 0 ? activeMatrix : null,
         attachments: attachedFiles.map(f => ({
@@ -429,7 +429,7 @@ export default function DynamicForm({ formName, title, subtitle, icon: Icon, def
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <input
                 type="number"
-                min="0.1"
+                min="0.001"
                 step="any"
                 required
                 placeholder={`e.g. ${isKg ? '100' : '50'}`}
