@@ -1106,9 +1106,9 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                 <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950 flex items-start gap-2.5 shadow-sm">
                                   <Clock className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                                   <div>
-                                    <div className="font-bold text-amber-950">Management Pricing Authorization in Progress</div>
+                                    <div className="font-bold text-amber-950">Preparing Your Quotation</div>
                                     <div className="text-amber-800 text-[11px] mt-0.5 leading-relaxed">
-                                      Your spot quotation is currently undergoing commercial authorization with our pricing directors. Official proforma quote and downloadable PDF will be unlocked once approved and released.
+                                      Your custom quote is being finalized by our pricing team. Your quote and downloadable PDF will be available here shortly.
                                     </div>
                                   </div>
                                 </div>
@@ -1116,9 +1116,9 @@ export default function CustomerPortal({ customerUser, setCustomerUser, appVersi
                                 <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-200/60 text-xs text-blue-900 flex items-start gap-2.5">
                                   <Clock className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
                                   <div>
-                                    <div className="font-bold text-blue-950">Pricing Desk Review in Progress</div>
+                                    <div className="font-bold text-blue-950">Review in Progress</div>
                                     <div className="text-blue-800 text-[11px] mt-0.5 leading-relaxed">
-                                      Our commercial desk is verifying mill rolling schedules, freight logistics, and spot rates for your requirement. Your official confirmed quote and downloadable PDF will be made available here once confirmed by our sales desk.
+                                      Our team is reviewing your requirements to calculate the best spot price. Your confirmed quote will be available here shortly.
                                     </div>
                                   </div>
                                 </div>

@@ -384,31 +384,33 @@ export default function CartPage({ customerUser }) {
 
         {submitted ? (
           /* Submission Success State */
-          <div className="bg-white rounded-3xl border border-emerald-200 p-8 sm:p-12 text-center shadow-xl max-w-3xl mx-auto">
-            <div className="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-6 border border-emerald-200">
-              <CheckCircle2 className="w-10 h-10 animate-bounce" />
+          <div className="bg-white rounded-3xl border border-emerald-200 p-8 sm:p-12 text-center shadow-xl max-w-2xl mx-auto">
+            <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-5 border border-emerald-200">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
-            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs tracking-wider uppercase inline-block mb-3">
-              RFQ Dispatch Confirmed
+            <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs tracking-wide uppercase inline-block mb-3">
+              Request Received
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-3">
-              Multi-Product Commercial RFQ Transmitted!
+              Thank You! We've Received Your Request
             </h2>
-            <p className="text-slate-600 text-sm max-w-lg mx-auto leading-relaxed mb-6">
-              Thank you for trusting Urbanspan Infrastructure. Your bulk multi-item consignment inquiry with section matrices and attached documentation has been received. Our sales desk will calculate final mill rolling schedules, mill test certificates, and dispatch your proforma contract quote shortly.
+            <p className="text-slate-600 text-sm max-w-md mx-auto leading-relaxed mb-6">
+              Our team is reviewing your requirements and will share the best quotation with you shortly via WhatsApp and email.
             </p>
 
-            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl max-w-md mx-auto mb-8 text-left space-y-2">
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl max-w-md mx-auto mb-8 text-left space-y-2.5">
               <div className="flex justify-between text-xs text-slate-500 font-semibold">
-                <span>Inquiry Reference:</span>
-                <strong className="text-slate-900 font-mono">{submittedSummary?.referenceId || `RFQ-CONSIGNMENT-${Date.now().toString().slice(-6)}`}</strong>
+                <span>Reference ID:</span>
+                <strong className="text-slate-900 font-mono">{submittedSummary?.referenceId || `RFQ-${Date.now().toString().slice(-6)}`}</strong>
               </div>
+              {(submittedSummary?.company || buyerInfo?.company || buyerInfo?.name) && (
+                <div className="flex justify-between text-xs text-slate-500 font-semibold">
+                  <span>Buyer:</span>
+                  <strong className="text-slate-900">{submittedSummary?.company || buyerInfo?.company || buyerInfo?.name}</strong>
+                </div>
+              )}
               <div className="flex justify-between text-xs text-slate-500 font-semibold">
-                <span>Buyer Organization:</span>
-                <strong className="text-slate-900">{submittedSummary?.company || buyerInfo.company || buyerInfo.name}</strong>
-              </div>
-              <div className="flex justify-between text-xs text-slate-500 font-semibold">
-                <span>Total Consignment:</span>
+                <span>Total Quantity:</span>
                 <strong className="text-brand-steel">{submittedSummary?.quantity || formattedTotalQuantity}</strong>
               </div>
             </div>
@@ -418,13 +420,13 @@ export default function CartPage({ customerUser }) {
                 to="/portal"
                 className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2"
               >
-                <Building2 className="w-4 h-4" /> Track in Customer Portal
+                <Building2 className="w-4 h-4" /> View My Inquiries
               </Link>
               <Link
                 to="/products"
                 className="px-6 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs shadow-sm transition-all"
               >
-                Browse Steel Catalog
+                Continue Browsing
               </Link>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Send, CheckCircle2, AlertCircle, Building, Mail, Phone, User, DollarSign, FileText, Sparkles, Truck, MapPin } from 'lucide-react';
 import { submitRFQLead } from '../services/headlessApi';
 import { getProductUnit } from '../utils/productUtils';
@@ -71,21 +72,34 @@ export default function LeadCaptureForm({ preselectedProduct, customerUser }) {
       </div>
 
       {submitted ? (
-        <div className="bg-white shadow-lg border border-slate-200 p-10 rounded-3xl text-center border border-emerald-500/30 bg-emerald-500/5">
-          <CheckCircle2 className="w-16 h-16 text-emerald-400 mx-auto mb-4 animate-bounce" />
-          <h3 className="text-2xl font-bold text-slate-900">Steel RFQ Received Successfully!</h3>
+        <div className="bg-white shadow-lg border border-slate-200 p-8 sm:p-10 rounded-3xl text-center border border-emerald-500/30 bg-emerald-50/20 max-w-xl mx-auto">
+          <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-200">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs tracking-wide uppercase inline-block mb-3">
+            Request Received
+          </span>
+          <h3 className="text-2xl font-bold text-slate-900">Thank You! We've Received Your Request</h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto mt-2 leading-relaxed">
-            Thank you for contacting Urbanspan Infrastructure. A dedicated key account manager will review your inquiry and issue your formal proforma quote shortly.
+            Our team is reviewing your requirements and will share the best quotation with you shortly via WhatsApp and email.
           </p>
-          <button
-            onClick={() => {
-              setSubmitted(false);
-              setFormData({ name: '', email: '', phone: '', company: '', expected_value: '', source: 'urbanspan_website', notes: '' });
-            }}
-            className="mt-6 px-6 py-2.5 rounded-xl bg-white-light hover:bg-slate-700 text-slate-900 font-semibold text-xs"
-          >
-            Submit Another RFQ
-          </button>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setFormData({ name: '', email: '', phone: '', company: '', expected_value: '', source: 'urbanspan_website', notes: '' });
+              }}
+              className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all"
+            >
+              Submit Another Request
+            </button>
+            <Link
+              to="/products"
+              className="px-6 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs shadow-sm transition-all"
+            >
+              Browse Products
+            </Link>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="bg-white shadow-lg border border-slate-200 p-8 sm:p-10 rounded-3xl space-y-6">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Send, CheckCircle2, AlertCircle, Sparkles, Package, Calculator, 
   Upload, FileSpreadsheet, FileText, X, Paperclip, Table, Plus, 
@@ -349,21 +350,34 @@ export default function DynamicForm({ formName, title, subtitle, icon: Icon, def
       </div>
 
       {submitted ? (
-        <div className="bg-white shadow-xl border border-emerald-500/30 bg-emerald-50/20 p-10 rounded-3xl text-center">
-          <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto mb-4 animate-bounce" />
-          <h3 className="text-2xl font-black text-slate-900">Commercial RFQ Transmitted!</h3>
+        <div className="bg-white shadow-xl border border-emerald-500/30 bg-emerald-50/20 p-8 sm:p-10 rounded-3xl text-center max-w-xl mx-auto">
+          <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-200">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs tracking-wide uppercase inline-block mb-3">
+            Request Received
+          </span>
+          <h3 className="text-2xl font-black text-slate-900">Thank You! We've Received Your Request</h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto mt-2 leading-relaxed">
-            Thank you for contacting Urbanspan Infrastructure. Your inquiry has been received. Our sales desk will issue your official proforma rate quote shortly.
+            Our team is reviewing your requirements and will share the best quotation with you shortly via WhatsApp and email.
           </p>
-          <button
-            onClick={() => {
-              setSubmitted(false);
-              setFormData({ ...defaultValues, quantity: 50 });
-            }}
-            className="mt-6 px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all"
-          >
-            Submit Another RFQ
-          </button>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setFormData({ ...defaultValues, quantity: 50 });
+              }}
+              className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all"
+            >
+              Submit Another Request
+            </button>
+            <Link
+              to="/products"
+              className="px-6 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs shadow-sm transition-all"
+            >
+              Browse Products
+            </Link>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="bg-white shadow-xl border border-slate-200 p-6 sm:p-10 rounded-3xl space-y-6">
